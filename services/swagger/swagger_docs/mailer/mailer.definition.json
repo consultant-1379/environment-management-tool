@@ -1,0 +1,29 @@
+{
+  "definitions": {
+    "Mailer": {
+      "required": [
+        "emailId",
+        "emailSubject",
+        "emailBody"
+      ],
+      "properties": {
+        "emailId": {
+          "type": "array",
+          "example": ["BumbleBee.ENM@tcs.com", "PDLENMMAIN@pdl.internal.ericsson.com"]
+        },
+        "ccId": {
+          "type": "string",
+          "example": "BumbleBee.ENM@tcs.com"
+        },
+        "emailSubject": {
+          "type": "string",
+          "example": "Welcome to EMT"
+        },
+        "emailBody": {
+          "type": "string",
+          "example": "This is a sample mail from the EMT portal!!!"
+        }
+      }
+    }
+  }
+}

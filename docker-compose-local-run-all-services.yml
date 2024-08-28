@@ -1,0 +1,116 @@
+version: '2'
+
+services:
+  nginx:
+    build: services/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - angular
+      - express
+      - swagger
+
+  filebeat:
+    build:
+      context: services/filebeat
+    volumes:
+      - "/var/lib/docker/containers:/usr/share/dockerlogs/data:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  logstash: 
+    build:
+      context: services/logstash
+    ports:
+      - 5044:5044
+    environment:
+      - LOG_LEVEL=error
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+
+  angular:
+    build:
+      context: services/angular
+      args: 
+        - NODE_ENV=dev
+
+  express:
+    build: services/express
+    environment:
+      - NODE_ENV=DEV
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=password
+      - ANSIBLE_PASSWORD=password
+      - HOST_NAME=atvts3505
+      - CLUSTER_PASSWORD=shroot
+    links:
+      - database
+
+  ansible:
+    build: services/ansible
+
+  database:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/mongo:3.6.2
+    ports:
+      - "27017:27017"
+
+  swagger:
+    build: services/swagger
+
+  mongoExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/targetprocess/mongodb_exporter:v0.1.0
+    environment:
+      - MONGODB_URL=mongodb://database:27017
+    links:
+      - database
+
+  nodeExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/prom/node-exporter:v0.17.0
+
+  nginxExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/nginx/nginx-prometheus-exporter:0.2.0
+    environment:
+      - SCRAPE_URI=http://nginx/nginx_status
+    ports:
+      - "9113:9113"
+    links:
+    - nginx
+
+  cAdvisor:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/google/cadvisor:v0.32.0
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+
+  postgres:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/postgres:9.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  keycloak:
+    build:
+      context: services/keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      TB_FUNCTIONAL_USER_PASSWORD: ${TB_FUNCTIONAL_USER_PASSWORD}
+      HOST_NAME: ${HOST_NAME}
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+volumes:
+    postgres_data:
+      driver: local

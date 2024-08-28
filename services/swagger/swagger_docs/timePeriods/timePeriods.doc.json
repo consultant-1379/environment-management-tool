@@ -1,0 +1,221 @@
+{
+  "paths": {
+    "/time-periods": {
+      "get": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Returns a list of all time periods.",
+        "description": "Returns a list of all time periods.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TimePeriod"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Create a new time period.",
+        "description": "Creates and returns a new time period.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Time period object that represents your time period",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created time period successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/time-periods/{timePeriodId}": {
+      "get": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Returns a time period.",
+        "description": "Returns a time period. ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timePeriodId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the time period to retrieve",
+            "type": "mongoose.Schema.ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Time period successfully retrieved",
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          },
+          "404": {
+            "description": "A time period with the given id could not be found in the database"
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Starts a time period.",
+        "description": "Starts a time period. ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timePeriodId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the time period to start",
+            "type": "mongoose.Schema.ObjectId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Time period successfully started",
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          },
+          "202": {
+            "description": "Time Period has already started a timer"
+          },
+          "404": {
+            "description": "A time period with the given id could not be found in the database"
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error / Error when (i) getting time period (ii) creating time period (iii) creating timer"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Delete a time period.",
+        "description": "Delete a time period.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timePeriodId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the time period to delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted time period",
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          },
+          "404": {
+            "description": "A time period with that id does not exist"
+          },
+          "500": {
+            "description": "Internal server error / Error when deleting the time period"
+          }
+        }
+      }
+    },
+    "/time-periods/update/{timePeriodId}": {
+      "put": {
+        "tags": [
+          "time-periods"
+        ],
+        "summary": "Updates a time period.",
+        "description": "Updates a time period. ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timePeriodId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the time period to update",
+            "type": "mongoose.Schema.ObjectId"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Time Period object that represents your TimePeriod",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/TimePeriod"
+            }
+          },
+          "404": {
+            "description": "{timePeriodId} does not correspond to a known time period"
+          },
+          "500": {
+            "description": "Error when updating time period"
+          }
+        }
+      }
+    }
+  }
+}

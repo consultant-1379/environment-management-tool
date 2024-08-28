@@ -1,0 +1,18 @@
+textarea {
+  font-size: 18px;
+  margin: auto;
+}
+
+td {
+  padding-left: 0px;
+  padding-bottom: 0px;
+}
+
+.tableElementButton {
+    text-align: right;
+    padding-right: 40px;
+}
+
+.additional-info-form {
+  width: 100%;
+}

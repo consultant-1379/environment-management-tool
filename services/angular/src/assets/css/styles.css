@@ -1,0 +1,198 @@
+@charset "utf-8";
+@import 'emtCustomAngularTheme.css';
+
+@font-face {
+    font-family: EricssonHilda;
+    src: url('../../../node_modules/@eui/container/resources/fonts/EricssonHilda-Light.woff') format('truetype');
+}
+
+html {
+    position: relative;
+    font-size: 10px !important;
+    line-height: 10px !important;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    scrollbar-width: thin;
+}
+
+body {
+    font-size: 1.2rem;
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    font-weight: bolder;
+    line-height: 1.2rem;
+    color: #333333;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Change font weight for Firefox only */
+@-moz-document url-prefix() {
+    body {
+        font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+        text-rendering: optimizeLegibility;
+        font-weight: 500;
+    }
+}
+
+.mat-table,
+.mat-button-toggle,
+.mat-form-field,
+.mat-input-element,
+.mat-dialog-title {
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+table {
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+button {
+    display: inline-block;
+    height: auto;
+    padding: .5em 1em;
+    /* Added to centre text inside button */
+    padding-top: 6px;
+    border-radius: 3px;
+    outline: 0;
+    font-size: 12px;
+    /* 16px down to 8px 
+  This is to avoid resizing the table */
+    line-height: 8px;
+    vertical-align: middle;
+    /* UI SDK Default == 300
+  With reduced button size the button looked tacky with
+  300 as the font-weight */
+    font-weight: 500;
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    color: white;
+    background: #0082F0;
+    border: 1px solid #4e4e4e;
+}
+
+button.manageSessionButton {
+    width: -webkit-fill-available;
+}
+
+button.createSessionButton {
+    width: -webkit-fill-available;
+}
+
+button.createSessionButton:hover {
+    background: white;
+    color: #4e4e4e;
+    cursor: pointer;
+}
+
+button.manageSessionButton:hover {
+    background: white;
+    color: #4e4e4e;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+input {
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+.ebEricssonFont {
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    color: #333333;
+}
+
+h1 {
+    font-size: 36.7416px;
+    margin-top: 36.7416px;
+    margin-bottom: 9.1854px;
+}
+
+h2 {
+    font-size: 27.16049383px;
+    margin-top: 27.16049383px;
+    margin-bottom: 6.79012346px;
+}
+
+h3 {
+    font-size: 22.68px;
+    margin-top: 22.68px;
+    margin-bottom: 5.67px;
+}
+
+h4 {
+    font-size: 16.76573693px;
+    margin-top: 16.76573693px;
+    margin-bottom: 4.19143423px;
+}
+
+p {
+    line-height: 1.5em;
+    color: #242424;
+}
+
+a {
+    color: #1A64FF;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #4e4e4e;
+    outline: none;
+}
+
+a:focus {
+    box-shadow: none;
+}
+
+u {
+    text-decoration: none;
+    border-bottom: 2px solid black;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: transparent;
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #b1b1b1;
+}
+
+table {
+    border-bottom: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e1;
+    font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    margin-bottom: 0rem;
+}
+
+ol li,
+ul li {
+    padding: 2px 0;
+}

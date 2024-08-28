@@ -1,0 +1,29 @@
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/alpine:3.7
+
+# Create a directory where our app will be placed
+RUN mkdir -p /usr/src/app
+
+# Change directory so that our commands run inside this new directory
+WORKDIR /usr/src/app
+
+# Copy dependency definitions
+COPY . /usr/src/app
+
+# Declare args
+ARG ANSIBLE_PASSWORD=password
+ENV ANSIBLE_PASSWORD=${ANSIBLE_PASSWORD}
+
+RUN apk --update add --no-cache openssh bash \
+  && sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config \
+  && echo "root:${ANSIBLE_PASSWORD}" | chpasswd \
+  && rm -rf /var/cache/apk/* \
+  && /usr/bin/ssh-keygen -A \
+  && ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N "" \
+  && apk --update add --no-cache python3 \
+  && apk --update add --no-cache ansible \
+  && mkdir /etc/ansible/ \
+  && touch /etc/ansible/hosts \
+  && echo "[defaults]" >> /etc/ansible/ansible.cfg \
+  && echo "host_key_checking = False" >> /etc/ansible/ansible.cfg
+EXPOSE 22
+CMD ["/usr/sbin/sshd","-D"]

@@ -1,0 +1,146 @@
+{
+  "definitions": {
+    "Deployment": {
+      "required": [
+        "name",
+        "testPhase",
+        "deploymentType",
+        "platformType"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "ieatenmpd201"
+        },
+        "state": {
+          "type": "string",
+          "example": "IDLE/BUSY/QUARANTINE"
+        },
+        "assignedJob": {
+          "type": "string",
+          "example": "https://fem114-eiffel004.lmera.ericsson.se:8443/jenkins/job/MT_vENM_Upgrade_Functional/1069/"
+        },
+        "jobName": {
+          "type": "string",
+          "example": "MT_vENM_Upgrade_Functional"
+        },
+        "testPhase": {
+          "type": "string",
+          "example": "MTE/CDL/DROPBACK/PLM"
+        },
+        "productSet": {
+          "type": "string",
+          "example": "18.06.1"
+        },
+        "deploymentType": {
+          "type": "string",
+          "example": "NON-FUNCTIONAL/FUNCTIONAL"
+        },
+        "platformType": {
+          "type": "string",
+          "example": "vENM/physical/SIENM/cENM"
+        },
+        "systemHealthCheckStatus": {
+          "type": "string",
+          "example": "COMPLETED"
+        },
+        "deploymentRefreshStatus": {
+          "type": "string",
+          "example": "FRESH"
+        },
+        "deploymentUpgradeStatus": {
+          "type": "string",
+          "example": "COMPLETED"
+        },
+        "deploymentRollbackStatus": {
+          "type": "string",
+          "example": "COMPLETED"
+        },
+        "otherInfo": {
+          "type": "string",
+          "example": "ipsmserv,impexpserv,saserv,ebstopology cleanstarted due to SAN issue"
+        },
+        "nrmVersion": {
+          "type": "string",
+          "example": "NRM4.1"
+        },
+        "nrmSize": {
+          "type": "string",
+          "example": "5K"
+        },
+        "nssProductSetVersion": {
+          "type": "string",
+          "example": "18.18.10"
+        },
+        "isSessionCreated": {
+          "type": "boolean",
+          "example": "false"
+        },
+        "blades": {
+          "type": "string",
+          "example": "8"
+        },
+        "vFarms": {
+          "type": "string",
+          "example": "9"
+        },
+        "workloadVm": {
+          "type": "string",
+          "example": "Yes"
+        },
+        "firmware": {
+          "type": "string",
+          "example": "REV S3"
+        },
+        "sanHost": {
+          "type": "string",
+          "example": "ieatvnx91"
+        },
+        "sanShared": {
+          "type": "string",
+          "example": "No"
+        },
+        "nasHost": {
+          "type": "string",
+          "example": " ieatsfsx356-357"
+        },
+        "nasShared": {
+          "type": "string",
+          "example": "No"
+        },
+        "nasSoftware": {
+          "type": "string",
+          "example": "VA"
+        },
+        "hardwareType": {
+          "type": "string",
+          "example": "Gen 9, NAS Racks Gen 8"
+        },
+        "freeIp": {
+          "type": "string",
+          "example": "Storage: 157, Service IPv4: 48, Service IPv6: 124"
+        },
+        "externalNfs": {
+          "type": "string",
+          "example": "No"
+        },
+        "openstackVersion": {
+          "type": "string",
+          "example": "Newton"
+        },
+        "ccdVersion": {
+          "type": "string",
+          "example": "2.13.0"
+        },
+        "nameSpace": {
+          "type": "string",
+          "example": "enm12"
+        },
+        "clusterNodes": {
+          "type": "string",
+          "example": "8"
+        }
+      }
+    }
+  }
+}

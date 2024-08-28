@@ -1,0 +1,158 @@
+#timeSection {
+  border: 1px solid #adadad;
+  border-radius: 5px;
+  padding: 0 12px 0 0;
+}
+
+#jiraSection {
+  border: 1px solid #adadad;
+  border-radius: 5px;
+  padding: 5;
+}
+
+#userOnWorkloadSelection {
+  font-size: 14px;
+}
+
+#userEmails {
+  display: inline-block;
+  border: 1px solid #adadad;
+  width: 100%;
+  padding: 0px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.52857143;
+  text-align: left;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border-radius: 4px;
+  max-height: 70px;
+  overflow: auto;
+}
+
+#addUserEmailButton {
+  font-size: 14px;
+  border-radius: 0px 4px 4px 0px;
+  line-height: 1.455555;
+  text-align: left;
+  vertical-align: middle;
+  width: 7%;
+  padding: 1.7% 2% 1.6% 1.7%;
+}
+
+.userEmailError {
+  border-color: red !important;
+}
+
+.userEmailErrorMessage {
+  margin-top: 5px;
+  color: red;
+}
+
+input[type=number] {
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+#closeButton {
+  float: right;
+  margin-right: -39px;
+  margin-top: -37px;
+}
+
+#iconProperties{
+  font-size: 28px !important;
+  color: rgba(255, 0, 0, 0.6);
+}
+
+::ng-deep .mat-button-focus-overlay {
+  background-color: transparent;
+}
+
+textarea {
+  margin: 5px;
+  width: 100%;
+  -moz-user-select: text !important;
+}
+
+::ng-deep .custom-snackbar-class .mat-simple-snackbar {
+  justify-content: center;
+  font-family: inherit;
+}
+
+::ng-deep .error-snackbar-class {
+background-color: orange;
+}
+
+::ng-deep .error-snackbar-class .mat-simple-snackbar {
+  justify-content: center;
+  font-family: inherit;
+  color: white;
+}
+
+::ng-deep .mat-tooltip  {
+  white-space: pre-line !important;
+  text-align: center;
+  font-size: 1em;
+}
+
+#buttonHeight {
+  line-height: 3.125;
+}
+
+#manageSessionHeader {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.manageSessionFormHeader {
+  font-size: 16px;
+}
+
+.manageSessionUserEmailMultiSelect {
+  border: 1px solid #337ab7;
+  margin: 4px !important;
+  background: #337ab7;
+  padding: 0 5px !important;
+  color: #fff !important;
+  border-radius: 2px !important;
+  float: left;
+}
+
+::ng-deep .custom-snackbar-class .mat-simple-snackbar {
+  justify-content: center;
+  font-family: inherit;
+}
+
+::ng-deep .error-snackbar-class {
+  background-color: red;
+}
+
+::ng-deep .error-snackbar-class .mat-simple-snackbar {
+  justify-content: center;
+  font-family: inherit;
+  color: white;
+}
+
+.manage-session-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 18vh;
+  overflow: hidden;
+  flex-direction: column;
+  width: 100%;
+}
+
+#manageSessionSpinner {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.manageSessionStepDescription {
+  text-align: center;
+  font-size: 17px;
+  margin: 0;
+}

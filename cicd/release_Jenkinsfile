@@ -1,0 +1,73 @@
+pipeline {
+    agent {
+        node {
+            label SLAVE
+        }
+    }
+
+    stages {
+        stage('Bump Version') {
+            steps {
+                sh "sh release/bump_version.sh"
+                script {
+                    IMAGE_VERSION = readFile('artifact.properties').trim()
+                }
+            }
+        }
+        stage('Build and Push Angular Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_client\" \"services/angular/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push Express Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_server\" \"services/express/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push Ansible Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_ansible\" \"services/ansible/Dockerfile-production\" \"${IMAGE_VERSION}\" \"${params.ANSIBLE_PASSWORD}\""
+            }
+        }
+        stage('Build and Push Swagger Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_apidocs\" \"services/swagger/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push NGINX Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_nginx\" \"services/nginx/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push Keycloak Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_keycloak\" \"services/keycloak/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push Logstash Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_logstash\" \"services/logstash/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Build and Push Filebeat Service') {
+            steps {
+                sh "sh release/build_and_push_service.sh \"emt_filebeat\" \"services/filebeat/Dockerfile-production\" \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Git tag version') {
+            steps {
+                sh "sh release/git_tag_version.sh \"${IMAGE_VERSION}\""
+            }
+        }
+        stage('Archive artifact properties file') {
+            steps {
+                   archiveArtifacts artifacts: 'artifact.properties', onlyIfSuccessful: true
+            }
+        }
+        stage('Cleanup unused Docker data') {
+            steps {
+                sh "docker system prune -a -f"
+            }
+        }
+    }
+}

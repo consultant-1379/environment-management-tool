@@ -1,0 +1,216 @@
+<help-docs-navigation></help-docs-navigation>
+<div id="helpDocsContainer" class="container">
+    <h1>Quarantine Management</h1>
+    <ul>
+        <li><a href="/help-docs/quarantine-management#overview">Overview</a></li>
+        <li><a href="/help-docs/quarantine-management#purpose">Purpose</a></li>
+        <li><a href="/help-docs/quarantine-management#sessions">Sessions</a></li>
+        <li><a href="/help-docs/quarantine-management#create-start-session">How to Create and Start a Session on a
+                Environment</a></li>
+        <li><a href="/help-docs/quarantine-management#session-ms-user">Session MS User</a></li>
+        <li><a href="/help-docs/quarantine-management#manage-session">Manage Session</a></li>
+        <li><a href="/help-docs/quarantine-management#sessions-view">Sessions View</a></li>
+    </ul>
+    <a class="anchor" name="overview"></a>
+    <h3>Overview</h3>
+    <hr>
+    <p>This page describes Quarantine Management in EMT.</p>
+    <p>It will also describe what a session is and what it can be used for.</p>
+
+    <a class="anchor" name="purpose"></a>
+    <h3>Purpose</h3>
+    <hr>
+    <p>
+        The concept of Quarantine Management gives users of EMT the ability to loan out a test environment to
+        teams/users.
+    </p>
+    <p>EMT`s Quarantine Management functionality will be able to track this loan for them in a session</p>
+    <p>Quarantine Management tracks the team(s)/user(s) assigned to a session/environment and the amount of time allocated to
+        them.</p>
+
+    <a class="anchor" name="sessions"></a>
+    <h3>Sessions</h3>
+    <hr>
+    <p>Quarantine Management is a collection of sessions on environments which allows environments to be loaned out and
+        tracked.</p>
+    <p>It allows you to create and manage sessions. Sessions allow users of EMT to easily identify who the test
+        environment is assigned to and how long it is assigned to them for.</p>
+    <p> The components of a session are: </p>
+    <ul>
+        <li>Teams - A session may have an associated team(s). Each session requires a minimum of one team or user. The associated
+            team(s)
+            are those in which the test environment is loaned to</li>
+        <li>User Emails - A session may have an associated user(s). Each session requires a minimum of one team or user. The associated
+            users(s)
+            are those in which the test environment is loaned to</li>
+        <li>Duration - A session consists of a duration. This allows the session to manage the time period for loaning
+            out a
+            environment. The duration is set by inputting an amount of hours and minutes, this is then added on to the
+            time
+            when a session is started. This is the end time for a session.</li>
+        <li>JIRAs - A session may have linked JIRAs. These are JIRAs that track an issue which resulted in the team/user
+            needing the environment for troubleshooting. It helps OPS understand why certain sessions were created.</li>
+    </ul>
+
+    <a class="anchor" name="create-start-session"></a>
+    <h3>How to Create and Start a Session on a Environment</h3>
+    <hr>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Choose Environment</span></p>
+        <ul>
+            <li>Find the environment you want to create a session on.</li>
+            <li>You can only create sessions on environments in QUARANTINE state so it must be an environment displayed
+                in the QUARANTINE table.</li>
+            <li>Only environments in QUARANTINE state will have the option to create a session.</li>
+            <li>You can click the ellipsis under the "Action(s)" column of the environment's row in the
+                QUARANTINE table.
+            </li>
+            <li><img src="./../../../assets/img/help-docs-resources/clickThreeDotsCreateSession.jpeg"
+                    class="createSessionImages"></li>
+            <li>From here, you can click "Create Session".
+            </li>
+            <li><img src="./../../../assets/img/help-docs-resources/createSession.jpeg" class="createSessionImages">
+            </li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Input Session Details</span></p>
+        <ul>
+            <li>Select the team(s) you want to create a session for. You may create a session for one or more teams.
+                There is
+                a search bar provided for searching for teams. For a team to be available for selection, they must be in
+                the
+                <a href="https://pdu-nam-tools2.lmera.ericsson.se/team-inventory/#maintrackanalysis">Team
+                    Inventory Tool</a> with their email in a format like this: pdlenmcoun@pdl.internal.ericsson.com.
+            </li>
+            <li>Type the user(s) emails you want to create a session for. You may create a session for one or more users.
+            </li>
+            <li>Select the amount of time you want the session to last for in hours and minutes. Only numbers can be
+                entered here. </li>
+            <li>In order for a session to be created, a minimum of one team or user must be selected and the session duration
+                must be set.</li>
+            <li>Optionally, you can enter JIRAs related to the session in the JIRAs text field.</li>
+            <li>Insert Jira(s) in a comma separated list like:&#13; RTD-1234, RTD-4321&#13; Jira URLs are allowed.</li>
+            <li>WLVM checkbox if ticked a troubleshooting user will be created on the WLVM for all team(s)/user(s) assigned to the session.</li>
+            <ul>
+              <li><b>This feature is only available for physical environments.</b></li>
+              <li><img src="./../../../assets/img/help-docs-resources/wlvmCheckboxCreateSession.jpg" id="startSessionImage"></li>
+            </ul>
+            <li>The Start Session button should now be enabled, click it to start a session.</li>
+            <li><img src="./../../../assets/img/help-docs-resources/startSession.jpeg" id="startSessionImage"></li>
+            <li>When a session starts, both ops and the teams/users assigned to the session get an email notification
+                containing the session details.</li>
+        </ul>
+        <p><b class="stepNumber">3</b> <span class="singleStep">Wait For The Session To Create</span></p>
+        <ul>
+            <li>After clicking the "Create Session" button, you will be presented with a progress icon</li>
+            <li>For physical environments, EMT will retrieve any details it needs to connect to the MS</li>
+            <li>It then creates a user on the MS so the assigned teams can use that user to log onto the MS</li>
+            <ul>
+              <li>If you ticked WLVM checkbox it will create a troubleshooting user on WLVM with the same credentials.</li>
+            </ul>
+            <li><img src="./../../../assets/img/help-docs-resources/waitForSessionToCreate.jpeg"
+                    id="waitForSessionToCreateImage"></li>
+        </ul>
+        <p><b class="stepNumber">4</b> <span class="singleStep">View Session</span></p>
+        <ul>
+            <li>When the session is created the modal popup disappears</li>
+            <li>You can now see a new icon appeared under the "Action(s)" column of the environment's row showing there
+                is a session ongoing on that environment.</li>
+            <li><img src="./../../../assets/img/help-docs-resources/sessionOngoingIcon.jpeg" id="sessionOngoingImage">
+            </li>
+        </ul>
+    </div>
+
+    <h4>Result</h4>
+    <p>A session should be created on an environment which will allow a feature team/user to troubleshoot an environment
+        along
+        with any relevant environment information they may need.</p>
+
+    <a class="anchor" name="session-ms-user"></a>
+    <h3>Session MS User</h3>
+    <hr>
+    <p>Due to a lock down of the MS on physical environments, when creating a session, EMT will also create a
+        <u>temporary</u> user on the MS of a physical environment. </p>
+    <p>If the WLVM checkbox is ticked a <u>temporary</u> user will be created on the WLVM of a physical environment</p>
+    <p>EMT will then send the details of that session MS/WLVM user to the team/user in the quarantine session email.</p>
+    <img src="./../../../assets/img/help-docs-resources/sessionMsUserEmail.jpeg" class="createSessionImages">
+    <p>This MS/WLVM user will be deleted as soon as the session expires or is stopped.</p>
+    <p>For operations users <u>only</u>, the credentials will be displayed on the sessions view as outlined <a
+            href="/help-docs/quarantine-management#sessions-view">below</a>.</p>
+    <a class="anchor" name="manage-session"></a>
+    <h3>Manage Session</h3>
+    <hr>
+    <p> Much like when creating a session, to manage a session you can click the ellipsis under the "Action(s)" column
+        of the environment's row in the QUARANTINE table.</p>
+    <ul>
+        <li><img src="./../../../assets/img/help-docs-resources/clickThreeDotsManageSession.jpeg"
+                class="manageSessionImages"></li>
+    </ul>
+    <p> Instead of seeing a 'Create Session' option, you will now see a 'Manage Session' option. Clicking on it allows
+        you to manage the session on this environment. </p>
+    <ul>
+        <li><img src="./../../../assets/img/help-docs-resources/manageSession.jpeg" class="manageSessionImages"></li>
+    </ul>
+    <p> Manage Session functionality:</p>
+    <ul>
+        <li>
+            Edit Session - Allows a user to edit details about a session:
+            <ul>
+                <li>Assigned Team(s) - Update the teams assigned to a session. There must be at least one team/user assigned
+                    to the
+                    session.</li>
+                <li>User Emails - Update the users assigned to a session. There must be at least one team/user assigned
+                    to the
+                    session.</li>
+                <li>JIRA(s) - Update the JIRAs assigned to a session. Can be either as URL or Ticket Numbers. Insert
+                    multiple
+                    JIRAs in a comma separated list. E.g. "RTD-123, RTD-321"</li>
+                <li>
+                  WLVM Checkbox - this checkbox will either create or delete the temporary user for all team(s)/user(s) on the session.
+                  <ul>
+                    <li>Checked - all team(s)/user(s) assigned to this session will have a troubleshooting user created on WLVM</li>
+                    <li>Unchecked - all team(s)/user(s) assigned to this session will have a troubleshooting user deleted on WLVM</li>
+                  </ul>
+                </li>
+                <li>An email will be sent to all relevant teams informing them of the changes to the session details.
+                </li>
+            </ul>
+        </li>
+        <li>Stop Session - Allows you to stop a session before the time has elapsed. e.g. A feature team has finished
+            troubleshooting early.</li>
+    </ul>
+
+    <a class="anchor" name="sessions-view"></a>
+    <h3>Sessions View</h3>
+    <hr>
+    <p> In the session view tab of EMT there is a view of sessions.</p>
+    <p>By default it will show active sessions on page load ordered by end time, the next session to expire will be at
+        the
+        top. There is a table which displays: </p>
+    <ul>
+        <li>Environment - The name of environment the session is associated with.</li>
+        <li>Team(s) - The team or teams assigned to a session. The available teams are retrieved from the <a
+                href="https://pdu-nam-tools2.lmera.ericsson.se/team-inventory/#maintrackanalysis">Team Inventory
+                Tool</a>.</li>
+        <li>Users - The user or users assigned to a session.</li>
+        <li>Status - The current status of the session.</li>
+        <li>Session credentials - The credentials of the session MS/WLVM user (Only applicable for Physical environments).
+            If the EMT user has the "OPs" role, they will be able to see the "reveal" button, and on click will
+            display the MS/WLVM credentials for each troubleshooting team/user. If EMT users do not have the "OPs" role,
+            then simply a dash (-) will display.
+        </li>
+        <li>Start Time - Is the time a session started at. This time will be displayed in your own local time i.e. the
+            time
+            on your browser.</li>
+        <li>End Time - Is the time a session ends at. This time will be displayed in your own local time i.e. the time
+            on
+            your browser.</li>
+    </ul>
+    <p>They can be filtered into the following categories based on the status:</p>
+    <ul>
+        <li>ACTIVE - displays all sessions currently ongoing.</li>
+        <li>EXPIRED - displays all sessions which have gone past the expiry time or have been stopped.</li>
+        <li>ALL - displays both active and expired sessions.</li>
+    </ul>
+
+</div>

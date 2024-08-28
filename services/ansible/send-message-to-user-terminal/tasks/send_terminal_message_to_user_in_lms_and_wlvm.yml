@@ -1,0 +1,9 @@
+- hosts: '{{ cluster_id }}'
+  gather_facts: no
+  tasks:
+   - name: Retrieve all user {{ username }} tty's of active terminals
+     shell: ps -u {{ username }} | grep pts | awk '{ print $2 }' | sort | uniq | xargs
+     register: total_active_terminals
+   - name: Send message to user {{ username }} terminal
+     shell: for terminal in {{ total_active_terminals.stdout }}; do echo "{{ message }}" | write {{ username }} ${terminal}; done
+     when: total_active_terminals.stdout != ""

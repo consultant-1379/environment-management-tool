@@ -1,0 +1,151 @@
+<button mat-icon-button [disabled]="!checkUserPermissions"  [matMenuTriggerFor]="deploymentActionsMenu" class="deploymentActionsMenu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #deploymentActionsMenu>
+
+  <div *ngIf="deploymentInfo.state === 'QUARANTINE'; then createSession"></div>
+  <ng-template #createSession>
+    <div *ngIf="deploymentInfo.isSessionCreated; then sessionOngoing else noActiveSession"></div>
+    <ng-template #noActiveSession>
+      <create-session [deploymentInfo]="deploymentInfo"></create-session>
+    </ng-template>
+    <ng-template #sessionOngoing>
+      <manage-session [deploymentInfo]="deploymentInfo"></manage-session>
+    </ng-template>
+  </ng-template>
+  <div *ngIf="deploymentInfo.state !== 'BUSY'">
+    <button mat-menu-item [matMenuTriggerFor]="deploymentActions">
+      <mat-icon>kitchen</mat-icon>
+      Environment Actions
+    </button>
+  </div>
+
+  <button mat-menu-item (click)="openEnvironmentLogs(deploymentInfo)">
+    <mat-icon>dashboard</mat-icon>
+    Environment Logs
+  </button>
+
+  <mat-menu #deploymentActions>
+    <div *ngIf="isShcStatusNull(deploymentInfo); then defaultShc"></div>
+    <ng-template #defaultShc>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'REQUIRED')">
+        <mat-icon>local_hospital</mat-icon>
+        <span>Mark SHC Required</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'START_AUTO_SHC')">
+        <mat-icon>live_tv</mat-icon>
+        <span>Start Auto SHC</span>
+      </button>
+    </ng-template>
+    <div *ngIf="isSystemHealthStatusNotPresent(deploymentInfo); then markForShc"></div>
+    <ng-template #markForShc>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'REQUIRED')">
+        <mat-icon>local_hospital</mat-icon>
+        <span>Mark SHC Required</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'START_AUTO_SHC')">
+        <mat-icon>live_tv</mat-icon>
+        <span>Start Auto SHC</span>
+      </button>
+    </ng-template>
+    <div *ngIf="isShcRequired(deploymentInfo); then shcRequired"></div>
+    <ng-template #shcRequired>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, ' ')">
+        <mat-icon>clear</mat-icon>
+        <span>Clear SHC</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'COMPLETED')">
+        <mat-icon>verified_user</mat-icon>
+        <span>Mark SHC Complete</span>
+      </button>
+    </ng-template>
+    <div *ngIf="isShcCompleted(deploymentInfo); then shcCompleted"></div>
+    <ng-template #shcCompleted>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, ' ')">
+        <mat-icon>clear</mat-icon>
+        <span>Clear SHC</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'REQUIRED')">
+        <mat-icon>local_hospital</mat-icon>
+        <span>Mark SHC Required</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'START_AUTO_SHC')">
+        <mat-icon>live_tv</mat-icon>
+        <span>Start Auto SHC</span>
+      </button>
+    </ng-template>
+    <div *ngIf="isAutoShcRequired(deploymentInfo); then startAutoShc"></div>
+    <ng-template #startAutoShc>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, ' ')" disabled>
+        <mat-icon>clear</mat-icon>
+        <span>Clear SHC</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'COMPLETED')" disabled>
+        <mat-icon>verified_user</mat-icon>
+        <span>Mark SHC Complete</span>
+      </button>
+    </ng-template>
+    <div *ngIf="isShcAttentionRequired(deploymentInfo); then shcAttention"></div>
+    <ng-template #shcAttention>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, ' ')">
+        <mat-icon>clear</mat-icon>
+        <span>Clear SHC</span>
+      </button>
+      <button mat-menu-item (click)="changeShcStatus(deploymentInfo, 'COMPLETED')">
+        <mat-icon>verified_user</mat-icon>
+        <span>Mark SHC Complete</span>
+      </button>
+    </ng-template>
+
+    <button mat-menu-item (click)="changeState(deploymentInfo)">
+      <mat-icon>compare_arrows</mat-icon>
+      <span>Change State</span>
+    </button>
+
+    <div *ngIf="isMarkedForII(deploymentInfo); then unmarkII else markForII"></div>
+    <ng-template #markForII>
+      <button mat-menu-item (click)="changeIIStatus(deploymentInfo, 'STALE')">
+        <mat-icon>autorenew</mat-icon>
+        <span>Mark For II</span>
+      </button>
+    </ng-template>
+
+    <ng-template #unmarkII>
+      <button mat-menu-item (click)="changeIIStatus(deploymentInfo, 'FRESH')">
+        <mat-icon>autorenew</mat-icon>
+        <span>Un-Mark From II</span>
+      </button>
+    </ng-template>
+
+    <div *ngIf="isMarkedForUpgrade(deploymentInfo); then unMarkForUpgrade else markForUpgrade"></div>
+    <ng-template #markForUpgrade>
+      <button mat-menu-item (click)="changeUpgradeStatus(deploymentInfo, 'REQUIRED')">
+        <mat-icon>redo</mat-icon>
+        <span>Mark For UG</span>
+      </button>
+    </ng-template>
+
+    <ng-template #unMarkForUpgrade>
+      <button mat-menu-item (click)="changeUpgradeStatus(deploymentInfo, 'COMPLETED')">
+        <mat-icon>redo</mat-icon>
+        <span>Un-Mark From UG</span>
+      </button>
+    </ng-template>
+
+    <div *ngIf="isMarkedForRollback(deploymentInfo); then unMarkForRollback else markForRollback"></div>
+    <ng-template #markForRollback>
+      <button mat-menu-item (click)="changeRollbackStatus(deploymentInfo, 'REQUIRED')">
+        <mat-icon>restore</mat-icon>
+        <span>Mark For Rollback</span>
+      </button>
+    </ng-template>
+
+    <ng-template #unMarkForRollback>
+      <button mat-menu-item (click)="changeRollbackStatus(deploymentInfo, 'COMPLETED')">
+        <mat-icon>restore</mat-icon>
+        <span>Un-Mark From Rollback</span>
+      </button>
+    </ng-template>
+
+  </mat-menu>
+</mat-menu>

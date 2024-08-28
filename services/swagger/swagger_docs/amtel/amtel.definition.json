@@ -1,0 +1,16 @@
+{
+  "definitions": {
+    "Amtel": {
+      "properties": {
+        "candidateEnvironment": {
+          "type": "string",
+          "example": "ieatenmc7a12"
+        },
+        "candidateProductSetFormatted": {
+          "type": "string",
+          "example": "20.01.12"
+        }
+      }
+    }
+  }
+}

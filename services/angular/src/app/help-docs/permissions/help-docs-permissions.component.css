@@ -1,0 +1,25 @@
+/* CORE */
+
+#helpDocsContainer {
+    padding-bottom: 48px;
+    line-height: normal;
+}
+
+.container {
+    width: 84%;
+    padding-right: 15px;
+    padding-left: 42px;
+    margin-left: 16%;
+}
+
+.anchor {
+    display: block;
+    position: relative;
+    top: -48px;
+    visibility: hidden;
+}
+
+img {
+    box-shadow: 0 0 3px #968b8b;
+    margin-bottom: 12px;
+}

@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg ebSystemBar">
+    <div class="ebSystemBar-logo"></div>
+    <div class="ebSystemBar-topMenuName">Environment Management Tool</div>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="nav navbar-nav">
+            <a class="nav-item nav-link" routerLink="/environments/">Environments</a>
+            <a class="nav-item nav-link" routerLink="/sessions/">Sessions</a>
+            <a class="nav-item nav-link" routerLink="/armory/">Armory</a>
+        </div>
+        <div *ngIf="showAdminLink" class="nav navbar-nav links">
+            <ul class="drop main-drop">
+                <li class="dropdown nav-item nav-link">
+                    <a class="trigger-drop">Admin</a>
+                    <i class="material-icons arrow">keyboard_arrow_down</i>
+                    <ul class="drop">
+                        <li><a class="myLink" routerLink="/admin/environments/">Environments</a></li>
+                        <li><a class="myLink" routerLink="/admin/user-roles/">User Roles</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="systemBar-rightButton">
+        <a href="https://confluence-nam.lmera.ericsson.se/display/ERSD/EMT+Customer+Feedback" target="_blank">Customer
+            Feedback</a>
+        <a *ngIf="showDeploymentLink" href="api-docs/" target="_blank">API Docs</a>
+        <a routerLink="/help-docs/">Help Docs</a>
+        <a routerLink="/whats-new/">What's New</a>
+
+        <div class="items-container" (click)="toggleSystemPanel()" #usernameElement>
+            <i class="icon icon-profile"></i>
+            <span class="username">{{ this.username }}</span>
+        </div>
+    </div>
+</nav>
+
+<app-system-panel [isHidden]="isHidden" #systemPanelElement></app-system-panel>
+<app-browser-checker></app-browser-checker>
+<router-outlet></router-outlet>

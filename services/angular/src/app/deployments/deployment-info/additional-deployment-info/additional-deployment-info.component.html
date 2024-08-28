@@ -1,0 +1,28 @@
+<mat-form-field class="additional-info-form">
+  <table id="classTable" class="deploymentInfoModalTable table">
+    <tbody>
+      <tr id="deploymentInfoModalRow">
+        <td>
+          <h4>
+            <b>Additional Environment Information</b>
+          </h4>
+        </td>
+        <td class="tableElementButton">
+          <button [disabled]="!checkUserPermissions" matTooltip="Edit Current Information" mat-mini-fab color="primary" *ngIf="isUserEditing==false" (click)="changeButtonTypeAndSaveCurrentInfo()">
+            <i class="material-icons md-18">create</i>
+          </button>
+          <button matTooltip="Reset to Default" mat-mini-fab color="primary" *ngIf="isUserEditing==true" (click)="information.value=(deploymentData.additionalDeploymentInfo.additionalText)">
+            <i class="material-icons md-18">undo</i>
+          </button>
+          <button matTooltip="Save Edited Information" mat-mini-fab color="primary" *ngIf="isUserEditing==true" (click)="updateAdditionalInfo(information.value)">
+            <i class="material-icons md-18">done</i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <textarea #information name="information" spellcheck="false" maxlength="400" [readonly]="!isEditable" [value]="deploymentData.additionalDeploymentInfo.additionalText"
+    matInput matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="10"></textarea>
+  <mat-hint align="start">Last Edited: {{deploymentData.additionalDeploymentInfo.dateModified}}</mat-hint>
+  <mat-hint align="end">Characters Remaining: {{400 - information.value.length}}</mat-hint>
+</mat-form-field>

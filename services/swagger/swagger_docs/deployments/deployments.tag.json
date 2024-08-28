@@ -1,0 +1,8 @@
+{
+  "tags": [
+    {
+      "name": "deployments",
+      "description": "Everything you need to know about the EMT REST API for deployments."
+    }
+  ]
+}

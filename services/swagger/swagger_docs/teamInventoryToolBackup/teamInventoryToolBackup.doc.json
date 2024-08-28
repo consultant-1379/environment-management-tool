@@ -1,0 +1,30 @@
+{
+  "paths": {
+    "/team-inventory-tool-backup/": {
+      "get": {
+        "tags": [
+          "Team Inventory Tool Backup"
+        ],
+        "summary": "Returns a stored copy of the list of environments from Team Inventory Tool.",
+        "description": "Returns a stored copy of the list of environments from Team Inventory Tool.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TeamInventoryToolBackup"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

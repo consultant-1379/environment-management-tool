@@ -1,0 +1,186 @@
+{
+  "paths": {
+    "/sessions": {
+      "get": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Returns a list of all sessions.",
+        "description": "Returns a list of all sessions.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Create a new session.",
+        "description": "Creates and returns a new session.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Session object that represents your session",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SessionForPutPost"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Session successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/sessions/search?q=timePeriodId={timePeriodId}": {
+      "get": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Returns a list of sessions matching search criteria.",
+        "description": "Returns a list of sessions matching search criteria.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/sessions/{sessionId}": {
+      "put": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Update a session.",
+        "description": "Update a session.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the session to update",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Session object you want to update. Partial update possible, not all fields in body required",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SessionForPutPost"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated session",
+            "schema": {
+              "$ref": "#/definitions/Session"
+            }
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "404": {
+            "description": "A session with that id does not exist"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "Delete a session.",
+        "description": "Delete a session.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sessionId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the session to delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted session",
+            "schema": {
+              "$ref": "#/definitions/Session"
+            }
+          },
+          "404": {
+            "description": "A session with that id does not exist"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

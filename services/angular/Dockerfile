@@ -1,0 +1,31 @@
+# Create image based on the official Node 8.9.4-alpine image from the dockerhub
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/node:8.9.4-alpine
+
+# Create a directory where our app will be placed
+RUN mkdir -p /usr/src/app
+
+# Change directory so that our commands run inside this new directory
+WORKDIR /usr/src/app
+
+# Copy dependency definitions
+COPY . /usr/src/app
+
+# Install UI SDK 2.0 dependencies
+RUN npm config set @eui:registry https://arm.lmera.ericsson.se/artifactory/api/npm/proj-e-uisdk-npm \
+&& npm config set proxy=null \
+&& npm config set https-proxy=null
+
+# Declare args
+ARG NODE_ENV
+ENV NODE_ENV=${NODE_ENV}
+
+# Install dependencies
+RUN npm install \
+&& npm run build:${NODE_ENV} \
+&& npm cache clean --force
+
+# Expose the port the app runs in
+EXPOSE 4200
+
+# Serve the app
+CMD npm run start:${NODE_ENV}

@@ -1,0 +1,23 @@
+<mat-form-field class="additional-info-form">
+    <div *ngIf="checkUserPermissions; then editButton"></div>
+    <ng-template #editButton>
+      <button [disabled]="!checkUserPermissions" class="editSmall" [hidden]=isEditable (click)="editTextArea(information)">
+        <i matTooltip="Edit Current Information" class="material-icons md-10">create</i>
+      </button>
+    </ng-template>
+    <button class="resizeTextarea" [hidden]="isExpandButtonHidden" (click)="autoGrowTextAreaFromButton(information)">
+        <i matTooltip="Expand" class="material-icons md-10">arrow_downward</i>
+    </button>
+    <button class="undoSmall" [hidden]="isResizeButtonHidden" (click)="resetTextArea(information)">
+        <i matTooltip="Collapse" class="material-icons md-10">arrow_upward</i>
+    </button>
+
+    <button matTooltip="Save Information" class="editSmall" [hidden]="!isEditable" (click)="changeButtonTypeAndSaveCurrentInfo(information.value, information)">
+        <i class="material-icons md-10">done</i>
+    </button>
+    <button class="undoSmall" [hidden]="!isEditable" (click)="information.value=(deployment.otherInfo)">
+        <i matTooltip="Undo" class="material-icons md-10">undo</i>
+    </button>
+    <textarea #information name="information" (keyup)="autoGrowTextArea(information)" class="otherInfo" spellcheck="false" [readonly]="!isEditable"
+        matInput [value]="deployment.otherInfo" matAutosizeMinRows="3" matAutosizeMaxRows="10"></textarea>
+</mat-form-field>

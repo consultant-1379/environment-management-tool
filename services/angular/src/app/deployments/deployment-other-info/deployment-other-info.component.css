@@ -1,0 +1,89 @@
+button:focus {
+  outline: none;
+}
+
+button:hover:not(:disabled) {
+  cursor: pointer;
+}
+
+.deploymentActionsMenu {
+  background-color: none;
+}
+
+.editSmall {
+  position: absolute;
+  border-color: transparent;
+  margin-left: 89%;
+  margin-top: -9%;
+  background-color: transparent;
+  font-size: 10px;
+}
+
+.undoSmall {
+  position: absolute;
+  border-color: transparent;
+  margin-left: 89%;
+  margin-top: 0%;
+  background-color: transparent;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.resizeTextarea{
+  position: absolute;
+  border-color: transparent;
+  margin-left: 89%;
+  margin-top: 0%;
+  background-color: transparent;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.material-icons.md-10 {
+  color: #0000008c;
+  font-size: 20px;
+}
+
+.material-icons.md-10:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.material-icons.md-10.disable {
+  color: #0000008c;
+  font-size: 20px;
+}
+
+.material-icons.md-10.disable:hover {
+  color: #0000008c;
+  cursor: not-allowed;
+}
+
+.otherInfo {
+  height: 25px;
+  margin-left: 5px;
+  padding-right: 40px;
+  resize: none;
+  overflow:hidden;
+}
+
+.additional-info-form ::ng-deep .mat-form-field-underline {
+  display: none;
+  padding-bottom: 15px;
+}
+
+.additional-info-form ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field {
+  display: block;
+  padding-right: 2%;
+  margin-bottom: -14px;
+}
+
+::ng-deep .mat-form-field[_ngcontent-c5] {
+  display: block;
+  padding-right: 2%;
+  margin-bottom: -14px;
+}

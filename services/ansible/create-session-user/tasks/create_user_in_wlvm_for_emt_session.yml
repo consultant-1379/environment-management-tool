@@ -1,0 +1,22 @@
+- hosts: '{{ cluster_id }}_wlvm'
+  gather_facts: no
+  remote_user: root
+  tasks:
+   - name: Remove ansible temp files
+     run_once: true
+     local_action: shell rm -rf ansible-tmp-*
+     args:
+       warn: false
+   - name: Ensure group '{{ group }}' exists
+     group:
+       name: '{{ group }}'
+       state: present
+   - name: Copy any sudoers file from ansible/sudoers/ into /etc/sudoers.d/ on WLVM
+     run_once: true
+     local_action: shell scp -o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no /usr/src/app/create-session-user/tasks/../files/sudoers_files/{{ group }} root@$(cat /etc/ansible/hosts | grep "[{{ cluster_id }}_wlvm]" -A 1 | tail -1):/etc/sudoers.d/
+   - name: Add the user '{{ username }}' with a password and a primary group of '{{ group }}'
+     user:
+        name: '{{ username }}'
+        password: "{{ password | password_hash('sha512') }}"
+        comment: '{{ username }}'
+        group: '{{ group }}'

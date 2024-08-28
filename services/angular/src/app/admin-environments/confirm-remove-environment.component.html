@@ -1,0 +1,16 @@
+<form [formGroup]="removeConfirmEnvironmentForm">
+    <div class="form-group">
+        <h2 matDialogTitle class="titleView">Remove Environment: <b>{{ data.environmentToRemove }}</b>?</h2>
+        <mat-dialog-content class="matContentView">
+            <h4>Are you sure want to remove the environment?</h4>
+            <mat-form-field class="confirmInput" flatLabel="auto" appearance="outline" color="primary">
+                <input class="inflixView" matInput type="text" placeholder="Re-Type The Environment Name" [(ngModel)]="confirmedEnvironment" formControlName="confirmedEnvironment">
+                <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+            </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+            <button class="cancelButton" matDialogClose="cancel" mat-raised-button color="primary">Cancel</button>
+            <button class="confirmButton" matDialogClose="confirm" [disabled]="removeConfirmEnvironmentForm.invalid" mat-raised-button color="warn">Submit</button>
+        </mat-dialog-actions>
+    </div>
+</form>

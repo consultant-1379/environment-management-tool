@@ -1,0 +1,21 @@
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/jboss/keycloak:4.8.3.Final
+
+# Copy custom themes from source control to keycloak container
+COPY services/keycloak/themes/base/ keycloak/themes/base/
+COPY services/keycloak/themes/keycloak/ keycloak/themes/keycloak/
+
+# Copy metrics listener to keycloak container
+COPY services/keycloak/keycloak-metrics-spi-1.0.1-SNAPSHOT.jar keycloak/standalone/deployments
+
+# Copy server file to keycloak container and give execute permissions with linux line endings
+COPY services/keycloak/standalone.sh /opt/jboss/keycloak/bin/
+USER root
+RUN sed -i.bak 's/\r$//' /opt/jboss/keycloak/bin/standalone.sh
+RUN /bin/sh -c 'chmod +x /opt/jboss/keycloak/bin/standalone.sh'
+USER jboss
+
+# Set proxy forwarding to true for nginx
+ENV PROXY_ADDRESS_FORWARDING=true
+
+# Set flag such that ssl will only be required on staging and production
+ENV development_or_production=PRODUCTION

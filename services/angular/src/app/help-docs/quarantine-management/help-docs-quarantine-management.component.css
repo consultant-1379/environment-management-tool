@@ -1,0 +1,82 @@
+/* CORE */
+
+#helpDocsContainer {
+    padding-bottom: 48px;
+    line-height: normal;
+}
+
+.container {
+    width: 84%;
+    padding-right: 15px;
+    padding-left: 42px;
+    margin-left: 16%;
+}
+
+.anchor {
+    display: block;
+    position: relative;
+    top: -48px;
+    visibility: hidden;
+}
+
+img {
+    box-shadow: 0 0 3px #968b8b;
+    margin-bottom: 12px;
+}
+
+/* STEPS */
+
+.stepsHeading {
+    font-size: 27.766px;
+    color: #fabb00;
+    font-weight: bolder;
+}
+
+.steps {
+    border-left: 9px solid #fabb00;
+    margin-left: 9px;
+}
+
+.stepNumber {
+    height: 27px;
+    width: 27px;
+    background-color: #fabb00;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    padding-top: 5px;
+    color: white;
+    margin-left: -18px;
+    margin-top: -1px;
+    margin-right: 10px;
+}
+
+.singleStep {
+    font-size: 18px;
+}
+
+/* IMAGES */
+#chooseImage {
+    width: 39%;
+}
+
+.createSessionImages {
+    width: 80%;
+}
+
+#startSessionImage {
+    width: 29%;
+}
+
+#waitForSessionToCreateImage {
+    width: 29%;
+}
+
+#sessionOngoingImage {
+    width: 80%;
+}
+
+.manageSessionImages {
+    width: 80%;
+}

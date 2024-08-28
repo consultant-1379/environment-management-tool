@@ -1,0 +1,124 @@
+.closeButton {
+    float: right;
+    margin-right: -21px;
+    margin-top: -9px;
+}
+
+::ng-deep .mat-button-focus-overlay {
+    background-color: transparent;
+}
+
+.iconProperties {
+    font-size: 28px;
+    color: rgba(255, 0, 0, 0.6);
+}
+
+::ng-deep .custom-snackbar-class .mat-simple-snackbar {
+    justify-content: center;
+    font-family: inherit;
+}
+
+::ng-deep .error-snackbar-class {
+    background-color: red;
+}
+
+::ng-deep .error-snackbar-class .mat-simple-snackbar {
+    justify-content: center;
+    font-family: inherit;
+    color: white;
+}
+
+::ng-deep .mat-tooltip {
+    white-space: pre-line;
+    text-align: center;
+    font-size: 1em;
+}
+
+.categoryHeader {
+    margin-top: -12px;
+    color: rgba(0, 0, 0, 0.76);
+}
+
+.editEnvironmentFormHeader {
+    font-size: 15px;
+    color: rgb(89, 76, 76);
+}
+
+.headerClass {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.divHeight {
+    margin-top: 10px;
+}
+
+.selectView {
+    width: 100%;
+    margin-top: 0.5em;
+    padding-bottom: 0px;
+}
+
+.buttonHeight {
+    line-height: 3.125;
+    margin-top: 25px;
+}
+
+#applyButtonSection {
+    height: 15%;
+    overflow: hidden;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.5em 0 1em 0;
+}
+
+::ng-deep .mat-select-panel {
+    margin-top: 24px;
+}
+
+::ng-deep .mat-select-arrow {
+    border-top: 8px solid #adadad;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    margin-top: 7px;
+}
+
+.editEnvironmentMainForm {
+    height: 79vh;
+    overflow: hidden;
+}
+
+.innerEditEnvironmentForm {
+    height: 80%;
+    overflow: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+}
+
+@media (max-height: 823px) {
+    .editEnvironmentMainForm {
+        height: 81vh;
+    }
+    .innerEditEnvironmentForm {
+        height: 77%;
+    }
+}
+
+@media (max-height: 700px) {
+    .editEnvironmentMainForm {
+        height: 86vh;
+    }
+    .innerEditEnvironmentForm {
+        height: 74%;
+    }
+}
+
+@media (max-height: 588px) {
+    .editEnvironmentMainForm {
+        height: 86vh;
+    }
+    .innerEditEnvironmentForm {
+        height: 73%;
+    }
+}

@@ -1,0 +1,117 @@
+version: '2'
+
+services:
+  nginx:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - express
+      - angular
+      - swagger
+    volumes:
+      - ./config/sslcerts:/etc/nginx/certs
+
+  filebeat:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_filebeat:latest
+    volumes:
+      - "/docker/containers:/usr/share/dockerlogs/data:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    links:
+       - logstash
+
+  logstash:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_logstash:latest
+    ports:
+      - 5044:5044
+    environment:
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+
+  angular:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_client:latest
+
+  express:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_server:latest
+    environment:
+      - NODE_ENV=STAG
+      - KEYCLOAK_USER=${KC_ADMIN_USERNAME}
+      - KEYCLOAK_PASSWORD=${KC_ADMIN_PASSWORD}
+      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+      - ANSIBLE_PASSWORD=${ANSIBLE_PASSWORD}
+      - HOST_NAME=${HOST_NAME}
+      - CLUSTER_PASSWORD=${CLUSTER_PASSWORD}
+      - BB_FUNCTIONAL_USER=${BB_FUNCTIONAL_USER}
+      - BB_FUNCTIONAL_USER_PASSWORD=${BB_FUNCTIONAL_USER_PASSWORD}
+    links:
+      - database
+
+  ansible:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_ansible:latest
+
+  database:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/mongo:3.6.2
+    ports:
+      - "27017:27017"
+
+  swagger:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_apidocs:latest
+
+  mongoExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/targetprocess/mongodb_exporter:v0.1.0
+    environment:
+      - MONGODB_URL=mongodb://database:27017
+    links:
+      - database
+
+  nodeExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/prom/node-exporter:v0.17.0
+
+  nginxExporter:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/nginx/nginx-prometheus-exporter:0.2.0
+    environment:
+      - SCRAPE_URI=http://nginx/nginx_status
+    ports:
+      - "9113:9113"
+    links:
+    - nginx
+
+  cAdvisor:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/google/cadvisor:v0.32.0
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+
+  postgres:
+    image: armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/postgres:9.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+
+  keycloak:
+    image: armdocker.rnd.ericsson.se/proj_openstack_tooling/emt_keycloak:5.1.6
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: ${POSTGRES_USERNAME}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: ${KC_ADMIN_USERNAME}
+      KEYCLOAK_PASSWORD: ${KC_ADMIN_PASSWORD}
+      BB_FUNCTIONAL_USER_PASSWORD: ${BB_FUNCTIONAL_USER_PASSWORD}
+      HOST_NAME: ${HOST_NAME}
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
+
+volumes:
+    postgres_data:
+      driver: local

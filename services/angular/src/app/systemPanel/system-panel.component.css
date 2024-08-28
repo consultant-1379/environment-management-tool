@@ -1,0 +1,548 @@
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.syspanel {
+    position: fixed;
+    z-index: 999999999999;
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    height: calc(100vh - 48px);
+    overflow: hidden;
+    width: 300px;
+    top: 48px;
+    color: #fafafa;
+    background: #000000;
+    -webkit-transition: height 250ms cubic-bezier(0.65, 0.05, 0.36, 1), margin 250ms cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: height 250ms cubic-bezier(0.65, 0.05, 0.36, 1), margin 250ms cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.syspanel.hidden {
+    height: 0;
+    right: 0;
+    top: 48px;
+    margin-right: 0;
+    width: 300px;
+    overflow: hidden;
+}
+
+.syspanel-top {
+    position: relative;
+    height: 48px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 16px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.syspanel-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-size: 18px;
+}
+
+.syspanel-close {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.syspanel-close:hover {
+    opacity: 1;
+}
+
+.syspanel .btn {
+    border-color: #f2f2f2;
+    color: #f2f2f2;
+}
+
+.syspanel .btn:hover:not(:disabled) {
+    color: #181818;
+    background-color: #f2f2f2;
+}
+
+@media only screen and (min-width: 30em) {
+    .syspanel {
+        width: 350px;
+        margin-right: 0;
+        top: 48px;
+        right: 0;
+    }
+
+    .syspanel.hidden {
+        height: calc(100vh - 48px);
+        margin-right: -300px;
+    }
+}
+
+.settings {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+}
+
+.settings.hidden {
+    display: none;
+}
+
+.settings p {
+    color: #fafafa;
+}
+
+.settings .row:first-of-type {
+    width: 100%;
+}
+
+.settings .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    margin-bottom: 0;
+    padding: 16px 24px 72px;
+}
+
+.settings .container .profile {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.settings .container .profile .icon-profile {
+    font-size: 44px;
+}
+
+.settings .container .profile .username {
+    margin-top: 25px;
+    font-size: 15px;
+}
+
+.settings .container .content {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.settings .container .content .title {
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.settings .container .content .title:not(:first-of-type) {
+    margin-top: 16px;
+}
+
+.settings .container .content .item {
+    color: rgba(250, 250, 250, 0.7);
+}
+
+.leftTile {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    width: 100%;
+}
+
+.leftTileModifiers {
+    padding-bottom: 15px;
+    padding-top: 45px;
+}
+
+.rightTile {
+    display: inline-block;
+    float: right;
+    width: 100%;
+}
+
+.settings .container .content .item .rightTile .switch {
+    margin-right: 32px;
+    color: rgba(250, 250, 250, 0.8);
+}
+
+.settings .container .content .item .rightTile .switch:hover {
+    color: #fafafa;
+}
+
+.settings .container .bottom {
+    -ms-flex-item-align: center;
+    align-self: center;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    padding: 16px 0;
+}
+
+.leftTile .btn,
+.rightTile .btn {
+    width: 95%;
+}
+
+.settings .container .bottom .btn {
+    margin-bottom: 0;
+}
+
+.settings .container .bottom .btn.big {
+    width: 80vw;
+}
+
+.settings .container p {
+    color: rgba(250, 250, 250, 0.8);
+}
+
+@media only screen and (min-width: 30em) {
+    .settings .container .bottom .btn.big {
+        width: 230px;
+    }
+}
+
+.syspanel-top {
+    position: relative;
+    height: 48px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 16px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.syspanel-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-size: 18px;
+}
+
+.syspanel-close {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.syspanel-close:hover {
+    opacity: 1;
+}
+
+.icon {
+    font-family: "Ericsson Icons" !important;
+    vertical-align: middle;
+    speak: none;
+    font-style: normal;
+}
+
+.icon-cross-small::before {
+    content: "\e92c";
+}
+
+.icon-logout::before {
+    content: "\e95c";
+}
+
+.icon-cross::before {
+    content: "\e92d";
+}
+
+.row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    padding: 10px;
+}
+
+.row.h-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.row.v-center {
+    -ms-flex-line-pack: center;
+    align-content: center;
+}
+
+.row .column,
+.row .tile {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    margin-bottom: 3px;
+    background-clip: padding-box;
+}
+
+.row .column:last-child,
+.row .tile:last-child {
+    border-right: 0;
+}
+
+.row .column.has-nested,
+.row .tile.has-nested {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.row .sm-1 {
+    max-width: 8.33333333%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-2 {
+    max-width: 16.66666667%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-3 {
+    max-width: 25%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-4 {
+    max-width: 33.33333333%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-5 {
+    max-width: 41.66666667%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-6 {
+    max-width: 50%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-7 {
+    max-width: 58.33333333%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-8 {
+    max-width: 66.66666667%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-9 {
+    max-width: 75%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-10 {
+    max-width: 83.33333333%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-11 {
+    max-width: 91.66666667%;
+    border-right: 3px solid transparent;
+}
+
+.row .sm-12 {
+    max-width: 100%;
+    border-right: 0;
+}
+
+.row,
+[class*="sm-"],
+[class*="md-"],
+[class*="lg-"],
+[class*="xl-"] {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+}
+
+.settings .row:first-of-type {
+    width: 100%;
+}
+
+.wizard-content .content .column {
+    padding: 8px 0;
+    margin-bottom: 0;
+}
+
+.sysbar .username {
+    display: none;
+}
+
+.icon-profile::before {
+    content: "\e97e";
+}
+
+.btn {
+    min-width: 60px;
+    padding: 0.5em 1em;
+    border-radius: 3px;
+    outline: 0;
+    font-size: 12px;
+    font-family: "Ericsson Hilda", "Helvetica", "sans-serif";
+    color: #f2f2f2;
+    background-color: transparent;
+    border: 1px solid #f2f2f2;
+}
+
+.btn.big {
+    font-size: 1em;
+}
+
+.btn:last-child {
+    margin-right: 0;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn:hover:not(:disabled) {
+    color: #181818;
+    text-decoration: none;
+    background-color: #f2f2f2;
+    border: 1px solid #f2f2f2;
+    cursor: pointer;
+}
+
+.btn:active:not(:disabled) {
+    color: #181818;
+    background-color: #b5b5b5;
+    border: 1px solid #b5b5b5;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.btn.auto {
+    min-width: 0;
+}
+
+.btn .icon {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.btn.primary {
+    color: #ffffff;
+    background-color: #0082f0;
+    border: 1px solid #0082f0;
+}
+
+.btn.primary:hover:not(:disabled) {
+    color: #ffffff;
+    background-color: #3ea6ff;
+    border: 1px solid #3ea6ff;
+}
+
+.btn.primary:active:not(:disabled) {
+    color: #ffffff;
+    background-color: #0059a3;
+    border: 1px solid #0059a3;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.btn.warning {
+    color: #ffffff;
+    background-color: #dc2d37;
+    border: 1px solid #dc2d37;
+}
+
+.btn.warning:hover:not(:disabled) {
+    color: #ffffff;
+    background-color: #e76f75;
+    border: 1px solid #e76f75;
+}
+
+.btn.warning:active:not(:disabled) {
+    color: #ffffff;
+    background-color: #a21b23;
+    border: 1px solid #a21b23;
+    -webkit-transition: none;
+    transition: none;
+}
+
+.btn~.btn {
+    margin-left: 8px;
+}
+
+::ng-deep .systemPanelCheckbox>.mat-checkbox-layout>.mat-checkbox-inner-container>.mat-checkbox-frame {
+    border-color: white;
+}
+
+::ng-deep .systemPanelCheckbox {
+    margin-right: 20px;
+}
+
+mat-grid-list .testPhaseGrid .mat-grid-list {
+    margin-top: -10px;
+}
+
+mat-grid-list .platformTypeGrid .mat-grid-list {
+    margin-top: -10px;
+    font-size: 10px;
+}
+
+#settingsTitle {
+    font-size: 19px;
+}
+
+#testPhasesContainer {
+    scrollbar-width: thin;
+    overflow-y: auto;
+    height: 50vh;
+}
+
+#testPhases {
+    font-size: 17px;
+    color: #fafafa;
+}
+
+#MTE,
+#MTV,
+#sprintRelease,
+#other,
+#platformType,
+#selectionButtons {
+    margin-top: 10px;
+}
+
+a.phaseTitle {
+    font-size: 14px;
+}
+
+a.phaseTitle:hover {
+    color: #3475ff;
+    text-decoration: underline;
+}
+
+#logOut button {
+    width: 100%;
+}

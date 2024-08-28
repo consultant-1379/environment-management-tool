@@ -1,0 +1,252 @@
+{
+  "definitions": {
+    "UserToUpdate": {
+      "required": [
+        "roleDetails"
+      ],
+      "properties": {
+        "roleDetails": {
+          "type": "object",
+          "required": [
+            "userId",
+            "rolesToAdd",
+            "rolesToRemove"
+          ],
+          "properties": {
+            "userId": {
+              "type": "string",
+              "example": "18cd5719-84a8-4b99-a0d4-a73fc3575c5s"
+            },
+            "rolesToAdd": {
+              "type": "array",
+              "example": [
+                {
+                  "id": "f7f58798-0e16-4ebd-b8dc-a6bf41fbf734",
+                  "name": "MTE"
+                }
+              ]
+            },
+            "rolesToRemove": {
+              "type": "array",
+              "example": [
+                {
+                  "id": "f7f58798-0e16-4ebd-b8dc-a6bf41fbf734",
+                  "name": "MTE"
+                }
+              ]
+            }
+          }
+        },
+        "username": {
+          "type": "string",
+          "example": "signum"
+        }
+      }
+    },
+    "User": {
+      "required": [],
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "18cd5719-84a8-4b99-a0d4-a73fc3575c5s"
+        },
+        "createdTimestamp": {
+          "type": "number",
+          "example": "1553094618939"
+        },
+        "username": {
+          "type": "string",
+          "example": "eysshil"
+        },
+        "enabled": {
+          "type": "boolean",
+          "example": "true"
+        },
+        "email": {
+          "type": "string",
+          "example": "my.email@ericsson.com"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "myFirstName"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "myLastName"
+        }
+      }
+    },
+    "RolesMappedToUser": {
+      "required": [],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "18cd5719-84a8-4b99-a0d4-a73fc3575c5s"
+        },
+        "roles": {
+          "type": "array",
+          "example": [
+            {
+              "id": "f7f58798-0e16-4ebd-b8dc-a6bf41fbf734",
+              "name": "MTE",
+              "description": "This user has access to view and edit deployments with the 'MTE' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "a7b00d93-b26d-43a2-a34c-0ecb1121398e",
+              "name": "RVB",
+              "description": "This user has access to view and edit deployments with the 'RVB' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "46fc405e-72c7-40bb-b8cd-161864392800",
+              "name": "PLM",
+              "description": "This user has access to view and edit deployments with the 'PLM' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "2745ae9c-d717-42b3-b9a8-0dd7bca8f3a0",
+              "name": "ENDURANCE",
+              "description": "This user has access to view and edit deployments with the 'ENDURANCE' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "609bebb7-5e62-4d5c-81b4-1278bb90e32d",
+              "name": "DROPBACK",
+              "description": "This user has access to view and edit deployments with the 'DROPBACK' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "9d881e36-be56-4f0d-bec7-b205f9c0a077",
+              "name": "offline_access",
+              "description": "${role_offline-access}",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "08b8d9d9-bff1-4cd3-94b6-12b6ec404fee",
+              "name": "STKPI",
+              "description": "This user has access to view and edit deployments with the 'STKPI' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "da65cb1b-ed36-4eb8-8a54-2c5768c45395",
+              "name": "RTD",
+              "description": "This user has access to view and edit deployments with the 'RTD' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "29ed6e55-488a-49e6-aefe-d98d2400cfef",
+              "name": "SprintValidation",
+              "description": "This user has access to view and edit deployments with the 'SprintValidation' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            }
+          ]
+        }
+      }
+    },
+    "Roles": {
+      "required": [],
+      "properties": {
+        "userId": {
+          "type": "string",
+          "example": "18cd5719-84a8-4b99-a0d4-a73fc3575c5s"
+        },
+        "roles": {
+          "type": "array",
+          "example": [
+            {
+              "id": "f7f58798-0e16-4ebd-b8dc-a6bf41fbf734",
+              "name": "MTE",
+              "description": "This user has access to view and edit deployments with the 'MTE' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "a7b00d93-b26d-43a2-a34c-0ecb1121398e",
+              "name": "RVB",
+              "description": "This user has access to view and edit deployments with the 'RVB' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "46fc405e-72c7-40bb-b8cd-161864392800",
+              "name": "PLM",
+              "description": "This user has access to view and edit deployments with the 'PLM' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "2745ae9c-d717-42b3-b9a8-0dd7bca8f3a0",
+              "name": "ENDURANCE",
+              "description": "This user has access to view and edit deployments with the 'ENDURANCE' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "609bebb7-5e62-4d5c-81b4-1278bb90e32d",
+              "name": "DROPBACK",
+              "description": "This user has access to view and edit deployments with the 'DROPBACK' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "9d881e36-be56-4f0d-bec7-b205f9c0a077",
+              "name": "offline_access",
+              "description": "${role_offline-access}",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "08b8d9d9-bff1-4cd3-94b6-12b6ec404fee",
+              "name": "STKPI",
+              "description": "This user has access to view and edit deployments with the 'STKPI' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "da65cb1b-ed36-4eb8-8a54-2c5768c45395",
+              "name": "RTD",
+              "description": "This user has access to view and edit deployments with the 'RTD' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            },
+            {
+              "id": "29ed6e55-488a-49e6-aefe-d98d2400cfef",
+              "name": "SprintValidation",
+              "description": "This user has access to view and edit deployments with the 'SprintValidation' test phase",
+              "composite": false,
+              "clientRole": false,
+              "containerId": "master"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

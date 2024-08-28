@@ -1,0 +1,25 @@
+- hosts: '{{ cluster_id }}_ms1'
+  gather_facts: no
+  tasks:
+   - name: Remove ansible temp files
+     run_once: true
+     local_action: shell rm -rf ansible-tmp-*
+     args:
+       warn: false
+   - name: Ensure group '{{ group }}' exists
+     group:
+       name: '{{ group }}'
+       state: present
+   - name: Copy any "sudoers" file from ansible/sudoers/ into /etc/sudoers.d/ after passing validation with visudo
+     copy:
+       src: "{{ item }}"
+       dest: /etc/sudoers.d/
+       validate: /usr/sbin/visudo -cf %s
+     with_fileglob:
+       - ../files/sudoers_files/*
+   - name: Add the user '{{ username }}' with a password and a primary group of '{{ group }}'
+     user:
+        name: '{{ username }}'
+        password: "{{ password | password_hash('sha512') }}"
+        comment: '{{ username }}'
+        group: '{{ group }}'

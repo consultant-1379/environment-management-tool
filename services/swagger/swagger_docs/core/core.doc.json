@@ -1,0 +1,13 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is the API documentation for EMT.",
+    "title": "Environment Management Tool ",
+    "version": "1.0.1",
+    "contact": {
+      "name": "API Support"
+    }
+  },
+  "host": "",
+  "basePath": "/"
+}

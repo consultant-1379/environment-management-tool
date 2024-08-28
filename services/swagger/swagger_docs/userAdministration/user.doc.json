@@ -1,0 +1,137 @@
+{
+  "paths": {
+    "/user/retrieveUser/{signum}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns a list with one user that matches the given signum.",
+        "description": "Returns a list with one user that matches the given signum.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "signum",
+            "description": "Signum of user to fetch. Should match the signum for LDAP",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/user/retrieveRolesAssociatedWithUser/{signum}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns a list of roles associated with the given signum.",
+        "description": "Returns a list of roles associated with the given signum.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "signum",
+            "description": "Signum of user to fetch. Should match the signum for LDAP",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/RolesMappedToUser"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/user/retrieveAllRoles/": {
+      "get": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Returns a list of all possible roles a user can have.",
+        "description": "Returns a list of all possible roles a user can have.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Roles"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/user/updateRoles/": {
+      "put": {
+        "tags": [
+          "roles"
+        ],
+        "summary": "Updates roles mapped to user in keycloak.",
+        "description": "Updates roles mapped to user in keycloak.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pass in the keycloak user id as well as the roles to add and roles to remove. All fields are required. Leave role parameters as empty arrays if you don't want to add/remove roles. Example: rolesToAdd: []",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserToUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Keycloak user roles updated!"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "500": {
+            "description": "Failed to update user roles!"
+          }
+        }
+      }
+    }
+  }
+}

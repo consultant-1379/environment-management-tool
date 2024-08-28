@@ -1,0 +1,100 @@
+<div class="container">
+  <div [style.margin-top.px]="10" class="row">
+    <div *ngIf="isLoaderEnabled; then progressLoader else manageSessionContainer"></div>
+    <ng-template #manageSessionContainer>
+      <div class="container">
+        <a mat-icon-button (click)="closeDialogModal()" id="closeButton" matTooltip="Close">
+          <mat-icon id="iconProperties">cancel</mat-icon>
+        </a>
+        <h4 id="manageSessionHeader">Manage Session
+          <b>{{data.deployment.name}}</b>
+        </h4>
+        <form [formGroup]="sessionForm">
+          <div class="form-group">
+            <br>
+            <label for="name" class="manageSessionFormHeader">Assigned Team(s)</label>
+            <ng-multiselect-dropdown [placeholder]="'Select Team(s)'" [data]="dropdownList" [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings" formControlName="selectedItems">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="form-group">
+            <br>
+            <label for="name" class="manageSessionFormHeader">User Emails</label>
+            <mat-form-field id="userEmails" [ngClass]="{'userEmailError': emailValidationError }">
+              <mat-chip-list #chipList aria-label="user email selection" formControlName="enteredEmails">
+                <mat-chip *ngFor="let emails of enteredEmails" [selectable]="userEmailsSelectable"
+                  [removable]="userEmailsRemovable" (removed)="removeUserEmail(emails)"
+                  class="manageSessionUserEmailMultiSelect">{{emails}}
+                  <mat-icon matChipRemove *ngIf="userEmailsRemovable">cancel</mat-icon>
+                </mat-chip>
+                <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="userEmailsSeparatorKeyCodes"
+                  [matChipInputAddOnBlur]="userEmailsAddOnBlur" (matChipInputTokenEnd)="addUserEmail($event)"
+                  matTooltip="Insert individual user emails, only ericsson approved emails must be used:&#13; Use enter to add emails or click outside the input field&#13; No distribution lists allowed.">
+
+              </mat-chip-list>
+            </mat-form-field>
+            <div class="userEmailErrorMessage" *ngIf="emailValidationError">
+              Please enter valid Ericsson Emails without any duplicates.
+            </div>
+          </div>
+          <div class="form-group">
+            <br>
+            <label for="Duration" class="manageSessionFormHeader">Time Remaining</label>
+            <div id="timeSection">
+              <mat-grid-list cols="4" rowHeight="40px">
+                <mat-grid-tile>
+                  <label for="hours">Hours</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <input type="number" min="0" max="9999" class="form-control" id="hours" [(ngModel)]="hours"
+                    formControlName="hours">
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <label for="minutes">Minutes</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <input type="number" min="0" max="59" class="form-control" id="minutes" [(ngModel)]="minutes"
+                    formControlName="minutes">
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+          </div>
+          <div class="form-group">
+            <br>
+            <label for="jira" class="manageSessionFormHeader">JIRA(s)</label>
+            <div id="jiraSection">
+              <textarea #jira name="jira"
+                matTooltip="Insert Jira(s) in a comma separated list like:&#13; RTD-1234, RTD-4321&#13; Jira URLs are allowed."
+                matInput matTextareaAutosize matAutosizeMinRows="3"
+                matAutosizeMaxRows="3">{{ this.data.jiras }}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <br>
+            <div *ngIf="data.deploymentTestPhase !== 'RNL' && data.platformType !== 'vENM' && data.platformType !== 'SIENM' && data.platformType !== 'cENM'">
+              <mat-checkbox id="userOnWorkloadSelection" class="form-control" color="primary" [(ngModel)]="createUserOnWlvm" matTooltip="If ticked will create user on LMS and WLVM" formControlName="createUserOnWlvm">Also create user on Workload VM</mat-checkbox>
+            </div>
+            <br>
+            <button type="button" class="w-100" id="buttonHeight" mat-raised-button color="primary"
+              [disabled]="sessionForm.invalid || isClickedOnce"
+              (click)="editSession(data.session._id, jira.value); isClickedOnce = true;">Update Session</button>
+          </div>
+
+          <mat-grid-list cols="1" rowHeight="60px">
+            <mat-grid-tile>
+              <button type="button" class="w-100" id="buttonHeight" mat-raised-button color="warn"
+                (click)="stopSession();">Stop Session</button>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </form>
+      </div>
+    </ng-template>
+    <ng-template #progressLoader>
+      <div class="manage-session-loader">
+        <h3 class="manageSessionStepDescription">{{ manageSessionStepDescription }}</h3>
+        <mat-spinner id="manageSessionSpinner" strokeWidth="3" [diameter]="50"></mat-spinner>
+        <h3 class="manageSessionStepDescription">Please do not close this dialog box until session has been updated</h3>
+      </div>
+    </ng-template>
+  </div>
+</div>

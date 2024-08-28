@@ -1,0 +1,28 @@
+<div class="adminRolesContainer">
+    <div class="rolesView">
+        <h1 class="roles-h1"> User Roles Administration </h1>
+        <div *ngIf="isLoaderEnabled; then progressLoader else userRolesForm"></div>
+        <ng-template #userRolesForm>
+            <div>
+                <form [formGroup]="editRoleForm">
+                    <mat-form-field class="searchView" flatLabel="auto" appearance="outline">
+                        <input matInput [(ngModel)]="username" maxlength="7" placeholder="Enter User Signum"
+                            (keydown.enter)="retrieveUser()" formControlName="signumControl">
+                        <a class="search-link">
+                            <i class="material-icons search-icon" (click)="retrieveUser()">search</i>
+                        </a>
+                    </mat-form-field>
+                    <div *ngIf="signumControl.errors?.pattern" id="notValidError">
+                        Signum not valid.
+                    </div>
+                </form>
+            </div>
+        </ng-template>
+        <ng-template #progressLoader>
+            <div class="admin-loader">
+                <h3>Please wait while we fetch the necessary information....</h3>
+                <mat-spinner strokeWidth="3" [diameter]="50"></mat-spinner>
+            </div>
+        </ng-template>
+    </div>
+</div>

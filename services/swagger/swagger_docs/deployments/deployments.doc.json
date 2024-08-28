@@ -1,0 +1,468 @@
+{
+  "paths": {
+    "/deployments": {
+      "get": {
+        "tags": [
+          "deployments"
+        ],
+        "summary": "Returns a list of all deployments.",
+        "description": "Returns a list of all deployments.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deployment"
+              }
+            }
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "deployments"
+        ],
+        "summary": "Create a new deployment.",
+        "description": "Creates and returns a new deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Deployment object that represents your deployment",
+            "required": true,
+            "schema": {
+              "required": [
+                "deployment"
+              ],
+              "properties": {
+                "deployment": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "ieatenmpd201"
+                    },
+                    "testPhase": {
+                      "type": "string",
+                      "example": "MTE/CDL/DROPBACK/PLM"
+                    },
+                    "deploymentType": {
+                      "type": "string",
+                      "example": "NON-FUNCTIONAL/FUNCTIONAL"
+                    },
+                    "productSet": {
+                      "type": "string",
+                      "example": "18.06.1"
+                    },
+                    "platformType": {
+                      "type": "string",
+                      "example": "vENM/physical/SIENM/cENM"
+                    },
+                    "nrmVersion": {
+                      "type": "string",
+                      "example": "NRM4.1"
+                    },
+                    "nrmSize": {
+                      "type": "string",
+                      "example": "5K"
+                    },
+                    "nssProductSetVersion": {
+                      "type": "string",
+                      "example": "18.18.10"
+                    },
+                    "blades": {
+                      "type": "string",
+                      "example": "8"
+                    },
+                    "vFarms": {
+                      "type": "string",
+                      "example": "9"
+                    },
+                    "workloadVm": {
+                      "type": "string",
+                      "example": "Yes"
+                    },
+                    "nodeTypes": {
+                      "type": "string",
+                      "example": "yes"
+                    },
+                    "nodeVersions": {
+                      "type": "string",
+                      "example": "yes"
+                    },
+                    "firmware": {
+                      "type": "string",
+                      "example": "REV S3"
+                    },
+                    "sanHost": {
+                      "type": "string",
+                      "example": "ieatvnx91"
+                    },
+                    "sanShared": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "nasHost": {
+                      "type": "string",
+                      "example": " ieatsfsx356-357"
+                    },
+                    "nasShared": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "nasSoftware": {
+                      "type": "string",
+                      "example": "VA"
+                    },
+                    "hardwareType": {
+                      "type": "string",
+                      "example": "Gen 9, NAS Racks Gen 8"
+                    },
+                    "freeIp": {
+                      "type": "string",
+                      "example": "Storage: 157, Service IPv4: 48, Service IPv6: 124"
+                    },
+                    "externalNfs": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "openstackVersion": {
+                      "type": "string",
+                      "example": "Newton"
+                    },
+                    "ccdVersion": {
+                      "type": "string",
+                      "example": "2.13.0"
+                    },
+                    "nameSpace": {
+                      "type": "string",
+                      "example": "enm12"
+                    },
+                    "clusterNodes": {
+                      "type": "string",
+                      "example": "8"
+                    }
+                  }
+                },
+                "username": {
+                  "type": "string",
+                  "example": "signum"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Deployment successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/deployments/search/?{searchQuery}": {
+      "get": {
+        "tags": [
+          "deployments"
+        ],
+        "summary": "Returns a list of all deployments that match search criteria",
+        "description": "Returns a list of all deployments that match search criteria.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "searchQuery",
+            "description": "Structure of search query. \nEach search criteria should start with 'q='.\nWhen using multiple criteria, separate with a '&'.\nWhen a junction of search criteria, use '%' to separate.\nExample: q=state=IDLE&q=testPhase=MTE%PLM\n- Will give all deployments that are idle and out of those, all deployments that are MTE or PLM",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deployment"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/deployments/{deploymentId}": {
+      "delete": {
+        "tags": [
+          "deployments"
+        ],
+        "summary": "Delete a deployment.",
+        "description": "Delete a deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "deploymentId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the deployment to delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "404": {
+            "description": "A deployment with that id does not exist"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "deployments"
+        ],
+        "summary": "Update a deployment.",
+        "description": "Update a deployment.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "deploymentId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the deployment to update",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Deployment object you want to update. Partial update possible, not all fields in body required",
+            "required": true,
+            "schema": {
+              "required": [
+                "deployment"
+              ],
+              "properties": {
+                "deployment": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "ieatenmpd201"
+                    },
+                    "state": {
+                      "type": "string",
+                      "example": "IDLE/BUSY/QUARANTINE"
+                    },
+                    "assignedJob": {
+                      "type": "string",
+                      "example": "https://fem114-eiffel004.lmera.ericsson.se:8443/jenkins/job/MT_vENM_Upgrade_Functional/1069/"
+                    },
+                    "jobName": {
+                      "type": "string",
+                      "example": "MT_vENM_Upgrade_Functional"
+                    },
+                    "testPhase": {
+                      "type": "string",
+                      "example": "MTE/CDL/DROPBACK/PLM"
+                    },
+                    "productSet": {
+                      "type": "string",
+                      "example": "18.06.1"
+                    },
+                    "deploymentType": {
+                      "type": "string",
+                      "example": "NON-FUNCTIONAL/FUNCTIONAL"
+                    },
+                    "platformType": {
+                      "type": "string",
+                      "example": "vENM/physical/SIENM/cENM"
+                    },
+                    "systemHealthCheckStatus": {
+                      "type": "string",
+                      "example": "COMPLETED"
+                    },
+                    "deploymentRefreshStatus": {
+                      "type": "string",
+                      "example": "FRESH"
+                    },
+                    "deploymentUpgradeStatus": {
+                      "type": "string",
+                      "example": "COMPLETED"
+                    },
+                    "deploymentRollbackStatus": {
+                      "type": "string",
+                      "example": "COMPLETED"
+                    },
+                    "otherInfo": {
+                      "type": "string",
+                      "example": "ipsmserv,impexpserv,saserv,ebstopology cleanstarted due to SAN issue"
+                    },
+                    "nrmVersion": {
+                      "type": "string",
+                      "example": "NRM4.1"
+                    },
+                    "nrmSize": {
+                      "type": "string",
+                      "example": "5K"
+                    },
+                    "nssProductSetVersion": {
+                      "type": "string",
+                      "example": "18.18.10"
+                    },
+                    "isSessionCreated": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "blades": {
+                      "type": "string",
+                      "example": "8"
+                    },
+                    "vFarms": {
+                      "type": "string",
+                      "example": "9"
+                    },
+                    "workloadVm": {
+                      "type": "string",
+                      "example": "Yes"
+                    },
+                    "nodeTypes": {
+                      "type": "string",
+                      "example": "yes"
+                    },
+                    "nodeVersions": {
+                      "type": "string",
+                      "example": "yes"
+                    },
+                    "firmware": {
+                      "type": "string",
+                      "example": "REV S3"
+                    },
+                    "sanHost": {
+                      "type": "string",
+                      "example": "ieatvnx91"
+                    },
+                    "sanShared": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "nasHost": {
+                      "type": "string",
+                      "example": " ieatsfsx356-357"
+                    },
+                    "nasShared": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "nasSoftware": {
+                      "type": "string",
+                      "example": "VA"
+                    },
+                    "hardwareType": {
+                      "type": "string",
+                      "example": "Gen 9, NAS Racks Gen 8"
+                    },
+                    "freeIp": {
+                      "type": "string",
+                      "example": "Storage: 157, Service IPv4: 48, Service IPv6: 124"
+                    },
+                    "externalNfs": {
+                      "type": "string",
+                      "example": "No"
+                    },
+                    "openstackVersion": {
+                      "type": "string",
+                      "example": "Newton"
+                    },
+                    "ccdVersion": {
+                      "type": "string",
+                      "example": "2.13.0"
+                    },
+                    "nameSpace": {
+                      "type": "string",
+                      "example": "enm12"
+                    },
+                    "clusterNodes": {
+                      "type": "string",
+                      "example": "8"
+                    }
+                  }
+                },
+                "username": {
+                  "type": "string",
+                  "example": "signum"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully updated deployment",
+            "schema": {
+              "$ref": "#/definitions/Deployment"
+            }
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "404": {
+            "description": "A deployment with that id does not exist"
+          },
+          "412": {
+            "description": "Precondition Failed, if username is not passed in"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,238 @@
+<aside [ngClass]="{'hidden': isHidden}" class="syspanel" #syspanel>
+    <div class="settings">
+        <div class="syspanel-top">
+            <span class="syspanel-title"></span>
+            <i class="syspanel-close icon icon-cross" (click)="toggleSystemPanel()"></i>
+        </div>
+        <div class="row">
+            <div class="column sm-12 container">
+
+                <div class="profile">
+                    <i class="icon icon-profile"></i>
+                    <div class="username">{{ this.username }}</div>
+                </div>
+
+                <div class="content">
+                    <div class="title" id="settingsTitle">My Settings</div>
+                    <div *ngIf="showTestPhases" id="testPhasesContainer">
+                        <div id="testPhaseHeader">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <p id="testPhases">Phases</p>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+
+                        <div id="MTE">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <a class="phaseTitle" (click)="selectTestPhases('mtEntry')">Maintrack Entry</a>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+
+                            <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+                                <mat-grid-tile colspan="2">
+                                    <div class="leftTile">
+                                        <mat-checkbox id="mteCheckbox" [(ngModel)]="phasesCheckbox.mteCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('MTE', $event)">MTE
+                                        </mat-checkbox>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+
+                        <div id="MTV">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <a class="phaseTitle" (click)="selectTestPhases('mtValidation')">Maintrack
+                                            Validation</a>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="70px">
+                                <mat-grid-tile colspan="2">
+                                    <div class="leftTile">
+                                        <mat-checkbox id="cdlCheckbox" [(ngModel)]="phasesCheckbox.cdlCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('CDL', $event)">CDL</mat-checkbox>
+                                        <mat-checkbox id="longLoopCheckbox"
+                                            [(ngModel)]="phasesCheckbox.longLoopCheckbox" class="systemPanelCheckbox"
+                                            color="primary" (change)="changeTestPhases('LongLoop', $event)">LongLoop
+                                        </mat-checkbox>
+                                        <mat-checkbox id="rvbCheckbox" [(ngModel)]="phasesCheckbox.rvbCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('RVB', $event)">RVB</mat-checkbox>
+                                        <mat-checkbox id="stkpiCheckbox" [(ngModel)]="phasesCheckbox.stkpiCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('STKPI', $event)">STKPI</mat-checkbox>
+                                        <mat-checkbox id="rnlCheckbox" [(ngModel)]="phasesCheckbox.rnlCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('RNL', $event)">RNL</mat-checkbox>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+
+                        <div id="sprintRelease">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <a class="phaseTitle" (click)="selectTestPhases('sprintRelease')">Sprint
+                                            Release</a>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="70px">
+                                <mat-grid-tile colspan="2">
+                                    <div class="leftTile">
+                                        <mat-checkbox [(ngModel)]="phasesCheckbox.dropbackCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('DROPBACK', $event)">DROPBACK</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="phasesCheckbox.enduranceCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('ENDURANCE', $event)">ENDURANCE</mat-checkbox>
+                                        <mat-checkbox id="plmCheckbox" [(ngModel)]="phasesCheckbox.plmCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('PLM', $event)">PLM</mat-checkbox>
+                                        <mat-checkbox id="sprintValidationCheckbox"
+                                            [(ngModel)]="phasesCheckbox.sprintValidationCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('SprintValidation', $event)">SprintValidation
+                                        </mat-checkbox>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+
+                        <div id="other">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <a class="phaseTitle" (click)="selectTestPhases('other')">Other</a>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+                                <mat-grid-tile colspan="2">
+                                    <div class="leftTile">
+                                        <mat-checkbox [(ngModel)]="phasesCheckbox.teaasCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('TEaaS', $event)">TEaaS</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="phasesCheckbox.rtdCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('RTD', $event)">RTD</mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="phasesCheckbox.csCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changeTestPhases('CS', $event)">CS</mat-checkbox>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div id="testPhaseHeader">
+                            <mat-grid-list cols="2" rowHeight="40px">
+                                <mat-grid-tile  rowHeight="25px" class="leftTileModifiers">
+                                    <div class="leftTile">
+                                        <p id="testPhases">Modifiers</p>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div id="platformType">
+                            <mat-grid-list cols="2" rowHeight="12px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <a class="phaseTitle" (click)="selectPlatformTypes('ALL')">Platform Types</a>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                            <mat-grid-list class="platformTypeGrid" cols="2" rowHeight="70px">
+                                <mat-grid-tile colspan="2">
+                                    <div class="leftTile">
+                                        <mat-checkbox [(ngModel)]="platformTypesCheckbox.physicalCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changePlatformType('physical', $event)">pENM
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="platformTypesCheckbox.venmCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changePlatformType('vENM', $event)">vENM
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="platformTypesCheckbox.sienmCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changePlatformType('SIENM', $event)">SIENM
+                                        </mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="platformTypesCheckbox.cenmCheckbox"
+                                            class="systemPanelCheckbox" color="primary"
+                                            (change)="changePlatformType('cENM', $event)">cENM
+                                        </mat-checkbox>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div id="selectionButtons">
+                            <mat-grid-list cols="2" rowHeight="50px">
+                                <mat-grid-tile>
+                                    <div class="leftTile">
+                                        <button type="button" class="btn big" (click)="selectTestPhases('all')">
+                                            Select All</button>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="rightTile">
+                                        <button type="button" class="btn big" (click)="resetTestPhases()">Reset</button>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="logOut">
+                    <button id="logOutButton" type="button" class="btn big" (click)="logOut()">
+                        <i class="icon icon-logout"></i>
+                        Log Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>

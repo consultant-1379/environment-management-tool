@@ -1,0 +1,22 @@
+<div class="adminEnvContainer">
+    <div class="environmentView">
+        <h1 class="environment-h1"> Environments Administration </h1>
+        <div>
+            <form [formGroup]="enterEnvironmentForm">
+                <mat-form-field class="searchView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="givenEnvironment" maxlength="15" placeholder="Enter Environment Name"
+                        formControlName="environmentNameControl">
+                    <mat-hint align="end"><b>Case Sensitive</b></mat-hint>
+                </mat-form-field>
+                <br>
+                <br>
+                <button [disabled]="environmentNameControl.errors" class="addEnvironment" mat-raised-button
+                    (click)="addEnvironment()" color="primary">Add Environment</button>
+                <button [disabled]="environmentNameControl.errors" class="editEnvironment" mat-raised-button
+                    (click)="editEnvironment()" color="">Edit Environment</button>                   
+                <button [disabled]="environmentNameControl.errors" class="removeEnvironment" mat-raised-button
+                    (click)="removeEnvironment()" color="warn">Remove Environment</button>
+            </form>
+        </div>
+    </div>
+</div>

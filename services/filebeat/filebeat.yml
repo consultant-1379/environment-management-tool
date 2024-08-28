@@ -1,0 +1,93 @@
+# Define inputs for filebeat log harvester
+filebeat.inputs:
+  - type: docker
+    containers:
+      path: "/usr/share/dockerlogs/data"
+      stream: stderr
+      ids:
+        - "*"
+
+    # Processors used to filter data before sending it to defined output
+    processors:
+        # Adds data like docker container ids
+        - add_docker_metadata: ~
+        # Define fields to drop from any request the data is present in
+        - drop_fields:
+            fields: ["container.labels", "log"]
+        # Define events to drop entire request once the specified critera are met
+        - drop_event:
+            when:
+              or:
+                - contains:
+                    container.name: "filebeat"
+                - contains:
+                    container.name: "logstash"
+                - contains:
+                    container.name: "nginxExporter"
+                - contains:
+                    container.name: "mongoExporter"
+                - contains:
+                    container.name: "helpdocs"
+                - contains:
+                    container.name: "nodeExporter"
+                - contains:
+                    container.name: "cAdvisor"
+                - contains:
+                    container.name: "swagger"
+                - and:
+                    - contains:
+                        container.name: "express"
+                    - contains:
+                        message: "DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated"
+                - and:
+                    - contains:
+                        container.name: "postgres"
+                    - or:
+                        - contains:
+                            message: "duplicate key value"
+                        - contains:
+                            message: "Key (realm_id, username)=(master, admin) already exists"
+                        - contains:
+                            message: "autovacuum launcher started"
+                        - contains:
+                            message: "MultiXact member wraparound protections are now enabled"
+                        - contains:
+                            message: "enabling \"trust\" authentication for local connections"
+                        - contains:
+                            message: "MultiXact member wraparound protections are now enabled"
+                        - contains:
+                            message: "You can change this by editing pg_hba.conf"
+                        - contains:
+                            message: "the next time you run initdb."
+                        - equals:
+                            message: ""
+                - and:
+                    - contains:
+                        container.name: "keycloak"
+                    - or:
+                        - contains:
+                            message: "Logging into http://localhost:8080/auth as user admin of realm master"
+                        - contains:
+                            message: "Key (realm_id, username)=(master, admin) already exists"
+                - contains:
+                    message: "Starting NGINX Prometheus Exporter"
+                - contains:
+                    message: "failed to get http://nginx/nginx_status"
+                
+# Autodiscover is used on docker containers as they are ever-changing, not stagnant
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+          config:
+            - type: docker
+              containers:
+                ids:
+                  - "${data.docker.container.id}"
+                stream: all
+
+# Define our output and where to send it
+output.logstash:
+  hosts: ["logstash"]
+  worker: 1
+

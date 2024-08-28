@@ -1,0 +1,111 @@
+.closeButton {
+    float: right;
+    margin-right: -20px;
+    margin-top: -40px;
+    font-size: 28px;
+    color: rgba(255, 0, 0, 0.6);
+}
+
+.closeButton:hover {
+    cursor: pointer;
+}
+
+::ng-deep .userRolesCheckbox {
+    margin-right: 20px;
+}
+
+.leftTile {
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    width: 100%;
+}
+
+.rightTile {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+}
+
+#testPhases {
+    font-size: 17px;
+}
+
+a.phaseTitle {
+    font-size: 14px;
+}
+
+a.phaseTitle:hover {
+    color: #3475ff;
+    text-decoration: underline;
+}
+
+#MTE, #MTV, #sprintRelease, #other, #platformType {
+    margin-top: 10px;
+}
+
+::ng-deep .mat-select-panel {
+    margin-top: 24px;
+}
+
+::ng-deep .mat-select-arrow {
+    border-top: 8px solid #adadad !important;
+    border-left: 8px solid transparent !important;
+    border-right: 8px solid transparent !important;
+    margin-top: 7px !important;
+}
+
+.selectAllResetButton {
+    width: 98%;
+    border-color: #757575;
+    color: #4a2146;
+    background-color: rgba(0, 0, 0, 0);
+    border-width: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    height: 30px;
+}
+
+.selectAllResetButton:hover:not(:disabled) {
+    color: #f2f2f2;
+    background-color: #757575;
+    border-color: #757575;
+}
+
+#editRolesSignum {
+    text-transform: uppercase;
+}
+
+.updateRolesButtonHeight {
+    line-height: 3.125;
+}
+
+.userRolesAdminLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+.rolesMainForm {
+    height: 57vh;
+}
+
+@media (max-height: 700px) {
+    .rolesMainForm {
+        height: 70vh;
+    }
+}
+
+@media (max-height: 588px) {
+    .rolesMainForm {
+        height: 83vh;
+    }
+}
+
+#innerRolesForm {
+    height: 72%;
+    overflow: auto;
+}

@@ -1,0 +1,228 @@
+<help-docs-navigation></help-docs-navigation>
+<div id="helpDocsContainer" class="container">
+    <h1>Administration</h1>
+    <ul>
+        <li><a href="/help-docs/administration#overview">Overview</a></li>
+        <li><a href="/help-docs/administration#purpose">Purpose</a></li>
+        <li><a href="/help-docs/administration#add-environment">Add Environment</a></li>
+        <li><a href="/help-docs/administration#edit-environment">Edit Environment</a></li>
+        <li><a href="/help-docs/administration#remove-environment">Remove Environment</a></li>
+        <li><a href="/help-docs/administration#update-user-roles">Update User Roles</a></li>
+    </ul>
+    <a class="anchor" name="overview"></a>
+    <h3>Overview</h3>
+    <hr>
+    <p>This page describes the administration features in EMT.</p>
+    <p>It describes the purpose of these features and how they work.</p>
+
+    <a class="anchor" name="purpose"></a>
+    <h3>Purpose</h3>
+    <hr>
+    <p>The purpose of having an administration section in EMT is to provide the ability to:</p>
+    <ul>
+        <li>Add Environments</li>
+        <li>Edit Environments</li>
+        <li>Remove Environments</li>
+        <li>Add User Roles</li>
+        <li>Remove User Roles</li>
+    </ul>
+
+    <a class="anchor" name="add-environment"></a>
+    <h3>Add Environment</h3>
+    <hr>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Enter environment name in the search box</span></p>
+        <ul>
+            <li>Please note that this is case sensitive</li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Click on Add Environment button</span></p>
+        <ul>
+            <li>If the Environment exists dialog box will be populated stating "Environment Already Exists in EMT"</li>
+            <li>If Environment does not exist, Add Environment form will be populated</li>
+        </ul>
+        <p><b class="stepNumber">3</b> <span class="singleStep">Please enter the environment's properties</span></p>
+        <ul>
+            <li>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>The name of an Environment.</td>
+                    </tr>
+                    <tr>
+                        <td>Test Phase</td>
+                        <td>The test phase associated to an Environment. The test phase is set when adding an
+                            Environment to EMT.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Environment Type</td>
+                        <td>The type of Environment. The supported Environment types are: 1. Functional 2.
+                            Non-Functional 3. Functional/Non-Functional</td>
+                    </tr>
+                    <tr>
+                        <td>Platform Type</td>
+                        <td>The type of Platform. The supported Platform types are: 1. physical 2. vENM 3. SIENM 4. cENM</td>
+                    </tr>
+                </table>
+            </li>
+        </ul>
+        <p><b class="stepNumber">4</b> <span class="singleStep">Click on Add Environment</span></p>
+    </div>
+
+    <a class="anchor" name="edit-environment"></a>
+    <h3>Edit Environment</h3>
+    <hr>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Enter environment name in the search box</span></p>
+        <ul>
+            <li>Please note that this is case sensitive</li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Click the 'Edit Environment' button</span></p>
+        <ul>
+            <li>If the Environment exists, a dialog box will be populated with the Environments current attributes.</li>
+            <li>If the Environment does not exist, the user will be notified by a pop up window.</li>
+        </ul>
+        <p><b class="stepNumber">3</b> <span class="singleStep">Edit the environment's properties</span></p>
+        <ul>
+            <li>
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Name</td>
+                        <td>The name of an Environment.</td>
+                    </tr>
+                    <tr>
+                        <td>Test Phase</td>
+                        <td>The test phase associated to an Environment. The test phase is set when adding an
+                            Environment to EMT.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Product Set</td>
+                        <td>The product set deployed on the Environment.<br>
+                            NOTE: Product set must be entered in the format: XX.XX.XXX eg. 19.10.10 / 19.10.101
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Environment Type</td>
+                        <td>The type of Environment. The supported Environment types are: 1. Functional 2.
+                            Non-Functional 3. Functional/Non-Functional</td>
+                    </tr>
+                    <tr>
+                        <td>Platform Type</td>
+                        <td>The type of Platform. The supported Platform types are: 1. physical 2. vENM 3. SIENM 4. cENM</td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <p> If the environment is in busy state or has a session ongoing, the core information fields will be
+                    disabled and a tooltip will explain why.</p>
+                <ul>
+                    <li><img src="./../../../assets/img/help-docs-resources/coreInfoDisabled.jpeg"
+                            id="coreInfoDisabledImage"></li>
+                </ul>
+            </li>
+        </ul>
+        <p><b class="stepNumber">4</b> <span class="singleStep">Click on 'Edit Environment' to modify the
+                Environment.</span></p>
+    </div>
+
+    <a class="anchor" name="remove-environment"></a>
+    <h3>Remove Environment</h3>
+    <hr>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Enter environment name in the search box</span></p>
+        <ul>
+            <li>Please note that this is case sensitive</li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Click on Remove Environment button</span></p>
+        <ul>
+            <li>If the environment does not exist, a dialog box will pop up stating that environment does not exist in
+                EMT
+            </li>
+            <li>If the environment is in BUSY state or it has any active session, a dialog box will pop up stating that
+                the environment to remove can't be removed</li>
+            <li>If the environment exists, the Remove Environment form will be opened</li>
+        </ul>
+        <p><b class="stepNumber">3</b> <span class="singleStep">Re-enter the environment's name</span></p>
+        <ul>
+            <li>To confirm, please re-enter the name of the environment to be removed</li>
+            <li>The submit button will only be enabled in the name of the environment has been re-entered</li>
+        </ul>
+        <p><b class="stepNumber">4</b> <span class="singleStep">Click on submit button to remove the Environment.</span>
+        </p>
+    </div>
+
+    <a class="anchor" name="update-user-roles"></a>
+    <h3>Update User Roles</h3>
+    <hr>
+    <p>The steps below outline how to update the roles assigned to a user.</p>
+    <p>By changing the roles, you update the environments that the user sees by default when they load EMT.</p>
+    <p>IMPORTANT:</p>
+    <ul>
+        <li>If you do not have the sufficient permissions to update your own roles, that may mean the Admin tab in EMT may not be 
+            viewable to you. In this case please contact someone who has the sufficient permissions to view and make Admin changes.
+        </li>
+        <li>By removing all roles you are telling EMT that the user should NOT have access to the
+            administration page. Conversely, if you add one or more roles, you are telling EMT that the user should
+            have access to the administration page.
+        </li>
+    </ul>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Go to the Administration page</span></p>
+        <ul>
+            <li>The link to the Administration page is present in the navigation bar</li>
+            <li>Click "User Roles"</li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesNavBar.jpeg" id="userRolesNavBarImage">
+            </li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Enter signum of person to edit roles for</span></p>
+        <ul>
+            <li>In the input of the user roles administration page, you should input the signum to change user roles for
+            </li>
+            <li>Signum should be 7 characters long</li>
+            <li>Signum should match signum present in LDAP</li>
+            <li>To search: press ENTER or click the search icon</li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesMainPage.jpeg" id="userRolesMainPageImage">
+            </li>
+        </ul>
+        <p><b class="stepNumber">3</b> <span class="singleStep">Wait while the information is fetched</span></p>
+        <ul>
+            <li>Searching data from LDAP can take a few seconds so please wait while the information loads</li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesSearch.jpeg" id="userRolesSearchImage">
+            </li>
+        </ul>
+        <p><b class="stepNumber">4</b> <span class="singleStep">Select desired roles</span></p>
+        <ul>
+            <li>Use the checkboxes to add or remove roles</li>
+            <li>Only the role checkboxes that are ticked will be assigned to the user</li>
+            <li>To select an entire group (e.g. MTV) please click the name of desired group (e.g. Maintrack Validation)
+            </li>
+            <li>To select all roles click "Select All"</li>
+            <li>To revert to the original roles click "Reset"</li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesSelect.jpeg" id="userRolesSelectImage">
+            </li>
+        </ul>
+        <p><b class="stepNumber">5</b> <span class="singleStep">Update roles</span></p>
+        <ul>
+            <li>To update roles press "Update Roles"</li>
+            <li>Updating data can take some time so please wait</li>
+            <li>If the update is successful a success message will come up</li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesWaitForUpdate.jpeg"
+                    id="userRolesWaitForUpdateImage"></li>
+            <li><img src="./../../../assets/img/help-docs-resources/userRolesSuccess.jpeg" id="userRolesSuccessImage">
+            </li>
+        </ul>
+    </div>
+</div>

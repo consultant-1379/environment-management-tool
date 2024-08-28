@@ -1,0 +1,62 @@
+{
+  "definitions": {
+    "Username": {
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "signum"
+        }
+      }
+    },
+    "DetailsToCreateMsUser": {
+      "required": [
+        "username",
+        "sessionUsername",
+        "sessionPassword",
+        "clusterId"
+      ],
+      "properties": {
+        "clusterId": {
+          "type": "string",
+          "example": "294"
+        },
+        "sessionUsername": {
+          "type": "string",
+          "example": "username"
+        },
+        "sessionPassword": {
+          "type": "string",
+          "example": "password"
+        },
+        "username": {
+          "type": "string",
+          "example": "signum"
+        }
+      }
+    },
+    "DetailsToSendMessageToUserTerminal": {
+      "required": [
+        "troubleshootingUser",
+        "username",
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "test"
+        },
+        "troubleshootingUser": {
+          "type": "string",
+          "example": "username"
+        },
+        "username": {
+          "type": "string",
+          "example": "signum"
+        }
+      }
+    }
+  }
+}

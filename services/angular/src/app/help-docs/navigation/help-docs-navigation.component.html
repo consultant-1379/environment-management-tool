@@ -1,0 +1,21 @@
+<div id="helpDocsHeader" #top>
+    <nav id="helpDocsHeaderBar">
+        <p id="helpDocsHeaderH1">Help Documentation</p>
+    </nav>
+</div>
+<div [ngClass]="helpDocsNavigation">
+    <hr><br>
+    <ul id="navigationList">
+        <li><a routerLink="/help-docs/">Home</a></li>
+        <li><a routerLink="/help-docs/environments">Environments</a></li>
+        <li><a routerLink="/help-docs/quarantine-management">Quarantine Management</a></li>
+        <li><a routerLink="/help-docs/permissions">Permissions</a></li>
+        <li><a target="_blank" href="/api-docs/">REST API Documentation</a></li>
+        <li><a routerLink="/help-docs/administration">Administration</a></li>
+    </ul>
+    <br>
+    <hr>
+</div>
+<button id="goToTopButton" [ngClass]="showGoToTopButton" [scrollTo]="top" [scrollDuration]="200">
+    Back To Top <mat-icon>keyboard_arrow_up</mat-icon>
+</button>

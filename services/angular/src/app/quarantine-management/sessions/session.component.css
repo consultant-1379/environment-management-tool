@@ -1,0 +1,58 @@
+.sessionContainer {
+    padding-top: 48px;
+}
+
+mat-select {
+    width: 250px !important;
+    font-size: 15px;
+}
+
+mat-form-field {
+    width: 250px !important;
+    display: inline-block;
+    margin-top: 35px;
+}
+
+mat-select:placeholder {
+    font-size: 50px
+}
+
+.col-standardWidth {
+    width: 150px;
+}
+
+.col-extraLargeWidth {
+    width: 400px;
+}
+
+.col-jira {
+    width: 500px;
+}
+
+table {
+    max-width: 1500px;
+    width: 97vw;
+    margin-bottom: 20px;
+}
+
+table td, table th {
+    font-size: 12px;
+}
+
+th {
+    font-weight: bold;
+    color: black;
+}
+
+.tblRow {
+  height: 30px;
+}
+
+.sessionHeader {
+  height: 30px;
+  background-color: #0084f0 !important;
+}
+
+h4 {
+    font-weight: bold;
+}

@@ -1,0 +1,57 @@
+- hosts: '{{ cluster_id }}_{{ vmType }}'
+  gather_facts: no
+  tasks:
+   - name: Remove ansible temp files
+     run_once: true
+     local_action: shell rm -rf ansible-tmp-*
+     args:
+       warn: false
+   - name: Retrieve all user {{ username }} tty's of active terminals
+     shell: ps -u {{ username }} | grep pts | awk '{ print $2 }' | sort | uniq | xargs
+     register: total_active_terminals
+   - name: Retrieve all user {{ username }} active processes
+     shell: ps -u {{ username }} | grep pts | awk '{ print $4 }' | xargs
+     register: total_user_active_processes
+   - name: Retrieve all user {{ username }} active terminals count
+     shell: |
+        for process in {{ total_user_active_processes.stdout }}; do
+          if [[ "${process^^}" =~ (SSHD|BASH|SFTP-SERVER)$ ]]; then
+            echo "Active process";
+          fi;
+        done | wc -l
+     register: total_active_terminals_count
+   - name: Check if user {{ username }} has active processes
+     shell: |
+        for process in {{ total_user_active_processes.stdout }}; do
+          if [[ ! "${process^^}" =~ (SSHD|BASH|SFTP-SERVER)$ ]]; then
+            echo "Active process";
+          fi;
+        done | wc -l
+     register: active_processes_excluding_terminals_count
+   - name: Check if user {{ username }} has any active sudo processes
+     shell: |
+        for tty_of_user_process in {{ total_active_terminals.stdout }}; do
+          for tty_of_root_process in $(ps -u root | grep pts | awk '{ print $2 }' | sort | uniq | xargs); do
+            if [[ "${tty_of_user_process}" == "${tty_of_root_process}" ]]; then
+              echo "Active sudo process";
+            fi;
+          done
+        done | wc -l
+     register: active_root_processes_excluding_terminals_count
+   - name: Send session expired message to user {{ username }} terminal
+     shell: for terminal in {{ total_active_terminals.stdout }}; do echo "WARNING Your EMT troubleshooting session has expired. Please exit the environment." | write {{ username }} ${terminal}; done
+     when: total_active_terminals_count.stdout != "0"
+   - name: Kill all {{ username }} open terminals
+     shell: pkill -KILL -u {{ username }}
+     when: total_active_terminals_count.stdout != "0" and active_processes_excluding_terminals_count.stdout == "0" and active_root_processes_excluding_terminals_count.stdout == "0"
+   - name: Delete the user '{{ username }}'
+     user:
+        name: '{{ username }}'
+        state: absent
+        remove: yes
+        force: yes
+     when: active_processes_excluding_terminals_count.stdout == "0" and active_root_processes_excluding_terminals_count.stdout == "0"
+   - name: Check for user deletion
+     debug:
+        msg: "User not deleted"
+     when: active_processes_excluding_terminals_count.stdout != "0" or active_root_processes_excluding_terminals_count.stdout != "0"

@@ -1,0 +1,26 @@
+# Create image based on the official Node 8.9.4-alpine image from the dockerhub
+FROM armdocker.rnd.ericsson.se/dockerhub-ericsson-remote/node:8.9.4-alpine
+
+# Create a directory where our app will be placed
+RUN mkdir -p /usr/src/app
+
+# Change directory so that our commands run inside this new directory
+WORKDIR /usr/src/app
+
+# Copy dependency definitions
+COPY services/express /usr/src/app
+
+# Install dependencies
+RUN npm install \
+&& npm cache clean --force
+
+RUN apk --update add python
+
+RUN apk --update add --no-cache openssh bash \
+  && apk --update add --no-cache sshpass
+
+# Expose the port the app runs in
+EXPOSE 3000
+
+# Serve the app
+CMD ["npm", "start"]

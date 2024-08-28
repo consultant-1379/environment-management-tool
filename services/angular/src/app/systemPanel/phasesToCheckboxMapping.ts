@@ -1,0 +1,15 @@
+export enum PhasesToCheckboxMapping {
+  MTE = 'mteCheckbox',
+  CDL = 'cdlCheckbox',
+  DROPBACK = 'dropbackCheckbox',
+  PLM = 'plmCheckbox',
+  LongLoop = 'longLoopCheckbox',
+  RVB = 'rvbCheckbox',
+  STKPI = 'stkpiCheckbox',
+  RNL = 'rnlCheckbox',
+  ENDURANCE = 'enduranceCheckbox',
+  TEaaS = 'teaasCheckbox',
+  RTD = 'rtdCheckbox',
+  SprintValidation = 'sprintValidationCheckbox',
+  CS = 'csCheckbox',
+}

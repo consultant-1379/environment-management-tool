@@ -1,0 +1,1325 @@
+<div class="container environmentContainer">
+  <section class="environmentsHeaderContainer">
+    <div class="environmentsHeaderContainerLeft">
+      <mat-button-toggle-group value="vENM" class="environmentSelectionButtonGroup">
+        <mat-button-toggle value="vENM" selected (click)="changeDeploymentType('vENM')">vENM</mat-button-toggle>
+        <mat-button-toggle value="physical" (click)="changeDeploymentType('physical')">Physical</mat-button-toggle>
+        <mat-button-toggle value="SIENM" (click)="changeDeploymentType('SIENM')">SIENM</mat-button-toggle>
+        <mat-button-toggle value="cENM" (click)="changeDeploymentType('cENM')">cENM</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="environmentsHeaderContainerRight">
+      <div class="filter-header">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="SEARCH">
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+  <div class="row">
+    <div class="container">
+      <div *ngIf="environmentsPlatformToDisplay === 'physical'; then showPhysical"></div>
+      <div *ngIf="environmentsPlatformToDisplay === 'cENM'; then showcENM"></div>
+      <div
+        *ngIf="environmentsPlatformToDisplay === 'vENM' || environmentsPlatformToDisplay === 'SIENM'; then showvENMAndSIENM">
+      </div>
+      <ng-template #showPhysical>
+        <h4>Maintrack Entry Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTETable="matSort" [dataSource]="mteEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{dmtLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+             <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set
+                </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="blades">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Blades </th>
+                <td mat-cell *matCellDef="let environment">{{environment.blades}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                    <ng-template #displayComment><span
+                      matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                      Available
+                    </span></ng-template>
+                    <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="freeIp">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Free IP </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.freeIp}}</td>
+                  </ng-container>
+
+                <ng-container matColumnDef="vFarms">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="nrmSize">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                    </div>
+                    <ng-template #invalidNetsimSizeInfo><span
+                        matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                        Available
+                        </span></ng-template>
+                    <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nrmVersion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                    </div>
+                    <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                     </span></ng-template>
+                    <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                   </td>
+                 </ng-container>
+
+                  <ng-container matColumnDef="pod">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                    <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="firmware">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Firmware </th>
+                    <td mat-cell *matCellDef="let environment">{{environment.firmware}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="san">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> SAN </th>
+                    <td mat-cell *matCellDef="let environment">Host: {{environment.sanHost}} Shared: {{environment.sanShared}}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="nas">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-extraLargeEnvironmentColumn"> NAS </th>
+                    <td mat-cell *matCellDef="let environment">Host: {{environment.nasHost}} Shared: {{environment.nasShared}}
+                      Software: {{environment.nasSoftware}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="hardwareType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Hardware Type
+                    </th>
+                    <td mat-cell *matCellDef="let environment">{{environment.hardwareType}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="workloadVm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                    <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="deploymentDescription">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Deployment
+                      Description </th>
+                    <td mat-cell *matCellDef="let environment">
+                    <div>
+                      <div
+                        *ngIf="!environment.deploymentDescription; then displayProgressSpinner else displayDeploymentDescription">
+                      </div>
+                      <ng-template #displayDeploymentDescription>
+                        {{environment.deploymentDescription}}
+                      </ng-template>
+                      <ng-template #displayProgressSpinner>
+                        <mat-spinner strokeWidth="3" [diameter]="20"></mat-spinner>
+                      </ng-template>
+                      </div>
+                      </td>
+                    </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayPhysicalColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayPhysicalColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Maintrack Validation Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTVTable="matSort" [dataSource]="mtvEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{dmtLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="blades">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Blades </th>
+                <td mat-cell *matCellDef="let environment">{{environment.blades}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="freeIp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Free IP </th>
+                <td mat-cell *matCellDef="let environment">{{environment.freeIp}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                <div
+                  *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                    matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                    matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                    Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="firmware">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Firmware </th>
+                <td mat-cell *matCellDef="let environment">{{environment.firmware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="san">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> SAN </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.sanHost}} Shared: {{environment.sanShared}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nas">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-extraLargeEnvironmentColumn"> NAS </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.nasHost}} Shared: {{environment.nasShared}}
+                  Software: {{environment.nasSoftware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="hardwareType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Hardware Type
+                </th>
+                <td mat-cell *matCellDef="let environment">{{environment.hardwareType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Deployment Description
+                </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div>
+                    <div
+                      *ngIf="!environment.deploymentDescription; then displayProgressSpinner else displayDeploymentDescription">
+                    </div>
+                    <ng-template #displayDeploymentDescription>
+                      {{environment.deploymentDescription}}
+                    </ng-template>
+                    <ng-template #displayProgressSpinner>
+                      <mat-spinner strokeWidth="3" [diameter]="20"></mat-spinner>
+                    </ng-template>
+                  </div>
+                </td>
+                </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayPhysicalColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayPhysicalColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Sprint Release Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #SRTable="matSort" [dataSource]="srEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{dmtLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="blades">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Blades </th>
+                <td mat-cell *matCellDef="let environment">{{environment.blades}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="freeIp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Free IP </th>
+                <td mat-cell *matCellDef="let environment">{{environment.freeIp}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                <div
+                  *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                </div>
+                <ng-template #invalidNetsimSizeInfo><span
+                  matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                  Available
+                  </span></ng-template>
+                <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="firmware">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Firmware </th>
+                <td mat-cell *matCellDef="let environment">{{environment.firmware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="san">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> SAN </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.sanHost}} Shared: {{environment.sanShared}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nas">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-extraLargeEnvironmentColumn"> NAS </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.nasHost}} Shared: {{environment.nasShared}}
+                  Software: {{environment.nasSoftware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="hardwareType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Hardware Type
+                </th>
+                <td mat-cell *matCellDef="let environment">{{environment.hardwareType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Deployment Description
+                </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div>
+                    <div *ngIf="!environment.deploymentDescription; then displayProgressSpinner else displayDeploymentDescription">
+                    </div>
+                    <ng-template #displayDeploymentDescription>
+                      {{environment.deploymentDescription}}
+                    </ng-template>
+                    <ng-template #displayProgressSpinner>
+                      <mat-spinner strokeWidth="3" [diameter]="20"></mat-spinner>
+                    </ng-template>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayPhysicalColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayPhysicalColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Other Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #otherTable="matSort" [dataSource]="otherEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{dmtLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="blades">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Blades </th>
+                <td mat-cell *matCellDef="let environment">{{environment.blades}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="freeIp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Free IP </th>
+                <td mat-cell *matCellDef="let environment">{{environment.freeIp}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="firmware">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Firmware </th>
+                <td mat-cell *matCellDef="let environment">{{environment.firmware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="san">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> SAN </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.sanHost}} Shared: {{environment.sanShared}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nas">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-extraLargeEnvironmentColumn"> NAS </th>
+                <td mat-cell *matCellDef="let environment">Host: {{environment.nasHost}} Shared: {{environment.nasShared}}
+                  Software: {{environment.nasSoftware}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="hardwareType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Hardware Type
+                </th>
+                <td mat-cell *matCellDef="let environment">{{environment.hardwareType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-largeEnvironmentColumn"> Deployment Description </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div>
+                    <div *ngIf="!environment.deploymentDescription; then displayProgressSpinner else displayDeploymentDescription">
+                    </div>
+                    <ng-template #displayDeploymentDescription>
+                      {{environment.deploymentDescription}}
+                    </ng-template>
+                    <ng-template #displayProgressSpinner>
+                      <mat-spinner strokeWidth="3" [diameter]="20"></mat-spinner>
+                    </ng-template>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayPhysicalColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayPhysicalColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+      </ng-template>
+      <ng-template #showvENMAndSIENM>
+        <h4>Maintrack Entry Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTETable="matSort" [dataSource]="mteEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="externalNfs">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> External NFS </th>
+                <td mat-cell *matCellDef="let environment">{{environment.externalNfs}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="openstack">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Openstack </th>
+                <td mat-cell *matCellDef="let environment">{{environment.openstackVersion}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayvENMAndSIENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayvENMAndSIENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Maintrack Validation Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTVTable="matSort" [dataSource]="mtvEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                  <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="externalNfs">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> External NFS </th>
+                <td mat-cell *matCellDef="let environment">{{environment.externalNfs}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="openstack">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Openstack </th>
+                <td mat-cell *matCellDef="let environment">{{environment.openstackVersion}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayvENMAndSIENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayvENMAndSIENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Sprint Release Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #SRTable="matSort" [dataSource]="srEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="externalNfs">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> External NFS </th>
+                <td mat-cell *matCellDef="let environment">{{environment.externalNfs}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="openstack">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Openstack </th>
+                <td mat-cell *matCellDef="let environment">{{environment.openstackVersion}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayvENMAndSIENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayvENMAndSIENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Other Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #otherTable="matSort" [dataSource]="otherEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                    </div>
+                    <ng-template #invalidNetsimSizeInfo><span
+                        matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                        Available
+                      </span></ng-template>
+                    <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                    </div>
+                    <ng-template #invalidNetsimVersionInfo><span
+                        matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                        Available
+                      </span></ng-template>
+                    <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="pod">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> POD </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.pod}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="externalNfs">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> External NFS </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.externalNfs}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="openstack">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Openstack </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.openstackVersion}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayvENMAndSIENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayvENMAndSIENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+      </ng-template>
+      <ng-template #showcENM>
+        <h4>Maintrack Entry Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTETable="matSort" [dataSource]="mteEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [platformType]="environment.platformType" [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ccdVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> CCD Version </th>
+                <td mat-cell *matCellDef="let environment">{{environment.ccdVersion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nameSpace">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Namespace </th>
+                <td mat-cell *matCellDef="let environment">{{environment.nameSpace}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="clusterNodes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Cluster Nodes </th>
+                <td mat-cell *matCellDef="let environment">{{environment.clusterNodes}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displaycENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displaycENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Maintrack Validation Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #MTVTable="matSort" [dataSource]="mtvEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [platformType]="environment.platformType" [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                  <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                  <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ccdVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> CCD Version </th>
+                <td mat-cell *matCellDef="let environment">{{environment.ccdVersion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nameSpace">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Namespace </th>
+                <td mat-cell *matCellDef="let environment">{{environment.nameSpace}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="clusterNodes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Cluster Nodes </th>
+                <td mat-cell *matCellDef="let environment">{{environment.clusterNodes}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displaycENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displaycENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Sprint Release Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #SRTable="matSort" [dataSource]="srEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [platformType]="environment.platformType" [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                  </div>
+                  <ng-template #invalidNetsimSizeInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div
+                    *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                  </div>
+                  <ng-template #invalidNetsimVersionInfo><span
+                      matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                      Available
+                    </span></ng-template>
+                  <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ccdVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> CCD Version </th>
+                <td mat-cell *matCellDef="let environment">{{environment.ccdVersion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nameSpace">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Namespace </th>
+                <td mat-cell *matCellDef="let environment">{{environment.nameSpace}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="clusterNodes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Cluster Nodes </th>
+                <td mat-cell *matCellDef="let environment">{{environment.clusterNodes}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displaycENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displaycENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+        <h4>Other Environments</h4>
+          <div class="stickyContainer">
+            <table mat-table #otherTable="matSort" [dataSource]="otherEnvironmentsDataSource" matSort class="armoryTable">
+              <ng-container matColumnDef="name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Name </th>
+                <td mat-cell *matCellDef="let environment"><a href="{{ditLink.get(environment.name)}}" target="_blank">{{environment.name}}</a></td>
+              </ng-container>
+
+              <ng-container matColumnDef="testPhase">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Test Phase </th>
+                <td mat-cell *matCellDef="let environment">{{environment.testPhase}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="productSet">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Product Set </th>
+                <td mat-cell *matCellDef="let environment">
+                  <link-to-ps [platformType]="environment.platformType" [productSet]="environment.productSet">{{environment.productSet}}</link-to-ps>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="deploymentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-mediumEnvironmentColumn"> Type </th>
+                <td mat-cell *matCellDef="let environment">{{environment.deploymentType}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ddp">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> DDP </th>
+                <td mat-cell *matCellDef="let environment">
+                  <div *ngIf="environment.ddp === ''; then displayComment; else displayDdpHost"></div>
+                  <ng-template #displayComment><span
+                    matTooltip="Please contact REM to add correct information to {{environment.name}}'s DDP">No Data
+                    Available
+                  </span></ng-template>
+                  <ng-template #displayDdpHost> {{environment.ddp}} </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="vFarms">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> vFarms </th>
+                <td mat-cell *matCellDef="let environment">{{environment.vFarms}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmSize">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Size </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmSize === 'UNABLE_TO_RETRIEVE_NRM_SIZE';then invalidNetsimSizeInfo; else validNetsimSizeInfo">
+                    </div>
+                    <ng-template #invalidNetsimSizeInfo><span
+                        matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                        Available
+                      </span></ng-template>
+                    <ng-template #validNetsimSizeInfo> {{environment.nrmSize}}</ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nrmVersion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> NRM Version </th>
+                  <td mat-cell *matCellDef="let environment">
+                    <div
+                      *ngIf="environment.nrmVersion === 'unable_to_retrieve_nrm_version';then invalidNetsimVersionInfo; else validNetsimVersionInfo">
+                    </div>
+                    <ng-template #invalidNetsimVersionInfo><span
+                        matTooltip="Please contact NSS to add correct information to {{environment.name}}'s Netsims">No Data
+                        Available
+                      </span></ng-template>
+                    <ng-template #validNetsimVersionInfo> {{environment.nrmVersion}} </ng-template>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="workloadVm">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Workload VM </th>
+                <td mat-cell *matCellDef="let environment">{{environment.workloadVm}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="ccdVersion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> CCD Version </th>
+                <td mat-cell *matCellDef="let environment">{{environment.ccdVersion}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="nameSpace">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Namespace </th>
+                <td mat-cell *matCellDef="let environment">{{environment.nameSpace}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="clusterNodes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-smallEnvironmentColumn"> Cluster Nodes </th>
+                <td mat-cell *matCellDef="let environment">{{environment.clusterNodes}}</td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displaycENMColumns" class="armoryEnvironmentsHeader"></tr>
+              <tr mat-row *matRowDef="let row; columns: displaycENMColumns;" class="tblRow"></tr>
+            </table>
+          </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>

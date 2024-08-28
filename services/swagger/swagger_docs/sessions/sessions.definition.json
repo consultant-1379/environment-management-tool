@@ -1,0 +1,131 @@
+{
+  "definitions": {
+    "Session": {
+      "required": [
+        "deploymentId",
+        "assignedTeam",
+        "status"
+      ],
+      "properties": {
+        "deploymentId": {
+          "type": "mongoose.Schema.ObjectId",
+          "example": "5b051a538a2ebc000f930363"
+        },
+        "assignedTeam": {
+          "type": "array",
+          "example": [
+            "Bumblebee",
+            "ENM"
+          ]
+        },
+        "teamEmail": {
+          "type": "array",
+          "example": [
+            "BumbleBee.ENM@tcs.com",
+            "PDLENMMAIN@pdl.internal.ericsson.com"
+          ]
+        },
+        "hours": {
+          "type": "number",
+          "example": 2
+        },
+        "minutes": {
+          "type": "number",
+          "example": 2
+        },
+        "status": {
+          "type": "string",
+          "example": "created/expired"
+        },
+        "timePeriodId": {
+          "type": "string",
+          "example": "1a051a538a2ebc000f930555"
+        },
+        "startTime": {
+          "type": "Date",
+          "example": "2018-07-16T13:01:30.967Z"
+        },
+        "endTime": {
+          "type": "Date",
+          "example": "2018-07-16T13:01:32.967Z"
+        },
+        "jira": {
+          "type": "array",
+          "example": [
+            "RTD-4748",
+            "RTD-4747"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "example": "EJSUDPW"
+        }
+      }
+    },
+    "SessionForPutPost": {
+      "required": [
+        "deployment"
+      ],
+      "properties": {
+        "session": {
+          "type": "object",
+          "properties": {
+            "deploymentId": {
+              "type": "mongoose.Schema.ObjectId",
+              "example": "5b051a538a2ebc000f930363"
+            },
+            "assignedTeam": {
+              "type": "array",
+              "example": [
+                "Bumblebee",
+                "ENM"
+              ]
+            },
+            "teamEmail": {
+              "type": "array",
+              "example": [
+                "BumbleBee.ENM@tcs.com",
+                "PDLENMMAIN@pdl.internal.ericsson.com"
+              ]
+            },
+            "hours": {
+              "type": "number",
+              "example": 2
+            },
+            "minutes": {
+              "type": "number",
+              "example": 2
+            },
+            "status": {
+              "type": "string",
+              "example": "created/expired"
+            },
+            "timePeriodId": {
+              "type": "string",
+              "example": "1a051a538a2ebc000f930555"
+            },
+            "startTime": {
+              "type": "Date",
+              "example": "2018-07-16T13:01:30.967Z"
+            },
+            "endTime": {
+              "type": "Date",
+              "example": "2018-07-16T13:01:32.967Z"
+            },
+            "jira": {
+              "type": "array",
+              "example": [
+                "RTD-4748",
+                "RTD-4747"
+              ]
+            }
+          }
+        },
+        "username": {
+          "type": "string",
+          "example": "signum"
+        }
+      }
+    }
+  }
+}

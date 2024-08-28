@@ -1,0 +1,44 @@
+pipeline {
+    agent {
+        node {
+            label SLAVE
+        }
+    }
+
+    environment {
+        COMPOSE_PROJECT_NAME="emttest"
+        GIT_BRANCH="temporary"
+        GIT_CMD="env -i git"
+        HOST_NAME="${HOST_NAME}"
+        CLUSTER_PASSWORD="${CLUSTER_PASSWORD}"
+    }
+
+    stages {
+        stage('Identify changed files') {
+            steps {
+                sh "sh precodereview/get_changed_files.sh"
+            }
+        }
+        stage('Build EMT services') {
+            steps {
+                sh "sh precodereview/build_services.sh"
+            }
+        }
+        stage('Running Express Tests') {
+            steps {
+                sh "sh precodereview/express_tests.sh"
+            }
+        }
+        stage('Running Angular Tests') {
+            steps {
+                sh "sh precodereview/angular_tests.sh"
+            }
+        }
+    }
+    post {
+        always {
+            sh "sh precodereview/clean_up.sh"
+            cleanWs()
+        }
+    }
+}

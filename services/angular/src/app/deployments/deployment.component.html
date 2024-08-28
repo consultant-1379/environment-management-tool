@@ -1,0 +1,250 @@
+<div class="container deploymentContainer">
+  <section class="deploymentsHeaderContainer">
+    <div class="deploymentsHeaderContainerRight">
+      <div class="filter-header">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="SEARCH">
+        </mat-form-field>
+      </div>
+    </div>
+  </section>
+  <div [style.margin-top.px]="10" class="row">
+    <div class="container">
+      <h4>Idle Environments</h4>
+      <table mat-table #idleTable="matSort" [dataSource]="idleDeploymentsDataSource" matSort>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentName"> Name </th>
+          <td mat-cell *matCellDef="let idleDeployment">
+            <deployment-information [deploymentInfo]="idleDeployment" [checkUserPermissions]="checkUserPermissions">
+              {{ idleDeployment.name }}</deployment-information>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="testPhase">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentTestPhase"> Test Phase </th>
+          <td mat-cell *matCellDef="let idleDeployment">{{ idleDeployment.testPhase }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="productSet">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentProductSet"> Product Set </th>
+          <td mat-cell *matCellDef="let idleDeployment">
+            <link-to-ps [platformType]="idleDeployment.platformType" [productSet]="idleDeployment.productSet">{{ idleDeployment.productSet }}</link-to-ps>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="assignedJob">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentJob"> Job </th>
+          <td mat-cell *matCellDef="let idleDeployment">
+            <a href="{{ idleDeployment.assignedJob }}" target="_blank">{{ idleDeployment.jobName }} </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentType"> Type </th>
+          <td mat-cell *matCellDef="let idleDeployment">{{ idleDeployment.deploymentType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="otherInformation">
+          <th mat-header-cell *matHeaderCellDef class="col-otherInformation"> Other Info </th>
+          <td mat-cell *matCellDef="let idleDeployment">
+            <deployment-other-info [deployment]="idleDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-other-info>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions"> Action(s) </th>
+          <td mat-cell *matCellDef="let idleDeployment" class="deploymentActionIcons">
+            <div *ngIf="idleDeployment.systemHealthCheckStatus === 'REQUIRED';then systemHealthCheckRequired"></div>
+            <div *ngIf="idleDeployment.systemHealthCheckStatus === 'COMPLETED';then systemHealthCheckCompleted"></div>
+            <div *ngIf="idleDeployment.systemHealthCheckStatus === 'START_AUTO_SHC'; then autoSHCStarted">
+            </div>
+            <div *ngIf="idleDeployment.systemHealthCheckStatus === 'ATTENTION'; then attentionRequired">
+            </div>
+            <div *ngIf="idleDeployment.deploymentRefreshStatus === 'STALE';then deploymentRefreshRequired"></div>
+            <div *ngIf="idleDeployment.deploymentUpgradeStatus === 'REQUIRED';then deploymentUpgradeRequired"></div>
+            <div *ngIf="idleDeployment.deploymentRollbackStatus === 'REQUIRED';then deploymentRollbackRequired"></div>
+            <ng-template #systemHealthCheckRequired><i class="material-icons"
+                matTooltip="SHC Required">local_hospital</i></ng-template>
+            <ng-template #systemHealthCheckCompleted><i class="material-icons"
+                matTooltip="SHC Completed">verified_user</i></ng-template>
+            <ng-template #autoSHCStarted><i class="material-icons"
+                matTooltip="Auto SHC Started">live_tv</i></ng-template>
+            <ng-template #attentionRequired><i class="material-icons"
+                matTooltip="SHC Needs Attention">highlight</i></ng-template>
+            <ng-template #deploymentRefreshRequired><i class="material-icons" matTooltip="Marked For II">autorenew</i>
+            </ng-template>
+            <ng-template #deploymentUpgradeRequired><i class="material-icons" matTooltip="Marked For UG">redo</i>
+            </ng-template>
+            <ng-template #deploymentRollbackRequired><i class="material-icons"
+                matTooltip="Requires Rollback">restore</i></ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentActionsMenu">
+          <th mat-header-cell *matHeaderCellDef class="col-idleDeploymentActionsMenu"></th>
+          <td mat-cell *matCellDef="let idleDeployment" class="col-deploymentActionsMenu">
+            <deployment-actions [deploymentInfo]="idleDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-actions>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns" class="idleDeploymentsHeader"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;" class="tblRow"></tr>
+      </table>
+
+      <h4>Busy Environments</h4>
+      <table mat-table #busyTable="matSort" [dataSource]="busyDeploymentsDataSource" matSort>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentName"> Name </th>
+          <td mat-cell *matCellDef="let busyDeployment">
+            <deployment-information [deploymentInfo]="busyDeployment" [checkUserPermissions]="checkUserPermissions">
+              {{ busyDeployment.name }}</deployment-information>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="testPhase">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentTestPhase"> Test Phase </th>
+          <td mat-cell *matCellDef="let busyDeployment">{{ busyDeployment.testPhase }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="productSet">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentProductSet"> Product Set </th>
+          <td mat-cell *matCellDef="let busyDeployment">
+            <link-to-ps [platformType]="busyDeployment.platformType"  [productSet]="busyDeployment.productSet">{{ busyDeployment.productSet }}</link-to-ps>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="assignedJob">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentJob"> Job </th>
+          <td mat-cell *matCellDef="let busyDeployment">
+            <a href="{{ busyDeployment.assignedJob }}" target="_blank">{{ busyDeployment.jobName }}</a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentType"> Type </th>
+          <td mat-cell *matCellDef="let busyDeployment">{{ busyDeployment.deploymentType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="otherInformation">
+          <th mat-header-cell *matHeaderCellDef class="col-otherInformation"> Other Info </th>
+          <td mat-cell *matCellDef="let busyDeployment">
+            <deployment-other-info [deployment]="busyDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-other-info>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions"> Action(s) </th>
+          <td mat-cell *matCellDef="let busyDeployment" class="deploymentActionIcons"></td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentActionsMenu">
+          <th mat-header-cell *matHeaderCellDef class="col-busyDeploymentActionsMenu"></th>
+          <td mat-cell *matCellDef="let busyDeployment" class="col-deploymentActionsMenu">
+            <deployment-actions [deploymentInfo]="busyDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-actions>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns" class="busyDeploymentsHeader"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;" class="tblRow"></tr>
+      </table>
+
+      <h4>Quarantine Environments</h4>
+      <table mat-table #quarantineTable="matSort" [dataSource]="quarantinedDeploymentsDataSource" matSort>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentName"> Name </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">
+            <deployment-information [deploymentInfo]="quarantineDeployment"
+              [checkUserPermissions]="checkUserPermissions">{{ quarantineDeployment.name }}
+            </deployment-information>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="testPhase">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentTestPhase"> Test Phase </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">{{ quarantineDeployment.testPhase }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="productSet">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentProductSet"> Product Set </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">
+            <link-to-ps [platformType]="quarantineDeployment.platformType" [productSet]="quarantineDeployment.productSet">{{ quarantineDeployment.productSet }}
+            </link-to-ps>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="assignedJob">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentJob"> Job </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">
+            <a href="{{ quarantineDeployment.assignedJob }}" target="_blank">{{ quarantineDeployment.jobName }} </a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentType">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-deploymentType"> Type </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">{{ quarantineDeployment.deploymentType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="otherInformation">
+          <th mat-header-cell *matHeaderCellDef class="col-otherInformation"> Other Info </th>
+          <td mat-cell *matCellDef="let quarantineDeployment">
+            <deployment-other-info [deployment]="quarantineDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-other-info>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="col-actions"> Action(s) </th>
+          <td mat-cell *matCellDef="let quarantineDeployment" class="deploymentActionIcons">
+            <div *ngIf="quarantineDeployment.isSessionCreated === true; then sessionOngoing"></div>
+            <div *ngIf="quarantineDeployment.systemHealthCheckStatus === 'REQUIRED'; then systemHealthCheckRequired">
+            </div>
+            <div *ngIf="quarantineDeployment.systemHealthCheckStatus === 'COMPLETED'; then systemHealthCheckCompleted">
+            </div>
+            <div *ngIf="quarantineDeployment.systemHealthCheckStatus === 'START_AUTO_SHC'; then autoSHCStarted">
+            </div>
+            <div *ngIf="quarantineDeployment.systemHealthCheckStatus === 'ATTENTION'; then attentionRequired">
+            </div>
+            <div *ngIf="quarantineDeployment.deploymentRefreshStatus === 'STALE'; then deploymentRefreshRequired"></div>
+            <div *ngIf="quarantineDeployment.deploymentUpgradeStatus === 'REQUIRED';then deploymentUpgradeRequired">
+            </div>
+            <div *ngIf="quarantineDeployment.deploymentRollbackStatus === 'REQUIRED';then deploymentRollbackRequired">
+            </div>
+            <ng-template #sessionOngoing><i class="material-icons" matTooltip="Session Created">perm_identity</i>
+            </ng-template>
+            <ng-template #systemHealthCheckRequired><i class="material-icons"
+                matTooltip="SHC Required">local_hospital</i></ng-template>
+            <ng-template #systemHealthCheckCompleted><i class="material-icons"
+                matTooltip="SHC Completed">verified_user</i></ng-template>
+            <ng-template #autoSHCStarted><i class="material-icons"
+                matTooltip="Auto SHC Started">live_tv</i></ng-template>
+            <ng-template #attentionRequired><i class="material-icons"
+                matTooltip="SHC Needs Attention">highlight</i></ng-template>
+            <ng-template #deploymentRefreshRequired><i class="material-icons" matTooltip="Marked For II">autorenew</i>
+            </ng-template>
+            <ng-template #deploymentUpgradeRequired><i class="material-icons" matTooltip="Marked For UG">redo</i>
+            </ng-template>
+            <ng-template #deploymentRollbackRequired><i class="material-icons"
+                matTooltip="Marked For Rollback">restore</i></ng-template>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deploymentActionsMenu">
+          <th mat-header-cell *matHeaderCellDef class="col-quarantineDeploymentActionsMenu"></th>
+          <td mat-cell *matCellDef="let quarantineDeployment" class="col-deploymentActionsMenu">
+            <deployment-actions [deploymentInfo]="quarantineDeployment" [checkUserPermissions]="checkUserPermissions">
+            </deployment-actions>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns" class="quarantineDeploymentsHeader"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayColumns;" class="tblRow"></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<chart-root [hidden]="isChartHidden"></chart-root>

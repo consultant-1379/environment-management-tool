@@ -1,0 +1,188 @@
+<div *ngIf="loader; then progressSpinner else rolesForm"></div>
+<ng-template #rolesForm>
+  <div class="container rolesMainForm">
+    <mat-icon (click)="closeDialogModal()" class="closeButton iconProperties" matTooltip="Close">cancel</mat-icon>
+    <h2 class="headerClass">Add Roles to User:
+      <b id="editRolesSignum">{{data.username}}</b>
+    </h2>
+    <div id="innerRolesForm">
+      <br>
+      <div id="MTE">
+        <mat-grid-list cols="2" rowHeight="25px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <a class="phaseTitle" (click)="selectTestPhases('mte')">Maintrack Entry</a>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+          <mat-grid-tile colspan="2">
+            <div class="leftTile">
+              <mat-checkbox id="mteCheckbox" [(ngModel)]="phasesCheckbox.mteCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('MTE', $event)">MTE
+              </mat-checkbox>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+
+      <div id="MTV">
+        <mat-grid-list cols="2" rowHeight="25px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <a class="phaseTitle" (click)="selectTestPhases('mtv')">Maintrack
+                Validation</a>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+          <mat-grid-tile colspan="2">
+            <div class="leftTile">
+              <mat-checkbox id="cdlCheckbox" [(ngModel)]="phasesCheckbox.cdlCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('CDL', $event)">CDL</mat-checkbox>
+              <mat-checkbox id="longLoopCheckbox" [(ngModel)]="phasesCheckbox.longLoopCheckbox"
+                class="userRolesCheckbox" color="primary" (change)="changeTestPhases('LongLoop', $event)">LongLoop
+              </mat-checkbox>
+              <mat-checkbox id="rvbCheckbox" [(ngModel)]="phasesCheckbox.rvbCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('RVB', $event)">RVB</mat-checkbox>
+              <mat-checkbox id="stkpiCheckbox" [(ngModel)]="phasesCheckbox.stkpiCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('STKPI', $event)">STKPI</mat-checkbox>
+              <mat-checkbox id="rnlCheckbox" [(ngModel)]="phasesCheckbox.rnlCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('RNL', $event)">RNL</mat-checkbox>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+
+      <div id="sprintRelease">
+        <mat-grid-list cols="2" rowHeight="25px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <a class="phaseTitle" (click)="selectTestPhases('sprintRelease')">Sprint
+                Release</a>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+          <mat-grid-tile colspan="2">
+            <div class="leftTile">
+              <mat-checkbox [(ngModel)]="phasesCheckbox.dropbackCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changeTestPhases('DROPBACK', $event)">DROPBACK</mat-checkbox>
+              <mat-checkbox [(ngModel)]="phasesCheckbox.enduranceCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changeTestPhases('ENDURANCE', $event)">ENDURANCE</mat-checkbox>
+              <mat-checkbox id="plmCheckbox" [(ngModel)]="phasesCheckbox.plmCheckbox" class="userRolesCheckbox"
+                color="primary" (change)="changeTestPhases('PLM', $event)">PLM</mat-checkbox>
+              <mat-checkbox id="sprintValidationCheckbox" [(ngModel)]="phasesCheckbox.sprintValidationCheckbox"
+                class="userRolesCheckbox" color="primary" (change)="changeTestPhases('SprintValidation', $event)">
+                SprintValidation
+              </mat-checkbox>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+
+      <div id="other">
+        <mat-grid-list cols="2" rowHeight="25px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <a class="phaseTitle" (click)="selectTestPhases('other')">Other</a>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="35px">
+          <mat-grid-tile colspan="2">
+            <div class="leftTile">
+              <mat-checkbox [(ngModel)]="phasesCheckbox.teaasCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changeTestPhases('TEaaS', $event)">TEaaS</mat-checkbox>
+              <mat-checkbox [(ngModel)]="phasesCheckbox.rtdCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changeTestPhases('RTD', $event)">RTD</mat-checkbox>
+              <mat-checkbox [(ngModel)]="phasesCheckbox.csCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changeTestPhases('CS', $event)">CS</mat-checkbox>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div id="platformType">
+        <mat-grid-list cols="2" rowHeight="25px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <a class="phaseTitle" (click)="selectPlatformTypes('ALL')">Platform Types</a>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list class="testPhaseGrid" cols="2" rowHeight="70px">
+          <mat-grid-tile colspan="2">
+            <div class="leftTile">
+              <mat-checkbox [(ngModel)]="platformTypesCheckbox.physicalCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changePlatformType('physical', $event)">pENM</mat-checkbox>
+              <mat-checkbox [(ngModel)]="platformTypesCheckbox.venmCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changePlatformType('vENM', $event)">vENM</mat-checkbox>
+              <mat-checkbox [(ngModel)]="platformTypesCheckbox.sienmCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changePlatformType('SIENM', $event)">SIENM</mat-checkbox>
+              <mat-checkbox [(ngModel)]="platformTypesCheckbox.cenmCheckbox" class="userRolesCheckbox" color="primary"
+                (change)="changePlatformType('cENM', $event)">cENM</mat-checkbox>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div id="selectionButtons">
+        <mat-grid-list cols="2" rowHeight="50px">
+          <mat-grid-tile>
+            <div class="leftTile">
+              <button type="button" class="btn big selectAllResetButton" (click)="selectTestPhases('all')">
+                Select All</button>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="rightTile">
+              <button type="button" class="btn big selectAllResetButton" (click)="resetTestPhases()">Reset</button>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+    </div>
+    <br>
+    <br>
+    <div id="selectionButtons">
+      <mat-grid-list cols="1" rowHeight="50px">
+        <mat-grid-tile>
+          <button type="button" mat-raised-button color="primary" class="btn big w-100 updateRolesButtonHeight"
+            (click)="changeUserRoles()">
+            Update Roles</button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</ng-template>
+<ng-template #progressSpinner>
+  <div class="userRolesAdminLoader rolesMainForm">
+    <h3>Please wait while we update the user roles....</h3>
+    <mat-spinner strokeWidth="3" [diameter]="100"></mat-spinner>
+  </div>
+</ng-template>

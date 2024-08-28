@@ -1,0 +1,56 @@
+const mongoose = require('mongoose');
+
+const deploymentSchema = new mongoose.Schema({
+  name: String,
+  state: {
+    type: String,
+    default: 'QUARANTINE',
+  },
+  assignedJob: String,
+  jobName: String,
+  testPhase: String,
+  productSet: String,
+  deploymentType: String,
+  platformType: String,
+  additionalDeploymentInfo: {
+    additionalText: {
+      type: String,
+      default: 'No additional information currently added to this deployment',
+    },
+    dateModified: String,
+  },
+  systemHealthCheckStatus: String,
+  deploymentRefreshStatus: String,
+  deploymentUpgradeStatus: String,
+  deploymentRollbackStatus: String,
+  otherInfo: String,
+  nrmVersion: String,
+  nrmSize: String,
+  ddp: String,
+  nssProductSetVersion: String,
+  isSessionCreated: {
+    type: Boolean,
+    default: false,
+  },
+  blades: String,
+  freeIp: String,
+  vFarms: String,
+  pod: String,
+  firmware: String,
+  sanHost: String,
+  sanShared: String,
+  nasHost: String,
+  nasShared: String,
+  nasSoftware: String,
+  hardwareType: String,
+  workloadVm: String,
+  nodeTypes: String,
+  nodeVersions: String,
+  externalNfs: String,
+  openstackVersion: String,
+  ccdVersion: String,
+  nameSpace: String,
+  clusterNodes: String,
+});
+
+module.exports = mongoose.model('Deployment', deploymentSchema);

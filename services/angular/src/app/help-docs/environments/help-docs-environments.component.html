@@ -1,0 +1,207 @@
+<help-docs-navigation></help-docs-navigation>
+<div id="helpDocsContainer" class="container">
+    <h1>Environments</h1>
+    <ul>
+        <li><a href="/help-docs/environments#overview">Overview</a></li>
+        <li><a href="/help-docs/environments#purpose">Purpose</a></li>
+        <li><a href="/help-docs/environments#environment-table">Environment Table</a></li>
+        <li><a href="/help-docs/environments#change-state">Change State</a></li>
+        <li><a href="/help-docs/environments#environment-logs">Environment Logs</a></li>
+        <li><a href="/help-docs/environments#selecting-environments-to-display">Selecting Environments to Display</a>
+        </li>
+        <li><a href="/help-docs/environments#environment-information">Environment Information</a></li>
+    </ul>
+    <a class="anchor" name="overview"></a>
+    <h3>Overview</h3>
+    <hr>
+    <p>This page describes the Environments section in the Environment Management Tool.</p>
+    <p>It describes what the purpose of this feature is and how it works.</p>
+
+    <a class="anchor" name="purpose"></a>
+    <h3>Purpose</h3>
+    <hr>
+    <p>The purpose of having an environments section in EMT is so that there can be a clear view of all environments and
+        their state.</p>
+    <p>It provides the user of EMT a UI which clearly displays information about each environment.</p>
+    <p>Environments in EMT consist of:</p>
+    <ul>
+        <li>vENM Environments</li>
+        <li>Physical Environments</li>
+        <li>SIENM Environments</li>
+        <li>cENM Environments</li>
+    </ul>
+
+    <a class="anchor" name="environment-table"></a>
+    <h3>Environment Table</h3>
+    <hr>
+    <p>The environment tables are where the environments and the information related to each environment is displayed.
+    </p>
+    <p>There are three tables, one for each state an environment can be in.</p>
+    <p>The tables are updated with their live status from Jenkins jobs.</p>
+    <ul>
+        <li>IDLE - the environment is free and ready to use.</li>
+        <li>BUSY - the environment is currently being used, typically its running through a pipeline.</li>
+        <li>QUARANTINE - the environment is in a quarantine state. For an environment to be in QUARANTINE state means
+            something is wrong with the environment or something is failing e.g. Test Cases. Typically, an environment
+            will be
+            placed in a QUARANTINE state as a result of a failed pipeline.</li>
+    </ul>
+    <br>
+    <table>
+        <tr>
+            <th>Heading</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>The name of an environment. This is a link that can display more information. <a
+                    href="/help-docs/environments#environment-information">(Environment Information)</a></td>
+        </tr>
+        <tr>
+            <td>State</td>
+            <td>The state an environment is in. For quarantined environments, there is a button for creating/managing a
+                session. <a href="/help-docs/quarantine-management#sessions">(More Info)</a></td>
+        </tr>
+        <tr>
+            <td>Test Phase</td>
+            <td>The test phase associated to an environment. The test phase is set when adding an environment to EMT.
+            </td>
+        </tr>
+        <tr>
+            <td>Product Set</td>
+            <td>The product set installed on an environment. This is a hyperlink which will bring you to the relevant
+                product
+                set page on the CI Portal. A blank cell means no product set is currently installed.</td>
+        </tr>
+        <tr>
+            <td>Job</td>
+            <td>If an environment is running through a pipeline, the current job the environment is on is displayed
+                here. This
+                is a hyperlink which will bring you to the Jenkins job. For BUSY the associated job, is the job the
+                environment
+                is currently running on. For QUARANTINE the associated job, is the job in the pipeline it failed on.
+            </td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>The type of environment. The supported environment types are: 1. Functional 2. Non-Functional</td>
+        </tr>
+        <tr>
+            <td>Other Info</td>
+            <td>This column will have a textarea which will allow a user to input other information they may want to
+                store
+                about an environment.</td>
+        </tr>
+        <tr>
+            <td>NRM Version</td>
+            <td>The NRM version presented on the Netsims which are associated to the environment.</td>
+        </tr>
+        <tr>
+            <td>NRM Size</td>
+            <td>The NRM Size of the Netsims which are associated to the environment.</td>
+        </tr>
+        <tr>
+            <td>NSS Product Set Version</td>
+            <td>The Product Set Version installed on the Netsims which are associated to the environment.</td>
+        </tr>
+    </table>
+
+    <a class="anchor" name="change-state"></a>
+    <h3>Change State</h3>
+    <hr>
+    <p>When an environment is in QUARANTINE state, to start a new pipeline you may want to move it into IDLE state.</p>
+    <p>When an environment is in IDLE state, you may realize there is a problem and you want to manually set it into
+        QUARANTINE.</p>
+    <p>To change state:</p>
+    <ol>
+        <li>Click the three buttons under Actions in the environment table</li>
+        <li>Hover over environment actions</li>
+        <li>Click "Change State" button</li>
+    </ol>
+    <img src="./../../../assets/img/help-docs-resources/changeState.jpeg" id="changeStateImage">
+    <br>
+    <p>Available UI State changes:</p>
+    <ul>
+        <li>IDLE -> QUARANTINE</li>
+        <li>QUARANTINE -> IDLE</li>
+    </ul>
+
+    <a class="anchor" name="environment-logs"></a>
+    <h3>Environment Logs</h3>
+    <hr>
+    <p>Every update on an Environment will be logged in Kibana Dashboard</p>
+    <p>To view Environment Logs:</p>
+    <ol>
+        <li>Click the three buttons under Actions in the Environment table</li>
+        <li>Click Environment Logs Button</li>
+        <li>That will take us to that particular Environments logs in Kibana</li>
+    </ol>
+    <img src="./../../../assets/img/help-docs-resources/environmentsLogs.jpeg" id="environmentlogsImage">
+    <br>
+
+    <a class="anchor" name="selecting-environments-to-display"></a>
+    <h3>Selecting Environments to Display</h3>
+    <hr>
+    <p>This will only work in the environment's page.</p>
+    <p>To access this page, make sure you have the <a href="/help-docs/permissions">correct permissions</a></p>
+    <h4 class="stepsHeading">Steps</h4>
+    <div class="steps">
+        <p><b class="stepNumber">1</b> <span class="singleStep">Open System Panel</span></p>
+        <ul>
+            <li>Click your signum in the system bar on the top right of the page.</li>
+            <li>This will open the system panel.</li>
+            <li><img src="./../../../assets/img/help-docs-resources/openSystemPanel.jpeg" id="openSystemPanelImage">
+            </li>
+        </ul>
+        <p><b class="stepNumber">2</b> <span class="singleStep">Tick The Checkboxes</span></p>
+        <ul>
+            <li>To view other environments, tick the checkboxes of each corresponding area.</li>
+            <li>The environments' table will automatically update.</li>
+            <li><img src="./../../../assets/img/help-docs-resources/tickTestPhases.jpeg" id="tickTestPhasesImage"></li>
+        </ul>
+    </div>
+
+    <a class="anchor" name="environment-information"></a>
+    <h3>Environment Information</h3>
+    <hr>
+    <p>Environment Information is displayed when a user clicks the hyperlinked environments name.</p>
+    <p>A popup modal will appear with the following information for an environment.</p>
+    <p>For <b>vENM</b> and <b>SIENM</b></p>
+    <ul>
+        <li>DIT Link</li>
+        <li>DDP Link</li>
+        <li>ENM GUI Link</li>
+        <li>Workflows Link</li>
+        <li>Horizon GUI Link</li>
+    </ul>
+    <p>For <b>cENM</b></p>
+    <ul>
+        <li>DIT Link</li>
+        <li>DTT Link</li>
+        <li>DDP Link</li>
+        <li>ENM GUI Link</li>
+    </ul>
+    <h4>Netsim Information</h4>
+    <p>Displays the NRM Version, NRM Size and NSS product set version of the Netsims.</p>
+    <p>For <b>Physical:</b></p>
+    <ul>
+        <li>DMT Link</li>
+        <li>ENM GUI Link</li>
+    </ul>
+    <p>The above links have a button which allows a quick copy of the link.</p>
+    <p>There is also a copy all button which allows you to copy all links above in a formatted fashion.</p>
+
+    <h4>Environment Information</h4>
+    <p>Displays the Environment Description(DD.XML) information of the environment.</p>
+
+    <h4>Netsim Information</h4>
+    <p>Displays the NRM Version, NRM Size and NSS product set version of the Netsims.</p>
+
+    <h4>Node Information</h4>
+    <p>For RNL deployments only, displays the Node Type.</p>
+
+    <h4>Additional Environment Information</h4>
+    <p>Additional Information provides a text box where a user can manually enter information about an environment.</p>
+    <p>When this is saved it persists in a database where it will be displayed in the popup modal.</p>
+    <p>To delete this information just remove it from the text box and save it.</p>
+</div>

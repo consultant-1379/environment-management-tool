@@ -1,0 +1,158 @@
+{
+  "paths": {
+    "/setup-passwordless-connection/{clusterId}": {
+      "post": {
+        "tags": [
+          "ansible"
+        ],
+        "summary": "Sets up passwordless connection from EMT to the specified physical environment.",
+        "description": "Kicks off an ansible playbook that sets up passwordless connection from EMT to the specified physical environment.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pass in your signum. This is required",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playbook standard output"
+          },
+          "412": {
+            "description": "Username not passed in"
+          },
+          "500": {
+            "description": "Playbook error output"
+          }
+        }
+      }
+    },
+    "/send-message-to-user-terminal/{clusterId}": {
+      "post": {
+        "tags": [
+          "ansible"
+        ],
+        "summary": "Send message to a user's terminal.",
+        "description": "Sends message to a user's terminal in a specified environment.",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterId",
+            "description": "Cluster ID of target environment",
+            "required": true,
+            "type": "string"
+          }, {
+            "in": "body",
+            "name": "body",
+            "description": "Pass in your signum. This is required",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DetailsToSendMessageToUserTerminal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playbook standard output"
+          },
+          "412": {
+            "description": "Username not passed in"
+          },
+          "500": {
+            "description": "Playbook error output"
+          }
+        }
+      }
+    },
+    "/create-user-for-session": {
+      "post": {
+        "tags": [
+          "ansible"
+        ],
+        "summary": "Creates a user in the MS with the given details.",
+        "description": "Kicks off an ansible playbook that creates a user in the MS with the given details",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pass in the details for the user to be created as well as the target environment name. Your signum must also be passed in. All fields are required",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DetailsToCreateMsUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playbook standard output"
+          },
+          "412": {
+            "description": "Username not passed in"
+          },
+          "500": {
+            "description": "Playbook error output"
+          }
+        }
+      }
+    },
+    "/delete-user-from-session?clusterId=${clusterId}&sessionUsername=${sessionUsername}&username=${username}": {
+      "delete": {
+        "tags": [
+          "ansible"
+        ],
+        "summary": "Deletes a user in the MS.",
+        "description": "Kicks off an ansible playbook that deletes a user in the MS",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "clusterId",
+            "description": "Cluster ID of target environment",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "sessionUsername",
+            "description": "Username of user present in the target environment",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "username",
+            "description": "Your own username",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Playbook standard output"
+          },
+          "412": {
+            "description": "Username not passed in"
+          },
+          "500": {
+            "description": "Playbook error output"
+          }
+        }
+      }
+    }
+  }
+}

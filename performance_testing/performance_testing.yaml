@@ -1,0 +1,58 @@
+# JMeter Performance script for EMT
+# Used for post staging, soak and stress testing
+# Default config here is post staging
+# In order to override execution parameters, use
+# the following syntax: -o execution.0.<OPTION>
+# e.g. -o execution.0.hold-for=5m
+# please copy the changes on to the slaves in the path of /root/emt_performance_testing/performance_testing.yaml
+execution:
+- concurrency: 10
+  ramp-up: 1s
+  hold-for: 15m
+  throughput: 10
+  scenario: Deployments
+
+scenarios:
+  Deployments:
+    variables:
+      staging_url: https://${__P(staging_host)}/api
+      username: performanceTests
+    requests:
+    - url: ${staging_url}/sessions
+    - url: ${staging_url}/time-periods
+    - url: ${staging_url}/deployments
+      extract-jsonpath:
+        id: $..['_id']
+    - if: '"${id}" != "NOT_FOUND"'
+      then:
+        - url: ${staging_url}/deployments/${id}
+          method: PUT
+          headers:
+            Content-Type: application/json
+          body:
+            state: ${__chooseRandom(IDLE,BUSY,QUARANTINE,state_change)}
+            username: ${username}
+        - if: '"${state_change}" == "IDLE"'
+          then:
+            - url: ${staging_url}/deployments/${id}
+              method: PUT
+              headers:
+                Content-Type: application/json
+              body:
+                username: ${username},
+                jobName: " "
+          else:
+            - url: ${staging_url}/deployments/${id}
+              method: PUT
+              headers:
+                Content-Type: application/json
+              body:
+                jobName: ${__chooseRandom(MT_vENM_Upgrade_Functional,MT_vENM_Functional_Acceptance_Tests,NRM_4.1_Rollback_Setup_Flow,job_name)}
+                username: ${username}
+
+reporting:
+- module: passfail
+  criteria:
+  - avg-rt>0.02 for 10s, stop as failed
+  dump-xml: stats.xml
+  dump-csv: stats.csv

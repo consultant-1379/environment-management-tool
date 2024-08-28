@@ -1,0 +1,73 @@
+.helpDocsNavigationNormalHeight {
+    position: absolute;
+    top: 195px;
+    width: 16%;
+    padding-top: 33px;
+}
+
+.helpDocsNavigationShorterHeight {
+    position: fixed;
+    top: 50px;
+    width: 16%;
+    padding-top: 33px;
+}
+
+#navigationList>li {
+    margin-bottom: 10px;
+}
+
+#navigationList {
+    list-style-type: none;
+}
+
+#helpDocsHeader {
+    padding-top: 48px;
+}
+
+#helpDocsHeaderBar {
+    height: 145px;
+    width: 100%;
+    user-select: none;
+    white-space: nowrap;
+    background-color: #e0e0e0;
+}
+
+#helpDocsHeaderH1 {
+    font-size: 38px;
+    font-weight: 500;
+    padding-top: 38px;
+    text-align: center;
+}
+
+#goToTopButton {
+    position: fixed;
+    width: 136px;
+    left: 39px;
+    font-size: 15px;
+    border-radius: 3px;
+    align-items: center;
+    display: flex;
+    padding-left: 18px;
+    padding-right: 12px;
+    bottom: 4%;
+    border: 0;
+    background-color: #b4b4b4;
+    visibility: hidden;
+}
+
+#goToTopButton:hover {
+    cursor: pointer;
+    background-color: #777777;
+}
+
+.fadeOut {
+    visibility: hidden !important;
+    opacity: 0;
+    transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.fadeIn {
+    visibility: visible !important;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 300ms;
+}

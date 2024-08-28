@@ -1,0 +1,24 @@
+{
+    "definitions": {
+        "TimePeriod": {
+            "required": [
+                "durationHours",
+                "durationMinutes"
+            ],
+            "properties": {
+                "durationHours": {
+                    "type": "number",
+                    "example": 10
+                },
+                "durationMinutes": {
+                    "type": "number",
+                    "example": 30
+                },
+                "timerId": {
+                    "type": "mongoose.Schema.ObjectId",
+                    "example": "5b0fdad026531100108a968c"
+                }
+            }
+        }
+    }
+}

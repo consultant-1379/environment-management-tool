@@ -1,0 +1,36 @@
+{
+  "paths": {
+    "/mailer": {
+      "post": {
+        "tags": [
+          "mailer"
+        ],
+        "summary": "Send a new mail.",
+        "description": "Takes arguments and sends a mail from the EMT portal.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Object that represents your mailer",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Mailer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Mail sent successfully."
+          },
+          "500": {
+            "description": "Internal Server Error. Couldnt send a mail"
+          }
+        }
+      }
+    }
+  }
+   
+}

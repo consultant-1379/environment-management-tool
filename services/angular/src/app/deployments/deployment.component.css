@@ -1,0 +1,173 @@
+.deploymentContainer {
+    padding-top: 48px;
+}
+
+.col-deploymentName {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+}
+
+.col-deploymentTestPhase, .col-deploymentProductSet {
+    width: 125px;
+    min-width: 125px;
+    max-width: 125px;
+}
+
+.col-deploymentJob {
+    width: 350px;
+    min-width: 200px;
+}
+
+.col-deploymentType {
+    width: 200px;
+}
+
+.col-otherInformation {
+    padding: 0;
+    width: 300px;
+}
+
+.col-actions {
+    width: 150px;
+}
+
+th {
+    font-weight: bold;
+    color: black;
+    font-size: 12px;
+}
+
+th.mat-header-cell, th.mat-header-cell[_ngcontent-c4]:first-child {
+    padding-left: 25px;
+}
+
+.col-idleDeploymentActionsMenu {
+    border-left: 0px solid #000000 !important;
+    background: #36b07f;
+    min-width: 70px;
+}
+
+.col-quarantineDeploymentActionsMenu {
+    border-left: 0px solid #000000 !important;
+    background: #eb2829;
+    min-width: 70px;
+}
+
+.col-busyDeploymentActionsMenu {
+    border-left: 0px solid #000000 !important;
+    background: #ffcd00;
+    min-width: 70px;
+}
+
+
+.deploymentsHeaderContainer {
+    padding-top: 10px;
+}
+
+.deploymentSelectionButtonGroup {
+    margin-top: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+tr.mat-header-row {
+    padding-left: 25px;
+}
+
+
+td {
+    font-size: 12px;
+}
+
+a {
+    font-size: 12px;
+}
+
+.tblRow {
+    height: 30px !important;
+    max-height: 30px;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+td.mat-cell {
+    padding-left: 25px !important;
+}
+
+td.mat-cell:last-child, td.mat-footer-cell:last-child, th.mat-header-cell:last-child {
+    padding-right: 0;
+}
+
+.ng-container {
+    flex-direction: column;
+}
+
+.idleDeploymentsHeader {
+    background-color: #36b07f !important;
+    height: 30px;
+}
+
+.busyDeploymentsHeader {
+    background-color: #FFCD00 !important;
+    height: 30px;
+}
+
+.quarantineDeploymentsHeader {
+    background-color: #EB2829 !important;
+    height: 30px;
+}
+
+.physicalDeploymentsHeader {
+    background-color: #F06E1D !important;
+    height: 30px;
+}
+
+.col-startSession {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.deploymentActionIcons {
+    text-indent: 10px;
+    text-align: center;
+}
+
+.container {
+    max-width: 1500px;
+}
+
+
+/* Search bar CSS */
+.deploymentsHeaderContainerLeft {
+    float: left;
+}
+
+/* Search bar CSS */
+.deploymentsHeaderContainerRight {
+    margin-left: 30%;
+    margin-right: 50%;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+.mat-button-toggle {
+    min-width: 55px;
+}
+
+.material-icons {
+    cursor: help;
+}
+
+.busyDeploymentActions {
+    cursor: not-allowed;
+}
+
+.deploymentsStatusChart {
+    min-height: 1000px;
+}

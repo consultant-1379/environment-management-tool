@@ -1,0 +1,387 @@
+<a mat-icon-button (click)="closeDialogModal()" class="closeButton" matTooltip="Close">
+  <mat-icon class="iconProperties">cancel</mat-icon>
+</a>
+<h3 mat-dialog-title>Environment Information:
+  <b>{{data.deployment.name}}</b>
+</h3>
+<h4>
+  <b>Links</b>
+</h4>
+<div mat-dialog-content>
+  <ng-template [ngIf]="data.deployment.platformType =='vENM' || data.deployment.platformType =='SIENM'">
+    <table id="classTable" class="deploymentInfoModalTable table table-striped">
+      <tbody>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentLink }}" ngDefaultControl [(ngModel)]="ditClipboardText" matTooltip="Open {{data.deployment.name}}'s DIT Homepage"
+              target="_blank">DIT Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentLink" matTooltip="Copy DIT Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentDdpLink }}" ngDefaultControl [(ngModel)]="ddpClipboardText" matTooltip="Open {{data.deployment.name}}'s DDP Site"
+              target="_blank">DDP Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentDdpLink" matTooltip="Copy DDP Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentEnmGuiLink }}" ngDefaultControl [(ngModel)]="enmGuiClipboardText" matTooltip="Open {{data.deployment.name}}'s ENM GUI"
+              target="_blank">ENM GUI Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentEnmGuiLink" matTooltip="Copy ENM GUI Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentWorkflowsLink }}" ngDefaultControl [(ngModel)]="workflowsClipboardText" matTooltip="Open {{data.deployment.name}}'s Workflows GUI"
+              target="_blank">Workflows Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentWorkflowsLink" matTooltip="Copy Workflows Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentHorizonLink }}" ngDefaultControl [(ngModel)]="horizonGuiClipboardText" matTooltip="Open {{data.deployment.name}}'s Horizon GUI"
+              target="_blank">Horizon GUI Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentHorizonLink" matTooltip="Copy Horizon Gui To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <button mat-raised-button color="primary" [disabled]="!gotAllCloudDetails" (mousedown)="copyAllInfo(data.deployment.platformType, [deploymentLink, deploymentDdpLink, deploymentEnmGuiLink, deploymentWorkflowsLink, deploymentHorizonLink]);"
+    matTooltip="Copy All Links To Clipboard">Copy All</button>
+    <br>
+    <div *ngIf="data.deployment.testPhase !== 'RNL'">
+      <h4>
+        <b>Netsim Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmVersion }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Size: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmSize }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NSS Product Set Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nssProductSetVersion }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="data.deployment.testPhase === 'RNL'">
+      <h4>
+        <b>Node Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">Node Types: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeTypes }}</a>
+              </td>
+            </tr>
+            <!-- This is commented out until we find a automated solution to getting the node versions on RNL. -->
+            <!-- <tr>
+              <td>
+                <a class="nonHyperLinked">Node Versions: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeVersions }}</a>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="data.deployment.platformType =='cENM'">
+    <table id="classTable" class="deploymentInfoModalTable table table-striped">
+      <tbody>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentLink }}" ngDefaultControl [(ngModel)]="ditClipboardText" matTooltip="Open {{data.deployment.name}}'s DIT Homepage"
+              target="_blank">DIT Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentLink" matTooltip="Copy DIT Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentDttLink }}" ngDefaultControl [(ngModel)]="workflowsClipboardText" matTooltip="Open {{data.deployment.name}}'s DTT Site"
+              target="_blank">DTT Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentDttLink" matTooltip="Copy DTT Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentDdpLink }}" ngDefaultControl [(ngModel)]="ddpClipboardText" matTooltip="Open {{data.deployment.name}}'s DDP Site"
+              target="_blank">DDP Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentDdpLink" matTooltip="Copy DDP Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentEnmGuiLink }}" ngDefaultControl [(ngModel)]="enmGuiClipboardText" matTooltip="Open {{data.deployment.name}}'s ENM GUI"
+              target="_blank">ENM GUI Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" ngxClipboard [disabled]="!gotAllCloudDetails" [cbContent]="deploymentEnmGuiLink" matTooltip="Copy ENM GUI Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <button mat-raised-button color="primary" [disabled]="!gotAllCloudDetails" (mousedown)="copyAllInfo(data.deployment.platformType, [deploymentLink, deploymentDttLink, deploymentDdpLink, deploymentEnmGuiLink]);"
+    matTooltip="Copy All Links To Clipboard">Copy All</button>
+    <br>
+    <div *ngIf="data.deployment.testPhase !== 'RNL'">
+      <h4>
+        <b>Netsim Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmVersion }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Size: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmSize }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NSS Product Set Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nssProductSetVersion }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="data.deployment.testPhase === 'RNL'">
+      <h4>
+        <b>Node Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">Node Types: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeTypes }}</a>
+              </td>
+            </tr>
+            <!-- This is commented out until we find a automated solution to getting the node versions on RNL. -->
+            <!-- <tr>
+              <td>
+                <a class="nonHyperLinked">Node Versions: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeVersions }}</a>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="data.deployment.platformType =='physical'">
+    <table id="classTable" class="deploymentInfoModalTable table table-striped">
+      <tbody>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentLink }}" matTooltip="Open {{data.deployment.name}}'s DMT Link" target="_blank">DMT Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" [disabled]="!gotAllPhysicalDetails" ngxClipboard [cbContent]="deploymentLink" matTooltip="Copy DMT Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentEnmGuiLink }}" ngDefaultControl [(ngModel)]="enmGuiClipboardText" matTooltip="Open {{data.deployment.name}}'s ENM GUI"
+              target="_blank">ENM GUI Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" [disabled]="!gotAllPhysicalDetails" ngxClipboard [cbContent]="deploymentEnmGuiLink" matTooltip="Copy ENM GUI Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="deploymentInfoTableKey">
+            <a href="{{ deploymentDdpLink }}" ngDefaultControl [(ngModel)]="ddpClipboardText" matTooltip="Open {{data.deployment.name}}'s DDP Site"
+              target="_blank">DDP Link</a>
+          </td>
+          <td class="deploymentInfoTableRightMostElement">
+            <button mat-mini-fab color="primary" [disabled]="!gotAllPhysicalDetails" ngxClipboard [cbContent]="deploymentDdpLink" matTooltip="Copy DDP Link To Clipboard">
+              <i class="material-icons md-18">file_copy</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <button mat-raised-button color="primary" [disabled]="!gotAllPhysicalDetails" (mousedown)="copyAllInfo(data.deployment.platformType, [deploymentLink, deploymentEnmGuiLink, deploymentDdpLink]);"
+    matTooltip="Copy All Links To Clipboard">Copy All</button>
+    <br>
+    <h4>
+      <b>Environment Information</b>
+    </h4>
+    <div mat-dialog-content>
+      <table id="classTable" class="deploymentInfoModalTable table table-striped">
+        <tbody>
+          <tr>
+            <td>
+              <a class="nonHyperLinked">Environment Description: </a>
+            </td>
+            <td class="deploymentInfoTableRightMostElement">
+              <div *ngIf="!deploymentDescription; then progressSpinner else physicalDeploymentDescription"></div>
+            </td>
+            <ng-template #physicalDeploymentDescription>
+              <a class="nonHyperLinked">{{ deploymentDescription }}</a>
+            </ng-template>
+            <ng-template #progressSpinner>
+              <mat-spinner strokeWidth="3" [diameter]="20"></mat-spinner>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <div *ngIf="data.deployment.testPhase !== 'RNL'">
+      <h4>
+        <b>Netsim Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmVersion }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NRM Size: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nrmSize }}</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">NSS Product Set Version: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nssProductSetVersion }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="data.deployment.testPhase === 'RNL'">
+      <h4>
+        <b>Node Information</b>
+      </h4>
+      <div mat-dialog-content>
+        <table id="classTable" class="deploymentInfoModalTable table table-striped">
+          <tbody>
+            <tr>
+              <td>
+                <a class="nonHyperLinked">Node Types: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeTypes }}</a>
+              </td>
+            </tr>
+            <!-- This is commented out until we find a automated solution to getting the node versions on RNL. -->
+            <!-- <tr>
+              <td>
+                <a class="nonHyperLinked">Node Versions: </a>
+              </td>
+              <td class="deploymentInfoTableRightMostElement">
+                <a class="nonHyperLinked">{{ nodeVersions }}</a>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<deployment-info-input-box [deploymentData]="data.deployment"  [checkUserPermissions]="this.data.checkUserPermissions"></deployment-info-input-box>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <title>Environment Management Tool</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <script>
+      const isIE = false || !!document.documentMode; 
+      if (isIE){
+        alert("This is not a supported browser. Please use Chrome or Firefox");
+      }
+  </script>
+</head>
+
+<body>
+  <app-root>
+    <div ng-if="transitioning">
+      <div class="ebLoader">
+        <div class="ebLoader-Holder">
+          <span class="ebLoader-Dots ebLoader-Dots_color_paleBlue ebLoader-Dots_size_big"></span>
+        </div>
+      </div>
+    </div>
+  </app-root>
+</body>
+
+</html>

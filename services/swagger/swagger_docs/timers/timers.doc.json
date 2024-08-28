@@ -1,0 +1,153 @@
+{
+  "paths": {
+    "/timers": {
+      "post": {
+        "tags": [
+          "timers"
+        ],
+        "summary": "Create a new timer.",
+        "description": "Creates and returns a new timer.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "timer object that represents your timer",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Timer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created a timer successfully."
+          },
+          "400": {
+            "description": "Possible messages:\n* There was a syntax error found in your request, please make sure that it is valid and try again\n* {PATH} is not in schema and strict mode is set to throw\n* {PATH} is not valid, {VALUE} is not an integer\n* {PATH} is less than minimum allowed value (0)\n* {PATH} is required"
+          },
+          "422": {
+            "description": "Field already exists"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/timers/{timerId}": {
+      "put": {
+        "tags": [
+          "timers"
+        ],
+        "summary": "Updates a timer.",
+        "description": "Updates a timer.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timerId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the timer to update",
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Timer object that represents your Timer",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Timer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Timer"
+            }
+          },
+          "404": {
+            "description": "{timerId} does not correspond to a known timer"
+          },
+          "500": {
+            "description": "Error when updating timer"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "timers"
+        ],
+        "summary": "Returns a timer for the given timerId.",
+        "description": "Returns a timer for the given timerId.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timerId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the timer to retrieve",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Timer is  successfully retrieved",
+            "schema": {
+              "$ref": "#/definitions/Timer"
+            }
+          },
+          "404": {
+            "description": "A timer with the given id could not be found in the database"
+          },
+          "422": {
+            "description": "Improperly structured query. Make sure to use ?q=&lt;key&gt;=&lt;value&gt; syntax"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "timers"
+        ],
+        "summary": "Delete a timer.",
+        "description": "Delete a timer.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "timerId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the timer to delete",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted the timer",
+            "schema": {
+              "$ref": "#/definitions/Timer"
+            }
+          },
+          "404": {
+            "description": "A timer with that id does not exist"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

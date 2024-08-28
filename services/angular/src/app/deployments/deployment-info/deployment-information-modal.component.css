@@ -1,0 +1,71 @@
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+.deploymentInfoModalTable td {
+    vertical-align: middle;
+    font-size: 16px;
+    padding-left: 10px;
+    height: 55px;
+}
+
+.deploymentInfoModalTable a {
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+.closeButton {
+    float: right;
+    margin-right: -24px;
+    margin-top: -28px;
+}
+
+::ng-deep .mat-dialog-content {
+    max-height: 100vh;
+    overflow-y: hidden;
+}
+
+.iconProperties {
+    font-size: 28px !important;
+    color: rgba(255, 0, 0, 0.6);
+}
+
+::ng-deep .mat-button-focus-overlay {
+    background-color: transparent;
+}
+
+.nonHyperLinked {
+    cursor: default;
+}
+
+.deploymentInfoTableKey {
+    text-align: left;
+}
+
+.deploymentInfoTableMiddleElement {
+    text-align: center;
+}
+
+.deploymentInfoTableRightMostElement {
+    text-align: right;
+    padding-right: 40px;
+}
+
+.mat-spinner {
+    height: 10px;
+    width: 10px;
+}
+
+.deploymentInfoModalTable tr:nth-child(odd){
+    background-color:white;
+}
+
+.deploymentInfoModalTable tr:nth-child(even){
+    background-color:#dee2e6;
+}
+
+::ng-deep .custom-modal-class .mat-dialog-container {
+    background-color: #fafafa;
+    scrollbar-width: thin;
+}

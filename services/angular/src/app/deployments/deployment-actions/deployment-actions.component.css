@@ -1,0 +1,11 @@
+button:focus {
+    outline: none;
+}
+
+.deploymentActionsMenu {
+  background-color: none;
+}
+.mat-snack-bar-container {
+    background: #323232 !important;
+    color: #fff
+}

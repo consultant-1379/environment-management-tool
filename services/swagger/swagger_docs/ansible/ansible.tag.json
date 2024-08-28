@@ -1,0 +1,8 @@
+{
+  "tags": [
+    {
+      "name": "ansible",
+      "description": "Everything you need to know about the EMT REST API for kicking off ansible playbooks."
+    }
+  ]
+}

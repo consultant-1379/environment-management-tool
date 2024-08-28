@@ -1,0 +1,23 @@
+{
+  "definitions": {
+    "Timer": {
+      "required": [
+        ""
+      ],
+      "properties": {
+        "durationHours": {
+          "type": "number",
+          "example": 12
+        },
+        "durationMinutes": {
+          "type": "number",
+          "example": 45
+        },
+        "hasTeamBeenNotified": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    }
+  }
+}

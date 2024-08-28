@@ -1,0 +1,28 @@
+.confirmInput {
+    margin-top: 8px;
+    width: 100%;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: bold;
+}
+
+.cancelButton {
+    width: 150px;
+}
+
+.confirmButton {
+    margin-left: 40px !important;
+    width: 150px;
+}
+
+.matContentView {
+    overflow: hidden;
+}
+
+.inflixView {
+    padding: 0;
+}
+
+.titleView {
+    margin: 0 0 5px;
+}

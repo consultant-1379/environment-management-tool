@@ -1,0 +1,179 @@
+<div class="container addEnvironmentMainForm">
+    <mat-icon (click)="closeDialogModal()" class="iconProperties closeButton" matTooltip="Close">cancel</mat-icon>
+    <h4 class="headerClass">Add Environment:
+        <b>{{data.environmentNameToAdd}}</b>
+    </h4>
+    <div class="innerAddEnvironmentForm">
+        <form [(formGroup)]="addEnvironmentForm">
+            <div class="form-group">
+                <br>
+                <h2 class="categoryHeader">Core Information</h2>
+                <hr>
+                <mat-label class="addEnvironmentFormHeader">Test Phase</mat-label>
+                <mat-form-field class="selectView" appearance="outline">
+                    <mat-select placeholder="Select Test Phase" [(ngModel)]="environmentToAdd.testPhase"
+                        formControlName="testPhase" disableOptionCentering>
+                        <mat-option *ngFor="let testPhase of testPhases" [value]="testPhase">
+                            {{ testPhase }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Environment Type</mat-label>
+                <mat-form-field class="selectView" appearance="outline">
+                    <mat-select placeholder="Select Environment Type" [(ngModel)]="environmentToAdd.deploymentType"
+                        formControlName="environmentType" disableOptionCentering>
+                        <mat-option *ngFor="let deploymentType of deploymentTypes" [value]="deploymentType">
+                            {{ deploymentType }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Platform Type</mat-label>
+                <mat-form-field class="selectView" appearance="outline">
+                    <mat-select placeholder="Select Platform Type" [(ngModel)]="environmentToAdd.platformType"
+                        formControlName="platformType" disableOptionCentering>
+                        <mat-option *ngFor="let platformType of platformTypes" [value]="platformType">
+                            {{ platformType }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <h2 class="categoryHeader">Additional Information</h2>
+                <hr>
+                <mat-label class="addEnvironmentFormHeader">Product Set Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.productSet" placeholder="Enter Product Set Version"
+                        formControlName="productSet">
+                    <mat-hint align="end"><b>Proper format is required</b></mat-hint>
+                </mat-form-field>
+                <div *ngIf="environmentToAdd.testPhase !== 'RNL'">
+                  <mat-label class="addEnvironmentFormHeader">NSS Product Set Version</mat-label>
+                  <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                      <input matInput [(ngModel)]="environmentToAdd.nssProductSetVersion"
+                          formControlName="nssProductSetVersion" placeholder="Enter NSS Product Set Version">
+                      <mat-hint align="end"><b>Proper format is required</b></mat-hint>
+                  </mat-form-field>
+                </div>
+            </div>
+        </form>
+        <div class="form-group">
+            <div *ngIf="environmentToAdd.testPhase !== 'RNL'">
+              <mat-label class="addEnvironmentFormHeader">NRM Version</mat-label>
+              <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.nrmVersion" placeholder="Enter NRM Version">
+              </mat-form-field>
+              <mat-label class="addEnvironmentFormHeader">NRM Size</mat-label>
+              <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.nrmSize" placeholder="Enter NRM Size">
+              </mat-form-field>
+              <mat-label class="addEnvironmentFormHeader">Workload VM</mat-label>
+              <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.workloadVm" placeholder="Enter Workload VM">
+              </mat-form-field>
+              <mat-label class="addEnvironmentFormHeader">vFarms</mat-label>
+              <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.vFarms" placeholder="Enter vFarms">
+              </mat-form-field>
+            </div>
+            <mat-label class="addEnvironmentFormHeader">POD</mat-label>
+            <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                <input matInput [(ngModel)]="environmentToAdd.pod" maxlength="15" placeholder="Enter Pod Name">
+            </mat-form-field>
+            <div *ngIf="environmentToAdd.testPhase === 'RNL'">
+              <mat-label class="addEnvironmentFormHeader">Node Types</mat-label>
+              <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.nodeTypes" placeholder="Enter Node Types">
+              </mat-form-field>
+            </div>
+            <div *ngIf="environmentToAdd.platformType === 'physical'">
+                <mat-label class="addEnvironmentFormHeader">Blades</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.blades" placeholder="Enter Blades Name">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Free IP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.freeIp" placeholder="Enter Free IP">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Firmware</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.firmware" placeholder="Enter Firmware">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">San Host</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.sanHost" placeholder="Enter San Host">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">San Shared</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.sanShared" placeholder="Enter San Shared">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Nas Host</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.nasHost" placeholder="Enter Nas Host">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Nas Shared</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.nasShared" placeholder="Enter Nas Shared">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Nas Software</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.nasSoftware" placeholder="Enter Nas Software">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Hardware Type</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.hardwareType" placeholder="Enter Hardware Type">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.ddp" placeholder="Enter ddp link">
+                </mat-form-field>
+            </div>
+            <div *ngIf="environmentToAdd.platformType === 'vENM' || environmentToAdd.platformType === 'SIENM'">
+                <mat-label class="addEnvironmentFormHeader">Openstack Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.openstackVersion"
+                        placeholder="Enter Openstack Version">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">External NFS</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.externalNfs" placeholder="Enter External NFS">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.ddp" placeholder="Enter ddp link">
+                </mat-form-field>
+            </div>
+            <div *ngIf="environmentToAdd.platformType === 'cENM'">
+                <mat-label class="addEnvironmentFormHeader">Openstack Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.openstackVersion"
+                        placeholder="Enter Openstack Version">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">External NFS</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.externalNfs" placeholder="Enter External NFS">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">CCD Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.ccdVersion" placeholder="Enter CCD Version">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Namespace</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.nameSpace" placeholder="Enter Namespace">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                  <input matInput [(ngModel)]="environmentToAdd.ddp" placeholder="Enter ddp link">
+                </mat-form-field>
+                <mat-label class="addEnvironmentFormHeader">Cluster Nodes</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToAdd.clusterNodes" placeholder="Enter Cluster nodes">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div id="applyButtonSection">
+        <button class="w-100 buttonHeight" mat-raised-button color="primary" [disabled]="addEnvironmentForm.invalid"
+            (click)="addEnvironment()">Add Environment</button>
+    </div>
+</div>

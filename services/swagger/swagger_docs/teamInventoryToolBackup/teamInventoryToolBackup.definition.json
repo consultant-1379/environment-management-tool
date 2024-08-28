@@ -1,0 +1,31 @@
+{
+  "definitions": {
+    "TeamInventoryToolBackup": {
+      "required": [
+        "size",
+        "name",
+        "items"
+      ],
+      "properties": {
+        "size": {
+          "type": "Number",
+          "example": "126"
+        },
+        "name": {
+          "type": "String",
+          "example": "Group list"
+        },
+        "items": {
+          "type": "Array",
+          "example": [
+            {
+              "name": "Boru",
+              "id": 799,
+              "email": "pdlnmteamb@pdl.internal.ericsson.com"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

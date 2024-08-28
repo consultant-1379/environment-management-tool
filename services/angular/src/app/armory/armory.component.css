@@ -1,0 +1,134 @@
+.environmentContainer {
+  padding-top: 48px;
+}
+
+th {
+  font-weight: bold;
+  color: black;
+  font-size: 12px;
+}
+
+.col-smallEnvironmentColumn {
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
+}
+
+.col-mediumEnvironmentColumn {
+  width: 270px;
+  min-width: 270px;
+  max-width: 270px;
+}
+
+.col-largeEnvironmentColumn {
+  width: 350px;
+  min-width: 350px;
+  max-width: 350px;
+}
+
+.col-extraLargeEnvironmentColumn {
+  width: 500px;
+  min-width: 500px;
+  max-width: 500px;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line !important;
+  text-align: center;
+  font-size: 1em;
+}
+
+th.mat-header-cell,
+th.mat-header-cell[_ngcontent-c4]:first-child {
+  padding-left: 25px;
+  white-space: nowrap;
+  height: 30px;
+}
+
+.environmentsHeaderContainer {
+  padding-top: 10px;
+}
+
+.armoryEnvironmentsHeader {
+  height: 30px;
+  background-color: rgb(179, 210, 255);
+  min-width: 150px;
+}
+
+.environmentSelectionButtonGroup {
+  margin-top: 10px;
+  color: black;
+  font-weight: bold;
+}
+
+tr.mat-header-row {
+  padding-left: 25px;
+}
+
+td {
+  font-size: 12px;
+}
+
+a {
+  font-size: 12px;
+}
+
+.tblRow {
+  height: 30px;
+  max-height: 30px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td.mat-cell {
+  padding-left: 25px !important;
+  white-space: nowrap;
+}
+
+td.mat-cell:last-child,
+td.mat-footer-cell:last-child,
+th.mat-header-cell:last-child {
+  padding-right: 0;
+}
+
+.ng-container {
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1500px;
+  overflow-x: auto;
+}
+
+.environmentsHeaderContainerLeft {
+  float: left;
+}
+
+.environmentsHeaderContainerRight {
+  margin-left: 25%;
+  margin-right: 60%;
+}
+
+h4 {
+  font-weight: bold;
+}
+
+.mat-button-toggle {
+  min-width: 55px;
+}
+
+.material-icons {
+  cursor: help;
+}
+
+.armoryTable {
+  width: 100%;
+  border-collapse: separate;
+}
+.stickyContainer {
+  width: 100%;
+  overflow: auto;
+}

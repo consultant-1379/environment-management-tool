@@ -1,0 +1,15 @@
+- name: Remove passwordless connection from {{ cluster_id }}_wlvm
+  hosts: 127.0.0.1
+  connection: local
+  gather_facts: no
+  tasks:
+   - name: Check if WLVM IP for {{ cluster_id }} is present in hosts file
+     shell: grep "\[{{ cluster_id }}_wlvm\]" /etc/ansible/hosts | wc -l
+     register: wlvm_hosts_file
+
+   - name: Remove {{ cluster_id }}_wlvm from hosts file
+     replace:
+       path: /etc/ansible/hosts
+       regexp: '\[{{ cluster_id }}_wlvm\]\n[^\n]+'
+       replace: ''
+     when: wlvm_hosts_file.stdout is defined and wlvm_hosts_file.stdout != "0"

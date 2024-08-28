@@ -1,0 +1,72 @@
+<div class="sessionContainer">
+  <mat-form-field>
+    <mat-select placeholder="Select Status" [(ngModel)]="selectedValue" (selectionChange)="getSessions($event.value)" disableOptionCentering panelClass="custom-sessions-mat-select-class">
+      <mat-option *ngFor="let state of states" [value]="state">
+        {{ state | uppercase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h4>{{ sessionType | uppercase }}</h4>
+  <table mat-table #table [dataSource]="sessionSource" matSort matSortActive="endTime" [matSortDirection]="endTimeSortDirection">
+
+    <ng-container matColumnDef="deploymentName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-standardWidth"> Environment </th>
+      <td mat-cell *matCellDef="let session"> {{ session.deploymentName }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="assignedTeam">
+      <th mat-header-cell *matHeaderCellDef class="col-standardWidth"> Team(s) </th>
+      <td mat-cell *matCellDef="let session"> {{ session.assignedTeam }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="assignedUserNames">
+      <th mat-header-cell *matHeaderCellDef class="col-extraLargeWidth"> User(s) </th>
+      <td mat-cell *matCellDef="let session"> {{ session.assignedUserNames }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="jira">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-jira"> JIRA(s) </th>
+      <td mat-cell *matCellDef="let session">
+        <div *ngFor="let jira of session.jira">
+          <a href="https://jira-oss.seli.wh.rnd.internal.ericsson.com/browse/{{ jira }}" target="_blank">{{ jira | uppercase }}</a>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-standardWidth"> Created by </th>
+      <td mat-cell *matCellDef="let session"> {{ session.username | uppercase }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-standardWidth"> Status </th>
+      <td mat-cell *matCellDef="let session"> {{ session.status | uppercase }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sessionUserCredentials">
+      <th mat-header-cell *matHeaderCellDef class="col-standardWidth">Session Credentials</th>
+      <td mat-cell *matCellDef="let session">
+        <div *ngIf="userIsOps; else userIsNotOps">
+          <session-credentials [sessionUsernames]="session.sessionUsername"
+              [sessionPasswords]="session.sessionPassword" [assignedTeams]="session.assignedTeam"
+              [assignedUserNames]="session.assignedUserNames"></session-credentials>
+        </div>
+    
+        <ng-template #userIsNotOps> - </ng-template>
+    </ng-container>
+
+    <ng-container matColumnDef="startTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-standardWidth"> Start Time </th>
+      <td mat-cell *matCellDef="let session"> {{ session.startTime | date: "H:mm d/MMMM" }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="endTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-standardWidth"> End Time </th>
+      <td mat-cell *matCellDef="let session"> {{ session.endTime | date: "H:mm d/MMMM" }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="sessionTableColumns" class="sessionHeader"></tr>
+    <tr mat-row *matRowDef="let row; columns: sessionTableColumns;" class="tblRow"></tr>
+  </table>
+</div>

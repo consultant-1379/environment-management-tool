@@ -1,0 +1,50 @@
+{
+    "paths": {
+      "/amtel/search?platformType={platformType}&versioningOrder={versioningOrder}&testPhase={testPhase}": {
+        "get": {
+          "tags": [
+            "amtel"
+          ],
+          "summary": "Returns the required environment based on the parameters passed in for use with AMTEL automation.",
+          "description": "This will return the oldest or newest vENM, physical or SIENM environment and product set based on the parameters passed in. It will only search for these parameters based on IDLE and SHC completed environments belonging to the passed in testPhase.",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "platformType",
+              "in": "path",
+              "required": true,
+              "description": "The platform type of the environment to retrieve. Valid options ['vENM', 'physical', 'SIENM'].",
+              "type": "string"
+            },
+            {
+              "name": "versioningOrder",
+              "in": "path",
+              "required": true,
+              "description": "The order of the environment to retrieve. Valid options ['oldest', 'latest'].",
+              "type": "string"
+            },
+            {
+              "name": "testPhase",
+              "in": "path",
+              "required": true,
+              "description": "Passed in to differentiate customer who wants to retrieve the oldest/latest environment from EMT",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "This returns the candidate physical, vENM or SIENM environment depending on the variables passed in.",
+              "schema": {
+                "$ref": "#/definitions/Amtel"
+              }
+            },
+            "400": {
+              "description": "API not used correctly. Possible causes are no platformType or versioningOrder in request. Other possibility is versioningOrder value is not \"latest\" or \"oldest\"."
+            }
+          }
+        }
+      }
+    }
+}

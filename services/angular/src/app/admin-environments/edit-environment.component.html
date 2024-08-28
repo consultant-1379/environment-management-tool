@@ -1,0 +1,191 @@
+<div class="container editEnvironmentMainForm">
+    <a mat-icon-button (click)="closeDialogModal()" class="closeButton" matTooltip="Close">
+        <mat-icon class="iconProperties">cancel</mat-icon>
+    </a>
+    <h4 class="headerClass">Edit Environment:
+        <b>{{ data.environmentToEditName }}</b>
+    </h4>
+    <div class="innerEditEnvironmentForm">
+        <form [(formGroup)]="editEnvironmentForm">
+            <div class="form-group">
+                <br>
+                <h2 class="categoryHeader">Core Information</h2>
+                <hr>
+                <mat-label class="editEnvironmentFormHeader">Name</mat-label>
+                <mat-form-field class="selectView" appearance="outline"
+                matTooltip="Disabled as environment is either in BUSY state or has an active session" [matTooltipDisabled]="!restrictedMode">
+                    <input maxlength="15" matInput type="text" formControlName="name"
+                        [(ngModel)]="environmentToEdit.name" placeholder="Enter Environment Name">
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Test Phase</mat-label>
+                <mat-form-field class="selectView" appearance="outline"
+                matTooltip="Disabled as environment is either in BUSY state or has an active session" [matTooltipDisabled]="!restrictedMode">
+                    <mat-select formControlName="testPhase" [(ngModel)]="environmentToEdit.testPhase"
+                        disableOptionCentering>
+                        <mat-option *ngFor="let testPhase of testPhases" [value]="testPhase">
+                            {{ testPhase }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Environment Type</mat-label>
+                <mat-form-field class="selectView" appearance="outline"
+                matTooltip="Disabled as environment is either in BUSY state or has an active session" [matTooltipDisabled]="!restrictedMode">
+                    <mat-select [(ngModel)]="environmentToEdit.deploymentType" formControlName="deploymentType">
+                        <mat-option *ngFor="let deploymentType of deploymentTypes" [value]="deploymentType">
+                            {{ deploymentType }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Platform Type</mat-label>
+                <mat-form-field class="selectView" appearance="outline"
+                matTooltip="Disabled as environment is either in BUSY state or has an active session" [matTooltipDisabled]="!restrictedMode">
+                    <mat-select [(ngModel)]="environmentToEdit.platformType" formControlName="platformType"
+                        disableOptionCentering>
+                        <mat-option *ngFor="let platformType of platformTypes" [value]="platformType">
+                            {{ platformType }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint align="end"><b>Mandatory Field</b></mat-hint>
+                </mat-form-field>
+                <h2 class="categoryHeader">Additional Information</h2>
+                <hr>
+                <mat-label class="editEnvironmentFormHeader">Product Set Version</mat-label>
+                <mat-form-field class="selectView" appearance="outline"
+                matTooltip="Disabled as environment is either in BUSY state or has an active session" [matTooltipDisabled]="!restrictedMode">
+                    <input matInput type="text" formControlName="productSet" [(ngModel)]="environmentToEdit.productSet"
+                        disableOptionCentering placeholder="Enter Product Set Version">
+                    <mat-hint align="end"><b>Proper format is required</b></mat-hint>
+                </mat-form-field>
+                <div *ngIf="environmentToEdit.testPhase !== 'RNL'">
+                    <mat-label class="editEnvironmentFormHeader">NSS Product Set Version</mat-label>
+                    <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                        <input matInput [(ngModel)]="environmentToEdit.nssProductSetVersion"
+                            formControlName="nssProductSetVersion" placeholder="Enter NSS Product Set Version">
+                        <mat-hint align="end"><b>Proper format is required</b></mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+        <div class="form-group">
+            <div *ngIf="environmentToEdit.testPhase !== 'RNL'">
+                <mat-label class="editEnvironmentFormHeader">NRM Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nrmVersion" placeholder="Enter NRM Version">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">NRM Size</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nrmSize" placeholder="Enter NRM Size">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Workload VM</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.workloadVm" placeholder="Enter Workload VM">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">vFarms</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.vFarms" placeholder="Enter vFarms">
+                </mat-form-field>
+            </div>
+            <mat-label class="editEnvironmentFormHeader">POD</mat-label>
+            <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                <input matInput [(ngModel)]="environmentToEdit.pod" maxlength="15" placeholder="Enter Pod Name">
+            </mat-form-field>
+            <div *ngIf="environmentToEdit.testPhase === 'RNL'">
+                <mat-label class="editEnvironmentFormHeader">Node Types</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nodeTypes" placeholder="Enter Node Types">
+                </mat-form-field>
+            </div>
+            <div *ngIf="environmentToEdit.platformType === 'physical'">
+                <mat-label class="editEnvironmentFormHeader">Blades</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.blades" placeholder="Enter Blades Name">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Free IP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.freeIp" placeholder="Enter Free IP">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Firmware</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.firmware" placeholder="Enter Firmware">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">San Host</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.sanHost" placeholder="Enter San Host">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">San Shared</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.sanShared" placeholder="Enter San Shared">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Nas Host</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nasHost" placeholder="Enter Nas Host">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Nas Shared</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nasShared" placeholder="Enter Nas Shared">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Nas Software</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nasSoftware" placeholder="Enter Nas Software">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Hardware Type</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.hardwareType" placeholder="Enter Hardware Type">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.ddp" placeholder="Enter DDP link">
+                </mat-form-field>
+            </div>
+            <div *ngIf="environmentToEdit.platformType === 'vENM' || environmentToEdit.platformType === 'SIENM'">
+                <mat-label class="editEnvironmentFormHeader">Openstack Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.openstackVersion"
+                        placeholder="Enter Openstack Version">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">External NFS</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.externalNfs" placeholder="Enter External NFS">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.ddp" placeholder="Enter DDP link">
+                </mat-form-field>
+            </div>
+            <div *ngIf="environmentToEdit.platformType === 'cENM'">
+                <mat-label class="editEnvironmentFormHeader">Openstack Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.openstackVersion"
+                        placeholder="Enter Openstack Version">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">External NFS</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.externalNfs" placeholder="Enter External NFS">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">CCD Version</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.ccdVersion" placeholder="Enter CCD Version">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Namespace</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.nameSpace" placeholder="Enter Namespace">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">DDP</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.ddp" placeholder="Enter DDP link">
+                </mat-form-field>
+                <mat-label class="editEnvironmentFormHeader">Cluster Nodes</mat-label>
+                <mat-form-field class="selectView" flatLabel="auto" appearance="outline">
+                    <input matInput [(ngModel)]="environmentToEdit.clusterNodes" placeholder="Enter Cluster nodes">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div id="applyButtonSection">
+        <button class="w-100 buttonHeight" mat-raised-button color="primary" [disabled]="editEnvironmentForm.invalid"
+            (click)="editEnvironment()">Edit Environment</button>
+    </div>
+</div>

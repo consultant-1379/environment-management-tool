@@ -1,0 +1,104 @@
+.adminRolesContainer {
+    padding-top: 48px;
+}
+
+.search-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.search-icon {
+    font-size: 39px;
+}
+
+.searchView {
+    align-items: center;
+    width: 500px;
+    margin-top: 15%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 50px;
+}
+
+::ng-deep .searchView > .mat-form-field-wrapper {
+    padding: 0;
+}
+
+#notValidError {
+    color: red;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 0.5em 0 1em 0 !important;
+    display: flex;
+}
+
+.addRoles {
+    align-items: center;
+    margin-right: 0%;
+    line-height: 60px;
+    width: 205px;
+    font-size: 18px;
+}
+
+.removeRoles {
+    margin-left: 90px;
+    margin-right: 0px;
+    line-height: 60px;
+    width: 205px;
+    font-size: 18px;
+}
+
+.roles-h1 {
+    font-size: 62px;
+    margin-top: 6%;
+}
+
+::ng-deep .custom-snackbar-class .mat-simple-snackbar {
+    justify-content: center;
+    font-family: inherit;
+}
+
+::ng-deep .error-snackbar-class {
+    float: right;
+    background-color: red;
+}
+
+::ng-deep .error-snackbar-class .mat-simple-snackbar {
+    justify-content: center;
+    font-family: inherit;
+    color: white;
+}
+
+.rolesView {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+::ng-deep .error-snackbar-class {
+    background-color: red;
+}
+
+::ng-deep .error-snackbar-class .mat-simple-snackbar {
+    justify-content: center;
+    font-family: inherit;
+    color: white;
+    font-size: 18px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.admin-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 18vh;
+    overflow: hidden;
+    flex-direction: column;
+}

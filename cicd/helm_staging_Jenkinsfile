@@ -1,0 +1,21 @@
+node {
+  def remote = [:]
+  remote.name = 'staging'
+  remote.host = params.STAGING_VM
+  remote.user = params.USERNAME
+  remote.password = params.PASSWORD
+  remote.allowAnyHosts = true
+
+    stage('Add Helm Repo') {
+        sshCommand remote: remote, command: "helm repo add proj-emt-helm https://arm.epk.ericsson.se/artifactory/proj-emt-helm --username thunderbee --password AP6R1g3favas6ZueM858MzThimMpCULBCKMqzU"
+    }
+    stage('Get latest chart updates') {
+        sshCommand remote: remote, command: "helm repo update"
+    }
+    stage('Upgrade chart') {
+        sshCommand remote: remote, command: "helm upgrade emt-stag proj-emt-helm/emt --debug"
+    }
+    stage('Run integration tests') {
+        sshCommand remote: remote, command: "kubectl -n emt-stag exec -it \$(helm status emt-stag | grep emtexpress- | awk '{print \$1;}') /bin/sh tests/expressTests.sh"
+    }
+}

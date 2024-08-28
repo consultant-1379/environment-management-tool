@@ -1,0 +1,287 @@
+.links li > .arrow {
+  font-size: 18px;
+  margin-left: 5px;
+  margin-top: 10px;
+  position: absolute;
+}
+
+.links ul li > .myLink {
+  position: relative;
+  display: inline-block;
+  padding: 5px 20px 35px;
+  line-height: 30px;
+  height: 30px;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+}
+
+.dropdown {
+  padding-right: 32px !important; 
+}
+
+.links ul li > .myLink:hover {
+  background: #33334d;
+  border-radius: 2px;
+  text-decoration: none;
+  color: white;
+}
+
+.main-drop {
+  margin-top: 10px;
+  padding-left: 0;  
+}
+
+.trigger-drop:hover {
+  cursor: default;
+}
+
+.links ul li ul {
+  position: absolute;
+  left: 0;
+  background: rgb(0, 0, 0);
+  border-radius: 2px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .15);
+  display: none;
+}
+
+.links ul li ul > li {
+  clear: both;
+  list-style: none;
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+
+.links ul li ul > li:hover {
+  background: #33334d;
+}
+
+.links ul li ul > li:hover > a {
+  background: #33334d;
+  color: #fff;
+}
+
+.links ul li:hover > .drop {
+  display: block;
+  box-shadow: 0 4px 6px 0 rgba(32,33,36,0.28);
+  padding-left: 0px;
+  -webkit-animation-name: fadeInTop;
+  -moz-animation-name: fadeInTop;
+  -o-animation-name: fadeInTop;
+  animation-name: fadeInTop;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 0.1s;
+  -moz-animation-duration: 0.1s;
+  -o-animation-duration: 0.1s;
+  animation-duration: 0.1s;
+  -webkit-animation-delay: 0.1s;
+  -moz-animation-delay: 0.1s;
+  -o-animation-duration: 0.1s;
+  animation-delay: 0.1s;
+  z-index: 999;
+}
+
+@-webkit-keyframes fadeInTop {
+  from {
+      opacity:0;
+      -webkit-transform: translatey(10px);
+      -moz-transform: translatey(10px);
+      -o-transform: translatey(10px);
+      transform: translatey(10px);
+  }
+  to {
+      opacity:1;
+      -webkit-transform: translatey(0);
+      -moz-transform: translatey(0);
+      -o-transform: translatey(0);
+      transform: translatey(0);
+  }
+}
+
+@-moz-keyframes fadeInTop {
+  from {
+      opacity:0;
+      -webkit-transform: translatey(10px);
+      -moz-transform: translatey(10px);
+      -o-transform: translatey(10px);
+      transform: translatey(10px);
+  }
+  to {
+      opacity:1;
+      -webkit-transform: translatey(0);
+      -moz-transform: translatey(0);
+      -o-transform: translatey(0);
+      transform: translatey(0);
+  }
+}
+
+@keyframes fadeInTop {
+  from {
+      opacity:0;
+      -webkit-transform: translatey(-10px);
+      -moz-transform: translatey(-10px);
+      -o-transform: translatey(-10px);
+      transform: translatey(-10px);
+  }
+  to {
+      opacity:1;
+      -webkit-transform: translatey(0);
+      -moz-transform: translatey(0);
+      -o-transform: translatey(0);
+      transform: translatey(0);
+  }
+}
+
+@font-face {
+  font-family: "Ericsson Icons";
+  src: url("./icons/ericsson-icons.eot?mvqo1v");
+  src: url("./icons/ericsson-icons.eot?mvqo1v#iefix") format("embedded-opentype"), url("./icons/ericsson-icons.ttf?mvqo1v") format("truetype"), url("./icons/ericsson-icons.woff?mvqo1v") format("woff"), url("./icons/ericsson-icons.svg?mvqo1v#ericsson-icons") format("svg");
+  font-style: normal;
+}
+
+.ebSystemBar {
+  height: 48px;
+  max-height: 48px;
+  width: 100%;
+  font-weight: 100;
+  white-space: nowrap;
+  background-color: #000;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  user-select: none !important;
+}
+
+.ebSystemBar-logo {
+  height: 28px;
+  position: absolute;
+  background: url('../../../node_modules/@eui/container/resources/icons/elogo_white.svg') no-repeat center center;
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 21px;
+  padding: 0 8px;
+}
+
+.ebSystemBar-topMenuName {
+  display: inline-block;
+  padding: 0 5px 0 40px;
+  margin: 0 15px 0 0;
+  line-height: 40px;
+  font-size: 16.8px;
+  color: #ffffff;
+  vertical-align: 50%;
+  font-family: "Ericsson Hilda", Helvetica, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+.ebSystemBar-topMenu {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50px;
+  list-style: none;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.ebSystemBar-topMenu li {
+  display: inline-block;
+}
+
+.ebSystemBar-topMenu a {
+  padding: 0 5px 0 15px;
+  margin: 0;
+  font-size: 1.6em;
+  line-height: 40px;
+  color: #9a9a9a;
+  text-decoration: none;
+}
+
+.navbar {
+  position: fixed;
+  z-index: 99;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+  color: white;
+  padding: 0 15px 0 15px;
+  font-size: 14px;
+  line-height: 40px;
+}
+
+.navbar-expand-lg:hover .navbar-nav:hover .nav-link:hover {
+  color: white;
+  background: #33334d;
+}
+
+.systemBar-rightButton a:hover, .items-container:hover {
+  color: white;
+  text-decoration: none;
+  background: #33334d;
+}
+
+.systemBar-rightButton a, .items-container {
+  display: inline-block;
+  line-height: 40px;
+  vertical-align: middle;
+  padding: 0 15px 0 15px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.items-container .icon {
+  position: relative;
+  font-size: 16px;
+  top: -1px;
+}
+
+.items-container .icon.icon-econ {
+  font-size: 21px;
+}
+
+.items-container:focus {
+  outline: none;
+}
+
+.items-container .hover {
+  opacity: 0.8;
+}
+
+.items-container .hover:hover {
+  opacity: 1;
+}
+
+.icon {
+  font-family: "Ericsson Icons" !important;
+  vertical-align: middle;
+  speak: none;
+  font-style: normal;
+}
+
+.items-container .icon {
+  padding-right: 7px;
+}
+
+.icon-profile::before {
+  content: "\e97e";
+}
+
+.matButtonStyles {
+  display: inline-block;
+  line-height: 40px;
+  vertical-align: middle;
+  padding: 0 15px 0 15px;
+  color: #9a9a9a !important;
+  font-size: 16px !important;
+  cursor: pointer;
+}
+
+.disableOutline {
+  outline: none !important;
+}
